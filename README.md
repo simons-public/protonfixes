@@ -4,7 +4,7 @@ A very basic modular method for applying fixes to run unsupported games with Ste
 
 ## Installation
 
-1. [Download](/releases/latest) the latest release .zip file and extract it.
+1. [Download](https://github.com/simons-public/protonfixes/archive/1.0.0.zip) the latest release .zip file and extract it.
 
 2. Move the `protonfixes` folder to the `Proton 3.7` or `Proton 3.7 Beta` directory. 
 
