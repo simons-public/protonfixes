@@ -14,10 +14,10 @@ A very basic modular method for applying fixes to run unsupported games with Ste
 
 4. If you are already using a customized `user_settings.py` and do not want to change your current settings, you can just import the protonfixes module in your `user_settings.py` file by adding the following lines:
 
-		```
+
 		from protonfixes.protonfix import ProtonFix
 		ProtonFix()
-		```
+
 
 ## Writing Game Fixes
 Game fixes written in python and are named by the Steam game ID with the extension .py. For example, the file `gamefixes/377840.py` will be loaded when the game FINAL FANTASY IX is run. Here are some things to consider when writing fixes:
