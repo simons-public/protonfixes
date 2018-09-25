@@ -1,6 +1,6 @@
 # protonfixes	
 
-A very basic modular method for applying fixes to run unsupported games with Steam Proton. The idea is to include seperate fixes that are only loaded when a game matching that ID is run. This should keep the individual game fixes from affecting any other games.
+A very basic modular method for applying fixes to run unsupported games with Steam Proton without changing game installation files. The idea is to include seperate fixes that are only loaded when a game matching that ID is run. This should keep the individual game fixes from affecting any other games.
 
 Current fixes include: 
 - Final Fantasy IX
