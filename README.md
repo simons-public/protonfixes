@@ -2,6 +2,10 @@
 
 A very basic modular method for applying fixes to run unsupported games with Steam Proton. The idea is to include seperate fixes that are only loaded when a game matching that ID is run. This should keep the individual game fixes from affecting any other games.
 
+Current fixes include: 
+- Final Fantasy IX
+- Oddworld: Abe's Oddysee
+
 ## Installation
 
 1. [Download](https://github.com/simons-public/protonfixes/archive/1.0.0.zip) the latest release .zip file and extract it.
