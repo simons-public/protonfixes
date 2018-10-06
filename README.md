@@ -35,7 +35,10 @@ Game fixes written in python and are named by the Steam game ID with the extensi
 - Use docstrings and comment thoroughly. There will likely be people without python experience making game fixes and good commented examples will help
 - Do not use any hard-coded paths, Steam may not always be installed in the same location.
 - Check your gamefix with pylint. You can safely disable warning C0103, modules named by Steam ID will never conform to snake_case naming style.
-- Pull requests are welcome!
+- Pull requests are welcome! If you're not comfortable doing pull requests, send your fixes to me by any other means and you will be credited in the comments.
+
+### Testing
+When testing, local fixes can be added to `~/.config/protonfixes/localfixes/`. They should be imported the same way as an included fix would be. For example, `~/.config/protonfixes/localfixes/377840.py` would be loaded for FFIX. Please feel free to submit working gamefixes to improve the project. 
 
 ## Example game fixes
 `377840.py` - Changing the executable launched
