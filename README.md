@@ -1,27 +1,29 @@
 # protonfixes	
 
-A very basic modular method for applying fixes at runtime to unsupported games with Steam Proton without changing game installation files. The idea is to include seperate fixes that are only loaded when a game matching that ID is run. This should keep the individual game fixes from affecting any other games.
+A module for applying fixes at runtime to unsupported games with Steam Proton without changing game installation files. The idea is to include seperate fixes that are only loaded when a game matching that ID is run. This should keep the individual game fixes from affecting any other games.
 
 Current fixes include: 
 - Final Fantasy IX
 - Oddworld: Abe's Oddysee
+- Forts
 
 ## Installation
 
-1. [Download](https://github.com/simons-public/protonfixes/archive/1.0.0.zip) the latest release .zip file and extract it.
+### Install from PIP
+```
+# sudo pip install cecdaemon
+```
 
-2. Move the `protonfixes` folder to the `Proton 3.7` or `Proton 3.7 Beta` directory. 
-
-	This is usually located at `~/.steam/steam/steamapps/common/Proton 3.7` or `~/.local/share/Steam/steamapps/common/Proton 3.7` unless you have Steam installed to another location
-
-3. If you are already using a customized `user_settings.py` file, skip to step 4. Otherwise, copy the `user_settings.py` file into the same Proton directory as the `protonfixes` folder.
-
-4. If you are already using a customized `user_settings.py` and do not want to change your current settings, you can just import the protonfixes module in your `user_settings.py` file by adding the following lines:
-
-
-		from protonfixes.protonfix import ProtonFix
-		ProtonFix()
-
+### Install using setuptools
+```
+# sudo python setup.py install
+```
+### Add to user_settings.py
+In the steamapps/common/Proton* directory, add the following line to `user_settings.py`:
+```
+import protonfixes
+```
+If there is no `user_settings.py` file, make a copy the `user_settings.sample.py` file.
 
 ## Writing Game Fixes
 Game fixes written in python and are named by the Steam game ID with the extension .py. For example, the file `gamefixes/377840.py` will be loaded when the game FINAL FANTASY IX is run. Here are some things to consider when writing fixes:
