@@ -11,7 +11,7 @@ Current fixes include:
 
 ### Install from PIP
 ```
-# sudo pip install cecdaemon
+# sudo pip install protonfixes
 ```
 
 ### Install using setuptools
