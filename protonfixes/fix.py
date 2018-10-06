@@ -4,6 +4,7 @@
 from __future__ import print_function
 import os
 import re
+import sys
 from importlib import import_module
 
 def game_id():
@@ -26,12 +27,23 @@ def run_fix(gameid):
     """
 
     if gameid is not None:
-        try:
-            game_module = import_module('protonfixes.gamefixes.' + gameid)
-            print('Using protonfix for gameid', gameid)
-            game_module.main()
-        except ImportError:
-            print('No protonfix found for gameid', gameid)
+        localpath = os.path.expanduser('~/.config/protonfixes/localfixes')
+        if os.path.isfile(os.path.join(localpath, gameid + '.py')):
+            open(os.path.join(localpath, '__init__.py'), 'a').close()
+            sys.path.append(os.path.expanduser('~/.config/protonfixes'))
+            try:
+                game_module = import_module('localfixes.' + gameid)
+                print('Using local protonfix for gameid', gameid)
+                game_module.main()
+            except ImportError:
+                print('No local protonfix found for gameid', gameid)
+        else:
+            try:
+                game_module = import_module('protonfixes.gamefixes.' + gameid)
+                print('Using protonfix for gameid', gameid)
+                game_module.main()
+            except ImportError:
+                print('No protonfix found for gameid', gameid)
 
 print('\n\nRunning protonfixes')
 run_fix(game_id())
