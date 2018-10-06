@@ -23,7 +23,7 @@ In the steamapps/common/Proton* directory, add the following line to `user_setti
 ```
 import protonfixes
 ```
-If there is no `user_settings.py` file, make a copy the `user_settings.sample.py` file.
+If there is no `user_settings.py` file, make a copy of the `user_settings.sample.py` file.
 
 ## Writing Game Fixes
 Game fixes written in python and are named by the Steam game ID with the extension .py. For example, the file `gamefixes/377840.py` will be loaded when the game FINAL FANTASY IX is run. Here are some things to consider when writing fixes:
