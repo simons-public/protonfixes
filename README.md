@@ -9,6 +9,9 @@ Current fixes include:
 
 ## Installation
 
+### Requirements
+If you want to be able to use fixes with winetricks it must be installed and be in your $PATH. Fixes that do not use winetricks will still work without winetricks being installed.
+
 ### Install from PIP
 ```
 # sudo pip install protonfixes
