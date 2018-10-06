@@ -32,3 +32,40 @@ Game fixes written in python and are named by the Steam game ID with the extensi
 - Use docstrings and comment thoroughly. There will likely be people without python experience making game fixes and good commented examples will help
 - Do not use any hard-coded paths, Steam may not always be installed in the same location.
 - Check your gamefix with pylint. You can safely disable warning C0103, modules named by Steam ID will never conform to snake_case naming style.
+- Pull requests are welcome!
+
+## Example game fixes
+`377840.py` - Changing the executable launched
+```
+import os
+import sys
+
+
+def main():
+    """ Changes the proton argument from the launcher to the game
+    """
+
+    print('Applying FINAL FANTASY IX Game Fixes')
+
+    # Fix crackling audio
+    os.environ['PULSE_LATENCY_MSEC'] = '60'
+
+    # Replace launcher with game exe in proton arguments
+    for idx, env in enumerate(sys.argv):
+        if 'FF9_Launcher' in env:
+            sys.argv[idx] = env.replace('FF9_Launcher.exe', 'x64/FF9.exe')
+```
+
+`410900.py` - Running a winetricks verb
+```
+from protonfixes import util
+
+def main():
+    """ Uses winetricks to install the ole32 verb
+    """
+
+    print('Applying fixes for Forts')
+
+    if not util.checkinstalled('ole32'):
+        util.protontricks('ole32')
+```
