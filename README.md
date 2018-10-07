@@ -45,7 +45,7 @@ When testing, local fixes can be added to `~/.config/protonfixes/localfixes/`. T
 
 ## Example game fixes
 `377840.py` - Changing the executable launched
-```
+```python
 import os
 import sys
 
@@ -66,7 +66,7 @@ def main():
 ```
 
 `410900.py` - Running a winetricks verb
-```
+```python
 from protonfixes import util
 
 def main():
@@ -81,7 +81,7 @@ def main():
 `15700.py` - Example using a win32 prefix
 
 *Oddworld doesn't actually require a win32 prefix or dotnet35, but I used it for testing since it's 32bit*
-```
+```python
 import sys
 from protonfixes import util
 
