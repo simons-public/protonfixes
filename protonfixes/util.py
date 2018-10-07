@@ -44,10 +44,10 @@ def protontricks(verb):
 
     env = dict(os.environ)
     env['WINEPREFIX'] = protonprefix()
-    env['WINESERVER'] = os.path.join(protondir(), 'dist/bin/wine')
+    env['WINESERVER'] = os.path.join(protondir(), 'dist/bin/wineserver')
 
     winetricks_bin = which('winetricks')
-    winetricks_cmd = [winetricks_bin, '--gui', '--unattended', '--force'] + verb.split(' ')
+    winetricks_cmd = [winetricks_bin, '--unattended', '--force'] + verb.split(' ')
 
     # winetricks relies entirely on the existence of syswow64 to determine
     # if the prefix is 64 bit, while proton fails to run without it
@@ -67,6 +67,7 @@ def protontricks(verb):
         print('Using winetricks', verb)
         process = subprocess.Popen(winetricks_cmd, env=env)
         process.wait()
+        return True
 
     if 'win32' in protonprefix():
         try:
@@ -74,6 +75,7 @@ def protontricks(verb):
         except FileExistsError:
             pass
 
+    return False
 
 def checkinstalled(verb):
     """ Returns True if the winetricks verb is found in the winetricks log
@@ -134,8 +136,9 @@ def make_win32_prefix():
 
         env['WINEARCH'] = 'win32'
         env['WINEPREFIX'] = prefix32
+        server = subprocess.Popen([which('wineserver'), '-f'], env=env)
         process = subprocess.Popen([which('wine'), 'wineboot', '--init'], env=env)
-        process.wait()
+        server.wait()
 
         os.makedirs(os.path.join(prefix32, 'drive_c/windows/syswow64'))
         os.symlink(
