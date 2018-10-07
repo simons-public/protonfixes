@@ -12,6 +12,10 @@ Current fixes include:
 ### Requirements
 If you want to be able to use fixes with winetricks it must be installed and be in your $PATH. Fixes that do not use winetricks will still work without winetricks being installed.
 
+*Winetricks can take a long time to load*
+
+If you want to use a win32 (32bit) prefix, you need to have wine installed and be in your $PATH. Currently creating a 32bit prefix with Proton wine doesn't work because wineserver is already running by the time `user_settings.py` is loaded.
+
 ### Install from PIP
 ```
 # sudo pip install protonfixes
@@ -35,7 +39,6 @@ Game fixes written in python and are named by the Steam game ID with the extensi
 - Use docstrings and comment thoroughly. There will likely be people without python experience making game fixes and good commented examples will help
 - Do not use any hard-coded paths, Steam may not always be installed in the same location.
 - Check your gamefix with pylint. You can safely disable warning C0103, modules named by Steam ID will never conform to snake_case naming style.
-- Pull requests are welcome! If you're not comfortable doing pull requests, send your fixes to me by any other means and you will be credited in the comments.
 
 ### Testing
 When testing, local fixes can be added to `~/.config/protonfixes/localfixes/`. They should be imported the same way as an included fix would be. For example, `~/.config/protonfixes/localfixes/377840.py` would be loaded for FFIX. Please feel free to submit working gamefixes to improve the project. 
@@ -75,3 +78,29 @@ def main():
     if not util.checkinstalled('ole32'):
         util.protontricks('ole32')
 ```
+`15700.py` - Example using a win32 prefix
+
+*Oddworld doesn't actually require a win32 prefix or dotnet35, but I used it for testing since it's 32bit*
+```
+import sys
+from protonfixes import util
+
+def main():
+    """ Adds -interline to arguments, uses a win32 prefix, and installs dotnet35
+    """
+    
+    print('Applying fixes for Oddworld: Abe\'s Oddysee')
+    
+    # Adding -interline fixes slow video but adds scanlines
+    sys.argv.append('-interline')
+    
+    print('Using a win32 prefix')
+    util.use_win32_prefix()
+    
+    # Make sure any winetricks are run after changing to a win32 prefix
+    if not util.checkinstalled('dotnet35')
+        util.protontricks('dotnet35')
+```
+
+## Contributing
+Pull requests are welcome! If you're not comfortable doing pull requests, send your fixes to me by any other means and you will be credited in the comments.
