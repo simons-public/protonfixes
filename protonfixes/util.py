@@ -4,7 +4,9 @@
 import os
 import sys
 import glob
+import time
 import shutil
+import signal
 import subprocess
 
 
@@ -38,6 +40,24 @@ def protonprefix():
         'pfx/')
 
 
+def _killhanging():
+    """ Kills processes that hang when installing winetricks
+    """
+
+    # avoiding an external library as proc should be available on linux
+    pids = [pid for pid in os.listdir('/proc') if pid.isdigit()]
+    badexes = ['mscorsvw.exe']
+    for pid in pids:
+        try:
+            with open(os.path.join('/proc', pid, 'cmdline'), 'rb') as proc_cmd:
+                cmdline = proc_cmd.read()
+                for exe in badexes:
+                    if exe in cmdline.decode():
+                        os.kill(int(pid), signal.SIGKILL)
+        except IOError:
+            continue
+
+
 def protontricks(verb):
     """ Runs winetricks if available
     """
@@ -67,6 +87,7 @@ def protontricks(verb):
         print('Using winetricks', verb)
         process = subprocess.Popen(winetricks_cmd, env=env)
         process.wait()
+        _killhanging()
         return True
 
     if 'win32' in protonprefix():
@@ -76,6 +97,7 @@ def protontricks(verb):
             pass
 
     return False
+
 
 def checkinstalled(verb):
     """ Returns True if the winetricks verb is found in the winetricks log
