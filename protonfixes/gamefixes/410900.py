@@ -10,5 +10,4 @@ def main():
 
     print('Applying fixes for Forts')
 
-    if not util.checkinstalled('ole32'):
-        util.protontricks('ole32')
+    util.protontricks('ole32')
