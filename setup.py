@@ -7,7 +7,7 @@ with open('README.md', 'r') as f:
 
 setup(
     name='protonfixes',
-    version='1.0.2',
+    version='1.0.3',
     description='Python module for applying fixes at runtime for games not supported by Steam Proton',
     long_description=long_description,
     long_description_content_type='text/markdown',
