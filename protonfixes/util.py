@@ -62,39 +62,43 @@ def protontricks(verb):
     """ Runs winetricks if available
     """
 
-    env = dict(os.environ)
-    env['WINEPREFIX'] = protonprefix()
-    env['WINESERVER'] = os.path.join(protondir(), 'dist/bin/wineserver')
+    if not checkinstalled(verb):
+        env = dict(os.environ)
+        env['WINEPREFIX'] = protonprefix()
+        env['WINESERVER'] = os.path.join(protondir(), 'dist/bin/wineserver')
 
-    winetricks_bin = which('winetricks')
-    winetricks_cmd = [winetricks_bin, '--unattended', '--force'] + verb.split(' ')
+        winetricks_bin = which('winetricks')
+        winetricks_cmd = [winetricks_bin, '--unattended', '--force'] + verb.split(' ')
+        wineserver_bin = env['WINESERVER']
 
-    # winetricks relies entirely on the existence of syswow64 to determine
-    # if the prefix is 64 bit, while proton fails to run without it
-    if 'win32' in protonprefix():
-        try:
-            shutil.rmtree(os.path.join(protonprefix(), 'drive_c/windows/syswow64'))
-        except FileNotFoundError:
-            pass
+        if winetricks_bin is not None:
 
-    if winetricks_bin is not None:
+            # winetricks relies entirely on the existence of syswow64 to determine
+            # if the prefix is 64 bit, while proton fails to run without it
+            if 'win32' in protonprefix():
+                try:
+                    shutil.rmtree(os.path.join(protonprefix(), 'drive_c/windows/syswow64'))
+                except FileNotFoundError:
+                    pass
 
-        # make sure proton waits for winetricks to finish
-        for idx, arg in enumerate(sys.argv):
-            if 'waitforexitandrun' not in arg:
-                sys.argv[idx] = arg.replace('run', 'waitforexitandrun')
+            # make sure proton waits for winetricks to finish
+            for idx, arg in enumerate(sys.argv):
+                if 'waitforexitandrun' not in arg:
+                    sys.argv[idx] = arg.replace('run', 'waitforexitandrun')
 
-        print('Using winetricks', verb)
-        process = subprocess.Popen(winetricks_cmd, env=env)
-        process.wait()
-        _killhanging()
-        return True
+            print('Using winetricks', verb)
+            process = subprocess.Popen(winetricks_cmd, env=env)
+            process.wait()
+            _killhanging()
+            subprocess.Popen([wineserver_bin, '-k'], env=env)
+            return True
 
-    if 'win32' in protonprefix():
-        try:
-            os.makedirs(os.path.join(protonprefix(), 'drive_c/windows/syswow64'))
-        except FileExistsError:
-            pass
+            # restore syswow64 so proton doesn't crash
+            if 'win32' in protonprefix():
+                try:
+                    os.makedirs(os.path.join(protonprefix(), 'drive_c/windows/syswow64'))
+                except FileExistsError:
+                    pass
 
     return False
 
