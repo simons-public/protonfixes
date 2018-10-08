@@ -4,11 +4,11 @@
 import os
 import sys
 import glob
-import time
 import shutil
 import signal
 import subprocess
 
+# pylint: disable=I1101, W0101
 
 def which(appname):
     """ Returns the full path of an executable in $PATH
@@ -148,6 +148,12 @@ def use_win32_prefix():
     os.environ['WINEDLLPATH'] = os.path.join(protondir(), 'dist/lib/wine')
     os.environ['WINEARCH'] = 'win32'
 
+    # make sure steam doesn't crash when missing syswow
+    try:
+        os.makedirs(os.path.join(prefix32, 'drive_c/windows/syswow64'))
+    except FileExistsError:
+        pass
+
 
 def make_win32_prefix():
     """ Creates a win32 prefix
@@ -163,7 +169,7 @@ def make_win32_prefix():
         env['WINEARCH'] = 'win32'
         env['WINEPREFIX'] = prefix32
         server = subprocess.Popen([which('wineserver'), '-f'], env=env)
-        process = subprocess.Popen([which('wine'), 'wineboot', '--init'], env=env)
+        subprocess.Popen([which('wine'), 'wineboot', '--init'], env=env)
         server.wait()
 
         os.makedirs(os.path.join(prefix32, 'drive_c/windows/syswow64'))
@@ -175,3 +181,18 @@ def make_win32_prefix():
 
     except OSError:
         print('Directory for win32 prefix already exists')
+
+
+def replace_command(orig_str, repl_str):
+    """ Make a commandline replacement in sys.argv
+    """
+
+    for idx, arg in enumerate(sys.argv):
+        if orig_str in arg:
+            sys.argv[idx] = arg.replace(orig_str, repl_str)
+
+def append_argument(argument):
+    """ Append an argument to sys.argv
+    """
+
+    sys.argv.append(argument)
