@@ -26,16 +26,8 @@ def protondir():
     """ Returns the path to proton
     """
     
-    try:
-        proton_dir = glob.glob(os.path.join(
-            os.environ['STEAM_COMPAT_CLIENT_INSTALL_PATH'],
-            'steamapps/common/Proton*'))[0]
-        return proton_dir
-    except IndexError:
-        base = '/'.join(env['STEAM_COMPAT_DATA_PATH'].split('/')[:-2])
-        proton_dir = glob.glob(os.path.join(
-            base, 'common/Proton*'))[0]
-        return proton_dir
+    proton_dir = '/'.join(sys.argv[0].split('/')[:-1])
+    return proton_dir
 
 
 def protonprefix():
