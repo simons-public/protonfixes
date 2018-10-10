@@ -40,19 +40,19 @@ If you want to use a win32 (32bit) prefix, you need to have wine installed and b
 For the splashscreen to work, you need to have `cefpython3` installed. It can be installed with pip using `sudo pip install cefpython3`. The splashscreen can help let you know that protonfixes is running a long task, for example installing `dotnet35`.
 
 ### Install from PIP
-Make sure to use the version of pip that matches the version of Python that Proton is running. If you are unsure, try installing with both pip2 and pip3 instead of pip in the below commands.
+Make sure to use the version of pip that matches the version of Python that Proton is running. Proton should be running on [python3](https://github.com/ValveSoftware/Proton/blob/8a5b8ece45fa7baa01ce2e4555f6496ea409adcf/build_proton.sh#L682). If you are unsure, try installing with both pip3 and pip2 in the below commands.
 ```
-# sudo pip install protonfixes
+# sudo pip3 install protonfixes
 ```
 
 ### Upgrade from PIP
 ```
-# sudo pip install protonfixes
+# sudo pip3 install protonfixes --upgrade
 ```
 
 ### Install using setuptools
 ```
-# sudo python setup.py install
+# sudo python3 setup.py install
 ```
 
 ### Add to user_settings.py
