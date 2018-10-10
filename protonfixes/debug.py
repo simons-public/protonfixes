@@ -4,6 +4,7 @@
 import os
 import sys
 import shutil
+# pylint: disable=E0611
 from __main__ import CURRENT_PREFIX_VERSION, basedir, env
 
 def log(msg=None):
@@ -21,7 +22,7 @@ log('System Python Version:')
 try:
     log(os.readlink(shutil.which('python')))
 except:
-    log(which('python'))
+    log(shutil.which('python'))
 log(line)
 
 log('Proton Version:')
