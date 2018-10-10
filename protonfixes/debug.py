@@ -20,7 +20,7 @@ log(sys.version)
 log(line)
 log('System Python Version:')
 try:
-    log(os.readlink(shutil.which('python')))
+    log(shutil.which(os.readlink(shutil.which('python'))))
 except:
     log(shutil.which('python'))
 log(line)
