@@ -50,10 +50,11 @@ def run_fix(gameid):
                 print('No protonfix found for gameid', gameid)
 
 
-print('\n\nRunning protonfixes')
+def main():
+    print('\n\nRunning protonfixes')
 
-if 'cefpython3' in sys.modules:
-    with splash():
+    if 'cefpython3' in sys.modules:
+        with splash():
+            run_fix(game_id())
+    else:
         run_fix(game_id())
-else:
-    run_fix(game_id())

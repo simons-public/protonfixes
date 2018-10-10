@@ -2,9 +2,12 @@
 """
 
 import os
+import sys
+from . import fix
+
+if 'DEBUG' in os.environ:
+    from . import debug
+
 if 'STEAMSCRIPT' in os.environ:
-    if 'DEBUG' in os.environ:
-        from . import debug
-        from . import fix
-    else:
-        from . import fix
+    if 'iscriptevaluator.exe' not in sys.argv[2]:
+        fix.main()

@@ -3,15 +3,42 @@
 
 import os
 import sys
-from future.utils import iteritems
+import shutil
+from __main__ import CURRENT_PREFIX_VERSION, basedir, env
 
-print('\n\nEnvironment Variables:\n')
+def log(msg=None):
+    pfx = 'ProtonFixes[' + str(os.getpid()) + '] DEBUG: '
+    sys.stderr.write(pfx + str(msg) +  os.linesep)
+    sys.stderr.flush()
 
-for key, value in iteritems(os.environ):
-    print(key, '=', value)
+line = '---------------------------------------'
+log('---- begin protontricks debug info ----')
+log('Proton Python Version:')
+log(sys.executable)
+log(sys.version)
+log(line)
+log('System Python Version:')
+try:
+    log(os.readlink(shutil.which('python')))
+except:
+    log(which('python'))
+log(line)
 
-print('\n\nCommand Line:\n')
-print(sys.argv)
+log('Proton Version:')
+log(CURRENT_PREFIX_VERSION)
+log(line)
 
-print('\n\nVersion:\n')
-print(sys.version)
+log('Proton Directory:')
+log(basedir)
+log(line)
+
+ignorevars = ['SteamUser', 'OLDPWD', 'SDL_GAMECONTROLLERCONFIG', 'SteamAppUser', 'SDL_GAMECONTROLLER_IGNORE_DEVICES']
+log('Environment Variables:')
+for key, value in os.environ.items():
+    if key not in ignorevars:
+        log(key + '=' + value)
+log(line)
+
+log('Command Line:')
+log(sys.argv)
+log('----- end protontricks debug info -----')
