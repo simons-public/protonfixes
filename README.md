@@ -40,6 +40,12 @@ If you want to use a win32 (32bit) prefix, you need to have wine installed and b
 For the splashscreen to work, you need to have `cefpython3` installed. It can be installed with pip using `sudo pip install cefpython3`. The splashscreen can help let you know that protonfixes is running a long task, for example installing `dotnet35`.
 
 ### Install from PIP
+Make sure to use the version of pip that matches the version of Python that Proton is running. If you are unsure, try installing with both pip2 and pip3 instead of pip in the below commands.
+```
+# sudo pip install protonfixes
+```
+
+### Upgrade from PIP
 ```
 # sudo pip install protonfixes
 ```
@@ -48,12 +54,29 @@ For the splashscreen to work, you need to have `cefpython3` installed. It can be
 ```
 # sudo python setup.py install
 ```
+
 ### Add to user_settings.py
-In the steamapps/common/Proton* directory, add the following line to the `user_settings.py` file:
+In the steamapps/common/Proton* directory, add the following line to the bottom of the `user_settings.py` file:
 ```
 import protonfixes
 ```
 If there is no `user_settings.py` file, make a copy of the `user_settings.sample.py` file included with Proton.
+
+### Debugging
+Proton output can be seen in either `/tmp/dumps/${USER}_stdout.txt` or the terminal you started Steam from. To add additional `protonfixes` debugging information, add the following line above `import protonfixes`:
+```
+from protonfixes import debug
+```
+This will add information like this:
+```
+ProtonFixes[27351] DEBUG: ---- begin protontricks debug info ----
+ProtonFixes[27351] DEBUG: Proton Python Version:
+ProtonFixes[27351] DEBUG: /usr/bin/python3
+ProtonFixes[27351] DEBUG: 3.7.0 (default, Jul 15 2018, 10:44:58)
+[GCC 8.1.1 20180531]
+ProtonFixes[27351] DEBUG: ---------------------------------------
+```
+Although the environment variables are dumped, the sensitive variables like SteamUser and SteamAppUser are filtered out.
 
 ## Writing Game Fixes
 Game fixes are written in python and are named by the Steam game ID with the extension .py. For example, the file `377840.py` will be loaded when the game FINAL FANTASY IX is run. Gamefixes can be added to the `~/.config/protonfixes/localfixes/` directory. Here are some things to consider when writing fixes:
