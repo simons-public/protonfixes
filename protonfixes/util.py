@@ -26,7 +26,7 @@ def protondir():
     """ Returns the path to proton
     """
     
-    proton_dir = '/'.join(sys.argv[0].split('/')[:-1])
+    proton_dir = os.path.dirname(sys.argv[0])
     return proton_dir
 
 
