@@ -9,6 +9,7 @@ Current fixes include:
 - Oddworld: Abe's Oddysee
 - Forts
 - Styx: Master of Shadows
+- Oddworld: Munch's Oddysee
 
 Current utilities available:
 - util.protontricks('verb')
