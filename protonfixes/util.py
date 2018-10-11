@@ -214,6 +214,7 @@ def replace_command(orig_str, repl_str):
     """ Make a commandline replacement in sys.argv
     """
 
+    log.info('Changing ' + orig_str + ' to ' + repl_str)
     for idx, arg in enumerate(sys.argv):
         if orig_str in arg:
             sys.argv[idx] = arg.replace(orig_str, repl_str)
@@ -222,4 +223,6 @@ def append_argument(argument):
     """ Append an argument to sys.argv
     """
 
+    log.info('Adding argument ' + argument)
     sys.argv.append(argument)
+    log.debug('New commandline: ' + str(sys.argv))

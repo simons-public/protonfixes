@@ -2,21 +2,18 @@
 """
 #pylint: disable=C0103
 
-
 import os
-import sys
-
+from protonfixes import util
+from protonfixes.logger import log
 
 def main():
     """ Changes the proton argument from the launcher to the game
     """
 
-    print('Applying FINAL FANTASY IX Game Fixes')
+    log('Applying fixes for FINAL FANTASY IX')
 
     # Fix crackling audio
     os.environ['PULSE_LATENCY_MSEC'] = '60'
 
     # Replace launcher with game exe in proton arguments
-    for idx, env in enumerate(sys.argv):
-        if 'FF9_Launcher' in env:
-            sys.argv[idx] = env.replace('FF9_Launcher.exe', 'x64/FF9.exe')
+    util.replace_command('FF9_Launcher.exe', 'x64/FF9.exe')

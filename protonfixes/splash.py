@@ -19,7 +19,6 @@ def browser(url):
     sleep(2)
     log.debug('Starting splash screen')
 
-    sys.excepthook = cef.ExceptHook
     settings = {
         'background_color': 0xff000000,
         'cache_path': '',

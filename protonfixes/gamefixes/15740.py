@@ -1,21 +1,20 @@
-""" Game fox for Oddworld: Munch's Oddysee
-Work in progress
+""" Game fix for Oddworld: Munch's Oddysee
 """
 #pylint: disable=C0103
 
-
-import sys
-
+from protonfixes import util
+from protonfixes.logger import log
 
 def main():
-    """ Changes the proton argument from the launcher to the game
+    """ Uses win32 prefix, installs devenum, quartz, wmp9
     """
 
-    print('Applying Oddworld: Munch\'s Oddysee Game Fixes')
+    log('Applying fixes for Oddworld: Munch\'s Oddysee')
 
-    # Replace launcher with game exe in proton arguments
-    for idx, env in enumerate(sys.argv):
-        if 'Launcher' in env:
-            sys.argv[idx] = env.replace('bin/Launcher.exe', 'Munch.exe')
+    # Winetrick wmp9 requires 32bit prefix
+    util.use_win32_prefix()
 
-    print(sys.argv)
+    # https://appdb.winehq.org/objectManager.php?sClass=version&iId=34367
+    util.protontricks('devenum')
+    util.protontricks('quartz')
+    util.protontricks('wmp9')

@@ -36,3 +36,4 @@ class Log():
             self.log(msg, 'DEBUG')
         
 
+log = Log().log
