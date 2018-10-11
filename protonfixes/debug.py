@@ -6,40 +6,39 @@ import sys
 import shutil
 # pylint: disable=E0611
 from __main__ import CURRENT_PREFIX_VERSION, basedir, env
+from .logger import Log
 
-def log(msg=None):
-    pfx = 'ProtonFixes[' + str(os.getpid()) + '] DEBUG: '
-    sys.stderr.write(pfx + str(msg) +  os.linesep)
-    sys.stderr.flush()
+log = Log()
+os.environ['DEBUG'] = '1'
 
 line = '---------------------------------------'
-log('---- begin protontricks debug info ----')
-log('Proton Python Version:')
-log(sys.executable)
-log(sys.version)
-log(line)
-log('System Python Version:')
+log.debug('---- begin protontricks debug info ----')
+log.debug('Proton Python Version:')
+log.debug(sys.executable)
+log.debug(sys.version)
+log.debug(line)
+log.debug('System Python Version:')
 try:
-    log(shutil.which(os.readlink(shutil.which('python'))))
+    log.debug(shutil.which(os.readlink(shutil.which('python'))))
 except:
-    log(shutil.which('python'))
-log(line)
+    log.debug(shutil.which('python'))
+log.debug(line)
 
-log('Proton Version:')
-log(CURRENT_PREFIX_VERSION)
-log(line)
+log.debug('Proton Version:')
+log.debug(CURRENT_PREFIX_VERSION)
+log.debug(line)
 
-log('Proton Directory:')
-log(basedir)
-log(line)
+log.debug('Proton Directory:')
+log.debug(basedir)
+log.debug(line)
 
 ignorevars = ['SteamUser', 'OLDPWD', 'SDL_GAMECONTROLLERCONFIG', 'SteamAppUser', 'SDL_GAMECONTROLLER_IGNORE_DEVICES']
-log('Environment Variables:')
+log.debug('Environment Variables:')
 for key, value in os.environ.items():
     if key not in ignorevars:
-        log(key + '=' + value)
-log(line)
+        log.debug(key + '=' + value)
+log.debug(line)
 
-log('Command Line:')
-log(sys.argv)
-log('----- end protontricks debug info -----')
+log.debug('Command Line:')
+log.debug(sys.argv)
+log.debug('----- end protontricks debug info -----')

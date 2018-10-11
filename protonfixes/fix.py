@@ -6,10 +6,15 @@ import os
 import re
 import sys
 from importlib import import_module
+from .logger import Log
+
+log = Log()
+log.info(str(sys.argv))
+
 try:
     from protonfixes.splash import splash
 except ModuleNotFoundError:
-    print('No splash, cefpython3 module not available')
+    log.warn('No splash, cefpython3 module not available')
 
 def game_id():
     """ Trys to return the game id from environment variables
@@ -22,7 +27,7 @@ def game_id():
     if 'STEAM_COMPAT_DATA_PATH' in os.environ:
         return re.findall(r'\d+', os.environ['STEAM_COMPAT_DATA_PATH'])[-1]
 
-    print('Game ID not found in environment variables')
+    log.crit('Game ID not found in environment variables')
     return None
 
 
@@ -37,22 +42,33 @@ def run_fix(gameid):
             sys.path.append(os.path.expanduser('~/.config/protonfixes'))
             try:
                 game_module = import_module('localfixes.' + gameid)
-                print('Using local protonfix for gameid', gameid)
+                log.info('Using local protonfix for gameid ' + gameid)
                 game_module.main()
             except ImportError:
-                print('No local protonfix found for gameid', gameid)
+                log.info('No local protonfix found for gameid ' + gameid)
         else:
             try:
                 game_module = import_module('protonfixes.gamefixes.' + gameid)
-                print('Using protonfix for gameid', gameid)
+                log.info('Using protonfix for gameid ' + gameid)
                 game_module.main()
             except ImportError:
-                print('No protonfix found for gameid', gameid)
+                log.info('No protonfix found for gameid ' + gameid)
 
 
 def main():
-    print('\n\nRunning protonfixes')
+    if 'iscriptevaluator.exe' in sys.argv[2]:
+        log.debug('Not running protonfixes for iscriptevaluator.exe')
+        return
 
+    if 'getcompatpath' in sys.argv[1]:
+        log.debug('Not running protonfixes for getcompatpath')
+        return
+
+    if 'getnativepath' in sys.argv[1]:
+        log.debug('Not running protonfixes for getnativepath')
+        return
+
+    log.info('Running protonfixes')
     if 'cefpython3' in sys.modules:
         with splash():
             run_fix(game_id())

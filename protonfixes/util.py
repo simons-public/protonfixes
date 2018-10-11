@@ -7,6 +7,10 @@ import glob
 import shutil
 import signal
 import subprocess
+from .logger import Log
+
+log = Log()
+log.info('Running protonfixes')
 
 # pylint: disable=I1101, W0101
 
@@ -18,7 +22,7 @@ def which(appname):
         fullpath = os.path.join(path, appname)
         if os.path.exists(fullpath) and os.access(fullpath, os.X_OK):
             return fullpath
-    print('%s not found in $PATH')
+    log.warn(str(appname) + 'not found in $PATH')
     return None
 
 
@@ -44,6 +48,7 @@ def _killhanging():
     """
 
     # avoiding an external library as proc should be available on linux
+    log.debug('Killing hanging wine processes')
     pids = [pid for pid in os.listdir('/proc') if pid.isdigit()]
     badexes = ['mscorsvw.exe']
     for pid in pids:
@@ -56,12 +61,46 @@ def _killhanging():
         except IOError:
             continue
 
+def _del_syswow64():
+    """ Deletes the syswow64 folder
+    """
+
+    try:
+        shutil.rmtree(os.path.join(protonprefix(), 'drive_c/windows/syswow64'))
+    except FileNotFoundError:
+        log.warn('The syswow64 folder was not found')
+
+def _mk_syswow64():
+    """ Makes the syswow64 folder
+    """
+
+    try:
+        os.makedirs(os.path.join(protonprefix(), 'drive_c/windows/syswow64'))
+    except FileExistsError:
+        log.warn('The syswor64 folder already exists')
+
+
+def checkinstalled(verb):
+    """ Returns True if the winetricks verb is found in the winetricks log
+    """
+
+    log.info('Checking if winetricks ' + verb + ' is installed')
+    winetricks_log = os.path.join(protonprefix(), 'winetricks.log')
+    try:
+        with open(winetricks_log, 'r') as tricklog:
+            if verb in [x.strip() for x in tricklog.readlines()]:
+                return True
+    except OSError:
+        return False
+    return False
+
 
 def protontricks(verb):
     """ Runs winetricks if available
     """
 
     if not checkinstalled(verb):
+        log.info('Installing winetricks ' + verb)
         env = dict(os.environ)
         env['WINEPREFIX'] = protonprefix()
         env['WINESERVER'] = os.path.join(protondir(), 'dist/bin/wineserver')
@@ -70,49 +109,36 @@ def protontricks(verb):
         winetricks_cmd = [winetricks_bin, '--unattended', '--force'] + verb.split(' ')
         wineserver_bin = env['WINESERVER']
 
+        if winetricks_bin is None:
+            log.warn('No winetricks was found in $PATH')
+
         if winetricks_bin is not None:
 
+            log.debug('Using winetricks command: ' + str(winetricks_cmd))
             # winetricks relies entirely on the existence of syswow64 to determine
             # if the prefix is 64 bit, while proton fails to run without it
+            log.debug('Deleting syswow64')
             if 'win32' in protonprefix():
-                try:
-                    shutil.rmtree(os.path.join(protonprefix(), 'drive_c/windows/syswow64'))
-                except FileNotFoundError:
-                    pass
+                _del_syswow64()
 
             # make sure proton waits for winetricks to finish
             for idx, arg in enumerate(sys.argv):
                 if 'waitforexitandrun' not in arg:
                     sys.argv[idx] = arg.replace('run', 'waitforexitandrun')
+                    log.debug(str(sys.argv))
 
-            print('Using winetricks', verb)
+            log.info('Using winetricks verb ' + verb)
             process = subprocess.Popen(winetricks_cmd, env=env)
             process.wait()
             _killhanging()
             subprocess.Popen([wineserver_bin, '-k'], env=env)
+            log.info('Winetricks complete')
             return True
 
             # restore syswow64 so proton doesn't crash
+            log.info('Restoring syswow64 folder')
             if 'win32' in protonprefix():
-                try:
-                    os.makedirs(os.path.join(protonprefix(), 'drive_c/windows/syswow64'))
-                except FileExistsError:
-                    pass
-
-    return False
-
-
-def checkinstalled(verb):
-    """ Returns True if the winetricks verb is found in the winetricks log
-    """
-
-    winetricks_log = os.path.join(protonprefix(), 'winetricks.log')
-    try:
-        with open(winetricks_log, 'r') as log:
-            if verb in [x.strip() for x in log.readlines()]:
-                return True
-    except OSError:
-        return False
+                _mk_syswow64()
     return False
 
 
@@ -122,7 +148,9 @@ def win32_prefix_exists():
 
     prefix32 = os.environ['STEAM_COMPAT_DATA_PATH'] + '_win32/pfx'
     if os.path.exists(prefix32):
+        log.debug('Found win32 prefix')
         return True
+    log.debug('No win32 prefix found')
     return False
 
 
@@ -146,7 +174,7 @@ def use_win32_prefix():
     os.environ['WINEPREFIX'] = prefix32
     os.environ['WINEDLLPATH'] = os.path.join(protondir(), 'dist/lib/wine')
     os.environ['WINEARCH'] = 'win32'
-
+    log.debug('Updated environment variables for win32 prefix')
     # make sure steam doesn't crash when missing syswow
     try:
         os.makedirs(os.path.join(prefix32, 'drive_c/windows/syswow64'))
@@ -159,7 +187,7 @@ def make_win32_prefix():
     """
 
     env = dict(os.environ)
-    print('Bootstrapping win32 prefix')
+    log.info('Bootstrapping win32 prefix')
 
     prefix32 = os.environ['STEAM_COMPAT_DATA_PATH'] + '_win32/pfx'
     try:
@@ -176,10 +204,10 @@ def make_win32_prefix():
             os.path.join(prefix32, 'drive_c/Program Files'),
             os.path.join(prefix32, 'drive_c/Program Files (x86)'))
 
-        print('Initialized win32 prefix')
+        log.info('Initialized win32 prefix')
 
     except OSError:
-        print('Directory for win32 prefix already exists')
+        log.warn('Directory for win32 prefix already exists')
 
 
 def replace_command(orig_str, repl_str):

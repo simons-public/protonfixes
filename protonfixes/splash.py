@@ -6,7 +6,8 @@ from time import sleep
 from multiprocessing import Process
 from contextlib import contextmanager
 from cefpython3 import cefpython as cef
-
+from .logger import Log
+log = Log()
 # pylint: disable=I1101
 
 def browser(url):
@@ -14,7 +15,9 @@ def browser(url):
     """
 
     # Keeps the splash from displaying on short tasks
+    log.info('Delaying splash for 2 seconds')
     sleep(2)
+    log.debug('Starting splash screen')
 
     sys.excepthook = cef.ExceptHook
     settings = {
@@ -60,6 +63,7 @@ def splash(page='index.html'):
     splashwin = Process(target=browser, args=(url,))
     splashwin.start()
     yield
+    log.debug('Terminating splash screen')
     splashwin.terminate()
 
 def _test():
