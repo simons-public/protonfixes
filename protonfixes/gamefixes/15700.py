@@ -1,4 +1,4 @@
-""" Game fox for Oddworld: Abe's Oddysee
+""" Game fix for Oddworld: Abe's Oddysee
 TODO: Fix steam controller input, it is stuck in lizard mode without overlay
 """
 #pylint: disable=C0103
