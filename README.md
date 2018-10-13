@@ -41,6 +41,8 @@ Current utilities available:
 	- adds an argument to the game's launch command
 - util.protonprefix()
 	- returns the path of the current wineprefix used by Proton
+- util.set_environment('VARIABLE', 'value')
+	- sets an environment variable
 
 ---
 ## Installation
