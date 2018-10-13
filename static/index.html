@@ -1,1 +1,100 @@
-<!DOCTYPE html><html lang="en" ><head> <meta charset="UTF-8"> <title>A Pen by mrsim0ns</title> <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css"> <style>/* NOTE: The styles were added inline because Prefixfree needs access to your styles and they must be inlined if they are on local disk! */ body{color: #79bcec; overflow: hidden; text-shadow: 0px 0px 10px #222;}h1, h3{padding: 20px;}hr{border: 1px solid #79bcec; width: 500px; box-shadow: 0px 0px 10px 0px #222;}.box{width: 600px; height: 360px; position: absolute; text-align: center;}.blur{box-shadow: inset 0px 0px 160px -60px #bcdef4;}.gradient{background: radial-gradient(circle at top right, #153445 0%, #081322 78%);}.loader,.loader:before,.loader:after{background: #79bcec; animation: load1 1s infinite ease-in-out; width: 3em; height: 4em;}.loader{color: #79bcec; text-indent: -9999em; margin: 50px auto; position: relative; font-size: 12px; transform: translateZ(0); animation-delay: -0.16s;}.loader:before,.loader:after{position: absolute; top: 0; content: '';}.loader:before{left: -4em; animation-delay: -0.32s;}.loader:after{left: 4em;}@keyframes load1{0%, 80%, 100%{box-shadow: 0 0; height: 4em;}40%{box-shadow: 0 -2em; height: 5em;}}</style> <script src="https://cdnjs.cloudflare.com/ajax/libs/prefixfree/1.0.7/prefixfree.min.js"></script></head><body> <div class='box gradient'> <h1>ProtonFixes</h1> <hr> <h3 id="status">ProtonFixes is running a task, please wait...</h3> <div class="loader">Loading...</div></div></body></html>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Splash</title>
+  <style>
+    body {
+      color: #79bcec;
+      overflow: hidden;
+      text-shadow: 0px 0px 10px #222;
+    }
+
+    h1,
+    h3 {
+      padding: 20px;
+    }
+
+    hr {
+      border: 1px solid #79bcec;
+      width: 500px;
+      box-shadow: 0px 0px 10px 0px #222;
+    }
+
+    .box {
+      width: 600px;
+      height: 360px;
+      position: absolute;
+      text-align: center;
+    }
+
+    .blur {
+      box-shadow: inset 0px 0px 160px -60px #bcdef4;
+    }
+
+    .gradient {
+      background: radial-gradient(circle at top right, #153445 0%, #081322 78%);
+    }
+
+    .loader,
+    .loader:before,
+    .loader:after {
+      background: #79bcec;
+      animation: load1 1s infinite ease-in-out;
+      width: 3em;
+      height: 4em;
+    }
+
+    .loader {
+      color: #79bcec;
+      text-indent: -9999em;
+      margin: 50px auto;
+      position: relative;
+      font-size: 12px;
+      transform: translateZ(0);
+      animation-delay: -0.16s;
+    }
+
+    .loader:before,
+    .loader:after {
+      position: absolute;
+      top: 0;
+      content: '';
+    }
+
+    .loader:before {
+      left: -4em;
+      animation-delay: -0.32s;
+    }
+
+    .loader:after {
+      left: 4em;
+    }
+
+    @keyframes load1 {
+      0%,
+      80%,
+      100% {
+        box-shadow: 0 0;
+        height: 4em;
+      }
+      40% {
+        box-shadow: 0 -2em;
+        height: 5em;
+      }
+    }
+  </style>
+</script>
+</head>
+
+<body>
+  <div class='box gradient'>
+    <h1>ProtonFixes</h1>
+    <hr>
+    <h3 id="status">ProtonFixes is running a task, please wait...</h3>
+    <div class="loader">Loading...</div>
+  </div>
+</body>
+
+</html>
