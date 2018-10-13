@@ -23,6 +23,7 @@ Current utilities available:
 - util.protonprefix()
 	- returns the path of the current wineprefix used by Proton
 
+---
 ## Installation
 
 ### Optional Requirements
@@ -79,6 +80,7 @@ ProtonFixes[27351] DEBUG: ---------------------------------------
 ```
 Although the environment variables are dumped, the sensitive variables like SteamUser and SteamAppUser are filtered out.
 
+---
 ## Writing Game Fixes
 Game fixes are written in python and are named by the Steam game ID with the extension .py. For example, the file `377840.py` will be loaded when the game FINAL FANTASY IX is run. Gamefixes can be added to the `~/.config/protonfixes/localfixes/` directory. Here are some things to consider when writing fixes:
 
@@ -90,6 +92,7 @@ Game fixes are written in python and are named by the Steam game ID with the ext
 ### Testing
 When testing, local fixes can be added to `~/.config/protonfixes/localfixes/`. They should be imported the same way as an included fix would be. For example, `~/.config/protonfixes/localfixes/377840.py` would be loaded for FFIX. Please feel free to submit working gamefixes to improve the project. 
 
+---
 ## Example game fixes
 `377840.py` - Changing the executable launched and setting an environment variable
 ```python
@@ -145,5 +148,6 @@ def main():
     util.protontricks('dotnet35')
 ```
 
+---
 ## Contributing
 Pull requests are welcome! If you're not comfortable doing pull requests, send your fixes to me by any other means and you will be credited in the comments.
