@@ -112,3 +112,6 @@ dmypy.json
 
 # test deployment
 deploy.sh
+
+# vscode
+.vscode
