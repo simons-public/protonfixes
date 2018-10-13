@@ -3,13 +3,11 @@
 
 import os
 import sys
-import glob
 import shutil
 import signal
 import subprocess
-from .logger import Log
+from .logger import log
 
-log = Log()
 log.info('Running protonfixes')
 
 # pylint: disable=I1101, W0101
@@ -29,7 +27,7 @@ def which(appname):
 def protondir():
     """ Returns the path to proton
     """
-    
+
     proton_dir = os.path.dirname(sys.argv[0])
     return proton_dir
 

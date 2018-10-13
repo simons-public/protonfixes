@@ -2,6 +2,7 @@
 """
 
 import os
+import sys
 import glob
 import shutil
 import subprocess
@@ -13,6 +14,8 @@ def setup_testenv(gameid):
     """ Setup the test environment variables
     """
 
+    sys.argv[0] = os.path.expanduser(glob.glob('~/.local/share/Steam/steamapps/common/Proton*/proton'))
+    
     test_env = {
         'STEAM_COMPAT_DATA_PATH': '/tmp/protonfixes_test/' + str(gameid),
         'SteamUser': 'steamuser',

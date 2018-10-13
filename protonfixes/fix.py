@@ -6,10 +6,7 @@ import os
 import re
 import sys
 from importlib import import_module
-from .logger import Log
-
-log = Log()
-log.info(str(sys.argv))
+from .logger import log
 
 try:
     from protonfixes.splash import splash
@@ -56,6 +53,9 @@ def run_fix(gameid):
 
 
 def main():
+    """ Runs the gamefix, with splash if cefpython3 is available
+    """
+
     if 'iscriptevaluator.exe' in sys.argv[2]:
         log.debug('Not running protonfixes for iscriptevaluator.exe')
         return

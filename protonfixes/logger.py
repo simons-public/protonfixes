@@ -1,3 +1,6 @@
+""" Simple logging to stdout the same way Proton does
+"""
+
 import os
 import sys
 
@@ -15,25 +18,50 @@ class Log():
             'DEBUG': '\u001b[35m'
         }
 
+    def __call__(self, msg):
+        """ Allows the Log instance to be called directly
+        """
+
+        self.log(msg)
+
     def log(self, msg='', level='INFO'):
+        """ Prints the log message to stdout the same way as Proton
+        """
+
         pfx = self.pfx + level + ': '
         color = self.colors[level]
         reset = self.colors['RESET']
-        sys.stderr.write(color + pfx + str(msg) + reset + os.linesep)
+        fulltext = color + pfx + str(msg) + reset + os.linesep
+        sys.stderr.write(fulltext)
         sys.stderr.flush()
+        with open('/tmp/test', 'a', 1) as testfile:
+            testfile.write(fulltext)
+
 
     def info(self, msg):
+        """ Wrapper for printing info messages
+        """
+
         self.log(msg, 'INFO')
 
     def warn(self, msg):
+        """ Wrapper for printing warning messages
+        """
+
         self.log(msg, 'WARN')
 
     def crit(self, msg):
+        """ Wrapper for printing critical messages
+        """
+
         self.log(msg, 'CRIT')
 
     def debug(self, msg):
+        """ Wrapper for printing debug messages
+        """
+
         if 'DEBUG' in os.environ:
             self.log(msg, 'DEBUG')
-        
 
-log = Log().log
+
+log = Log() #pylint: disable=C0103

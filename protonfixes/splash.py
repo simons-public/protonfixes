@@ -1,13 +1,12 @@
 """ Splash screen for protonfixes using cefpython
 """
-import sys
 from os import path
 from time import sleep
 from multiprocessing import Process
 from contextlib import contextmanager
 from cefpython3 import cefpython as cef
-from .logger import Log
-log = Log()
+from .logger import log
+
 # pylint: disable=I1101
 
 def browser(url):
