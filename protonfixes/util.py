@@ -106,6 +106,7 @@ def protontricks(verb):
         env = dict(os.environ)
         env['WINEPREFIX'] = protonprefix()
         env['WINESERVER'] = os.path.join(protondir(), 'dist/bin/wineserver')
+        env['WINETRICKS_LATEST_VERSION_CHECK'] = 'disabled'
 
         winetricks_bin = which('winetricks')
         winetricks_cmd = [winetricks_bin, '--unattended', '--force'] + verb.split(' ')
