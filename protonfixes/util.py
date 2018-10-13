@@ -7,6 +7,7 @@ import shutil
 import signal
 import subprocess
 from .logger import log
+from __main__ import env as protonenv
 
 log.info('Running protonfixes')
 
@@ -227,3 +228,10 @@ def append_argument(argument):
     log.info('Adding argument ' + argument)
     sys.argv.append(argument)
     log.debug('New commandline: ' + str(sys.argv))
+
+def set_environment(envvar, value):
+    """ Add or override an environment value
+    """
+
+    os.environ[envvar] = value
+    protonenv[envvar] = value

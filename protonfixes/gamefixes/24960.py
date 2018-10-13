@@ -2,7 +2,6 @@
 """
 #pylint: disable=C0103
 
-import os
 from protonfixes import util
 from protonfixes.logger import log
 
@@ -16,4 +15,4 @@ def main():
     util.protontricks('win7')
     util.protontricks('corefonts')
     util.protontricks('directx9')
-    os.environ['WINEDLLOVERRIDES'] = 'msdmo=b'
+    util.set_environment('WINEDLLOVERRIDES', 'msdmo=b')

@@ -3,7 +3,6 @@ Still missing intro video codecs
 """
 #pylint: disable=C0103
 
-import os
 from protonfixes import util
 from protonfixes.logger import log
 
