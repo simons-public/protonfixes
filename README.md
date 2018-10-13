@@ -117,32 +117,40 @@ When testing, local fixes can be added to `~/.config/protonfixes/localfixes/`. T
 ## Example game fixes
 `377840.py` - Changing the executable launched and setting an environment variable
 ```python
-import os
-from protonfixes import util
+""" Game fix for FINAL FANTASY IX
+"""
+#pylint: disable=C0103
 
+from protonfixes import util
+from protonfixes.logger import log
 
 def main():
-    """ Bypass the launcher and fix audio
+    """ Changes the proton argument from the launcher to the game
     """
 
-    print('Applying FINAL FANTASY IX Game Fixes')
+    log('Applying fixes for FINAL FANTASY IX')
 
     # Fix crackling audio
-    os.environ['PULSE_LATENCY_MSEC'] = '60'
+    util.set_environment('PULSE_LATENCY_MSEC', '60')
 
     # Replace launcher with game exe in proton arguments
-    util.replace_command('FF9_Launcher', 'x64/FF9.exe')
+    util.replace_command('FF9_Launcher.exe', 'x64/FF9.exe')
 ```
 
 `410900.py` - Running a winetricks verb
 ```python
+""" Game fix for Forts
+"""
+#pylint: disable=C0103
+
 from protonfixes import util
+from protonfixes.logger import log
 
 def main():
     """ Uses winetricks to install the ole32 verb
     """
 
-    print('Applying fixes for Forts')
+    log('Applying fixes for Forts')
 
     util.protontricks('ole32')
 ```
@@ -150,14 +158,15 @@ def main():
 
 *Oddworld doesn't actually require a win32 prefix or dotnet35, but I used it for testing since it's 32bit*
 ```python
-import sys
+
 from protonfixes import util
+from protonfixes.logger import log
 
 def main():
     """ Adds -interline to arguments, uses a win32 prefix, and installs dotnet35
     """
     
-    print('Applying fixes for Oddworld: Abe\'s Oddysee')
+    log('Applying fixes for Oddworld: Abe\'s Oddysee')
         
     # Adding -interline fixes slow video but adds scanlines
     util.append_argument('-interline')
