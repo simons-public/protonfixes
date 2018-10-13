@@ -82,6 +82,9 @@ def checkinstalled(verb):
     """ Returns True if the winetricks verb is found in the winetricks log
     """
 
+    if type(verb) is not str:
+        return False
+
     log.info('Checking if winetricks ' + verb + ' is installed')
     winetricks_log = os.path.join(protonprefix(), 'winetricks.log')
     try:
