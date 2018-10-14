@@ -8,8 +8,7 @@ import signal
 import subprocess
 from .logger import log
 from __main__ import env as protonenv
-
-log.info('Running protonfixes')
+from __main__ import dlloverrides as protonoverrides
 
 # pylint: disable=I1101, W0101
 
@@ -234,5 +233,51 @@ def set_environment(envvar, value):
     """ Add or override an environment value
     """
 
+    log.info('Adding env: ' + envvar + '=' + value)
     os.environ[envvar] = value
     protonenv[envvar] = value
+
+def get_game_install_path():
+    """ Game installation path
+    """
+
+    log.debug('Detected path to game: ' + os.environ['PWD'])
+    # only for `waitforexitandrun` command
+    return os.environ['PWD']
+
+def winedll_override(dll, dtype):
+    """ Add WINE dll override
+    """
+
+    log.info('Overriding ' + dll + '.dll = ' + dtype)
+    protonoverrides[dll] = dtype
+
+def disable_nvapi():
+    """ Disable WINE nv* dlls
+    """
+
+    log.info('Disabling NvAPI')
+    winedll_override('nvapi', '')
+    winedll_override('nvapi64', '')
+    winedll_override('nvcuda', '')
+    winedll_override('nvcuvid', '')
+    winedll_override('nvencodeapi', '')
+    winedll_override('nvencodeapi64', '')
+
+def disable_d3d10():
+    """ Disable WINE d3d10* dlls
+    """
+    
+    log.info('Disabling d3d10')
+    winedll_override('d3d10', '')
+    winedll_override('d3d10_1', '')
+    winedll_override('d3d10core', '')
+
+def disable_dxvk():
+    set_environment('PROTON_USE_WINED3D11', '1')
+
+def disable_esync():
+    set_environment('PROTON_NO_ESYNC', '1')
+
+def disable_d3d11():
+    set_environment('PROTON_NO_D3D11', '1')
