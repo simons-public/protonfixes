@@ -7,11 +7,7 @@ import re
 import sys
 from importlib import import_module
 from .logger import log
-
-try:
-    from protonfixes.splash import splash
-except ModuleNotFoundError:
-    log.warn('No splash, cefpython3 module not available')
+from protonfixes.splash import splash
 
 def game_id():
     """ Trys to return the game id from environment variables
@@ -69,8 +65,5 @@ def main():
         return
 
     log.info('Running protonfixes')
-    if 'cefpython3' in sys.modules:
-        with splash():
-            run_fix(game_id())
-    else:
+    with splash():
         run_fix(game_id())

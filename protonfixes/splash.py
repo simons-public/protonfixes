@@ -1,21 +1,21 @@
 """ Splash screen for protonfixes using cefpython
 """
-from os import path
-from time import sleep
+import os
+import time
+import subprocess
 from multiprocessing import Process
 from contextlib import contextmanager
-from cefpython3 import cefpython as cef
 from .logger import log
 
 # pylint: disable=I1101
 
-def browser(url):
+def browser(cef, url):
     """ Starts a cef browser in the middle of the screen with url
     """
 
     # Keeps the splash from displaying on short tasks
     log.info('Delaying splash for 2 seconds')
-    sleep(2)
+    time.sleep(2)
     log.debug('Starting splash screen')
 
     settings = {
@@ -51,27 +51,97 @@ def coordinates(width, height):
 
     return [posx, posy, posx+width, posy+height]
 
+
+def sys_zenity_path():
+    """ Returns the path of zenity if found in system $PATH
+    """
+
+    steampath = os.environ['PATH'].split(':')
+    syspath = [x for x in steampath if 'steam-runtime' not in x]
+    for path in syspath:
+        zenity_path = os.path.join(path, 'zenity')
+        if os.path.exists(zenity_path) and os.access(zenity_path, os.X_OK):
+            return zenity_path
+    return False
+
+
 @contextmanager
-def splash(page='index.html'):
-    """ Runs the browser in a seperate process until the context is returned
+def zenity_splash():
+    """ Runs the zenity process until context is returned
     """
 
-    data_dir = path.join(path.dirname(__file__), '..', 'static')
-    url = 'file://' + path.join(data_dir, page)
-    splashwin = Process(target=browser, args=(url,))
-    splashwin.start()
+    log.debug('Starting zenity splash screen')
+
+    zenity_bin = sys_zenity_path()
+    if not zenity_bin:
+        return
+
+    zenity_cmd = ' '.join([
+        'sleep 2;',
+        zenity_bin,
+        '--progress',
+        '--pulsate',
+        '--no-cancel',
+        '--auto-close',
+        '--text',
+        '"ProtonFixes is running a task, please wait..."',
+        ])
+
+    # it would be better to use multiprocessing and time.sleep(2) here,
+    # but zenity forks and won't quit when the subprocess is killed,
+    # hence, using shell=True and 'sleep 2;'
+    zenity = subprocess.Popen(zenity_cmd,
+                              stdin=subprocess.PIPE,
+                              stdout=subprocess.PIPE,
+                              shell=True,
+                              )
+
     yield
-    log.debug('Terminating splash screen')
-    splashwin.terminate()
+    log.debug('Terminating zenity splash screen')
+    zenity.kill()
 
-def _test():
-    """ Used for testing the splash with python -m splash
+
+@contextmanager
+def cef_splash(cef, page='index.html'):
+    """ Runs the browser process until the context is returned
     """
 
-    import time
-    with splash():
-        while True:
-            time.sleep(1)
+    log.debug('Starting CEF splash screen')
+    data_dir = os.path.join(os.path.dirname(__file__), '..', 'static')
+    url = 'file://' + os.path.join(data_dir, page)
+    cef_proc = Process(target=browser, args=(cef, url))
+    cef_proc.start()
+    yield
+    log.debug('Terminating CEF splash screen')
+    cef_proc.terminate()
 
-if __name__ == '__main__':
-    _test()
+
+@contextmanager
+def splash():
+    """ Wrapper logic to choose the zenity or cef splash screen
+    """
+
+    log.debug('Starting splash screen')
+
+    if 'SteamTenfoot' in os.environ:
+        log.debug('Running in Big Picture mode')
+        try:
+            from cefpython3 import cefpython as cef
+            log.debug('Using cefpython splash screen')
+            with cef_splash(cef):
+                yield
+                return
+        except ImportError:
+            log.warn('Optional dependency cefpython3 not found')
+
+    if sys_zenity_path():
+        log.debug('Using zenity splash screen')
+        with zenity_splash():
+            yield
+            return
+    else:
+        log.warn('Optional dependency zenity not found')
+
+    log.warn('No splash dependencies found, running without splash screen')
+    yield
+    return
