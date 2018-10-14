@@ -52,7 +52,7 @@ Current utilities available:
 
 If you want to be able to use fixes with winetricks it must be installed and be in your $PATH. Fixes that do not use winetricks will still work without winetricks being installed.
 
-*Winetricks can take a long time to load*
+*Winetricks can take a long time to run*
 
 **Wine**
 
@@ -60,7 +60,7 @@ If you want to use a win32 (32bit) prefix, you need to have wine installed and b
 
 **Progress Dialog / Splashscreen**
 
-If Steam is in big picture mode, protontricks will try to launch a similarly themed splash dialog using `cefpython`. Otherwise it will try to use `zenity` to display a progress bar. If Steam is not in big picture mode, it will default to `zenity`. The progress bar or splashscreen can help let you know that protonfixes is running a long task, for example installing `dotnet35`.
+If Steam is in big picture mode, protontricks will try to launch a similarly themed splash dialog using `cefpython` (pictured above). Otherwise it will try to use `zenity` to display a progress bar. If Steam is not in big picture mode, it will default to `zenity`. The progress bar or splashscreen can help let you know that protonfixes is running a long task, for example installing `dotnet35`.
 
 For the progress dialog to work, you need to have `zenity` installed on your system, the steam-runtime version is broken. It can probably be installed using your distro's package manager.
 
