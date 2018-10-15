@@ -28,6 +28,7 @@ Current fixes include:
 - EVE Online
 - Civilization 4 (Beyond the Sword)
 - BioShock 2 Remastered
+- Tomb Raider I
 
 _(Games with a ✓ have been validated)_
 
@@ -54,6 +55,9 @@ Current utilities available:
 	- `util.disable_nvapi()`
 - `util.get_game_install_path()`
 	- returns the path to the current game
+- `util.create_dosbox_conf('filename', conf_dict)`
+	- creates a config file filename with the dict conf_dict
+	  _(needs to have '-conf' and 'filename' added with util.append_argument for dosbox use config)_
 
 ---
 ## Installation
