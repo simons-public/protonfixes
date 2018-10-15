@@ -190,7 +190,7 @@ def main():
     # Adding -interline fixes slow video but adds scanlines
     util.append_argument('-interline')
     
-    print('Using a win32 prefix')
+    log('Using a win32 prefix')
     util.use_win32_prefix()
     
     # Make sure any winetricks are run after changing to a win32 prefix
