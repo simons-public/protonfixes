@@ -9,6 +9,8 @@ Game fixes are written in python and are named by the Steam game ID with the ext
 ### Testing
 When testing, local fixes can be added to `~/.config/protonfixes/localfixes/`. They should be imported the same way as an included fix would be. For example, `~/.config/protonfixes/localfixes/377840.py` would be loaded for FFIX. Please feel free to submit working gamefixes to improve the project. 
 
+If you mess up your Proton prefix and you want to start fresh, just delete the directory in `~/.local/share/Steam/compatdata/GAMEID`, Proton will recreate it automatically
+
 ### Debugging
 Proton output can be seen in either `/tmp/dumps/${USER}_stdout.txt` or the terminal you started Steam from. To add additional `protonfixes` debugging information, add the following line above `import protonfixes`:
 ```python
