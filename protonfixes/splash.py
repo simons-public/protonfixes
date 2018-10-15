@@ -7,7 +7,6 @@ from multiprocessing import Process
 from contextlib import contextmanager
 from .logger import log
 
-# pylint: disable=I1101
 
 def browser(cef, url):
     """ Starts a cef browser in the middle of the screen with url
@@ -94,7 +93,7 @@ def zenity_splash():
                               stdin=subprocess.PIPE,
                               stdout=subprocess.PIPE,
                               shell=True,
-                              )
+                             )
 
     yield
     log.debug('Terminating zenity splash screen')
