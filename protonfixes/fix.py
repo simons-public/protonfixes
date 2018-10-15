@@ -49,7 +49,7 @@ def run_fix(gameid):
 
 
 def main():
-    """ Runs the gamefix, with splash if cefpython3 is available
+    """ Runs the gamefix, with splash if zenity or cefpython3 is available
     """
 
     if 'iscriptevaluator.exe' in sys.argv[2]:
