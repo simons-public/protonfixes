@@ -1,6 +1,7 @@
 """ Utilities to make gamefixes easier
 """
 
+import configparser
 import os
 import sys
 import shutil
@@ -282,3 +283,18 @@ def disable_esync():
     
 def disable_d3d11():
     set_environment('PROTON_NO_D3D11', '1')
+
+
+def create_dosbox_conf(conf_file, conf_dict):
+    """Create DOSBox configuration file.
+
+    DOSBox accepts multiple configuration files passed with -conf
+    option;, each subsequent one overwrites settings defined in
+    previous files.
+    """
+    if os.access(conf_file, os.F_OK):
+        return
+    conf = configparser.ConfigParser()
+    conf.read_dict(conf_dict)
+    with open(conf_file, 'w') as file:
+        conf.write(file)
