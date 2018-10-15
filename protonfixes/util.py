@@ -7,8 +7,10 @@ import shutil
 import signal
 import subprocess
 from .logger import log
-from __main__ import env as protonenv
-from __main__ import dlloverrides as protonoverrides
+try:
+    import __main__ as protonmain
+except ImportError:
+    log.warn('Unable to hook into Proton main script environment')
 
 # pylint: disable=I1101, W0101
 
@@ -162,7 +164,6 @@ def use_win32_prefix():
     if not win32_prefix_exists():
         make_win32_prefix()
 
-    import __main__ as protonmain
     data_path = os.environ['STEAM_COMPAT_DATA_PATH'] + '_win32'
     prefix32 = os.environ['STEAM_COMPAT_DATA_PATH'] + '_win32/pfx/'
 
@@ -235,7 +236,7 @@ def set_environment(envvar, value):
 
     log.info('Adding env: ' + envvar + '=' + value)
     os.environ[envvar] = value
-    protonenv[envvar] = value
+    protonmain.env[envvar] = value
 
 def get_game_install_path():
     """ Game installation path
@@ -250,7 +251,7 @@ def winedll_override(dll, dtype):
     """
 
     log.info('Overriding ' + dll + '.dll = ' + dtype)
-    protonoverrides[dll] = dtype
+    protonmain.dlloverrides[dll] = dtype
 
 def disable_nvapi():
     """ Disable WINE nv* dlls
@@ -267,7 +268,7 @@ def disable_nvapi():
 def disable_d3d10():
     """ Disable WINE d3d10* dlls
     """
-    
+
     log.info('Disabling d3d10')
     winedll_override('d3d10', '')
     winedll_override('d3d10_1', '')
@@ -278,6 +279,6 @@ def disable_dxvk():
 
 def disable_esync():
     set_environment('PROTON_NO_ESYNC', '1')
-
+    
 def disable_d3d11():
     set_environment('PROTON_NO_D3D11', '1')
