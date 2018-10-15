@@ -31,6 +31,8 @@ Current fixes include:
 - Civilization 4 (Beyond the Sword)
 - BioShock 2 Remastered
 - Tomb Raider I
+- Titan Quest
+- Evil Within
 
 _(Games with a ✓ have been validated)_
 
