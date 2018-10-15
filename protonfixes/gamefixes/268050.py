@@ -1,8 +1,7 @@
 """ Game fix for The Evil Within(268050)
 """
-#pylint: disable=C01033
+#pylint: disable=C0103
 
-import os
 from protonfixes import util
 from protonfixes.logger import log
 
@@ -12,7 +11,7 @@ def main():
 
     log('Applying The Evil Within Fixes')
 
+    util.protontricks('xact')
     util.protontricks('win7')
 
-    os.environ['PULSE_LATENCY_MSEC'] = '60'
-    util.protontricks('xact')
+    util.set_environment('PULSE_LATENCY_MSEC', '60')

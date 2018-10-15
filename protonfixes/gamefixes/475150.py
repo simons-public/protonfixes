@@ -1,6 +1,6 @@
 """ Game fix for Titan Quest Anniversary Edition(475150)
 """
-#pylint: disable=C01033
+#pylint: disable=C0103
 
 from protonfixes import util
 from protonfixes.logger import log
