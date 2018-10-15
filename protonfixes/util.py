@@ -13,7 +13,7 @@ try:
 except ImportError:
     log.warn('Unable to hook into Proton main script environment')
 
-# pylint: disable=I1101, W0101
+# pylint: disable=unreachable
 
 def which(appname):
     """ Returns the full path of an executable in $PATH
@@ -85,7 +85,7 @@ def checkinstalled(verb):
     """ Returns True if the winetricks verb is found in the winetricks log
     """
 
-    if type(verb) is not str:
+    if not isinstance(verb, str):
         return False
 
     log.info('Checking if winetricks ' + verb + ' is installed')
@@ -275,13 +275,13 @@ def disable_d3d10():
     winedll_override('d3d10_1', '')
     winedll_override('d3d10core', '')
 
-def disable_dxvk():
+def disable_dxvk():  # pylint: disable=missing-docstring
     set_environment('PROTON_USE_WINED3D11', '1')
 
-def disable_esync():
+def disable_esync():  # pylint: disable=missing-docstring
     set_environment('PROTON_NO_ESYNC', '1')
 
-def disable_d3d11():
+def disable_d3d11():  # pylint: disable=missing-docstring
     set_environment('PROTON_NO_D3D11', '1')
 
 
