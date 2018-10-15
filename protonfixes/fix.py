@@ -6,8 +6,8 @@ import os
 import re
 import sys
 from importlib import import_module
-from .logger import log
 from protonfixes.splash import splash
+from .logger import log
 
 def game_id():
     """ Trys to return the game id from environment variables
