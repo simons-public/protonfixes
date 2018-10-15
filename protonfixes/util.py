@@ -7,7 +7,11 @@ import shutil
 import signal
 import subprocess
 from .logger import log
-from __main__ import env as protonenv
+try:
+    import __main__ as protonmain
+except ImportError:
+    log.warn('Unable to hook into Proton main script environment')
+
 
 log.info('Running protonfixes')
 
@@ -163,7 +167,6 @@ def use_win32_prefix():
     if not win32_prefix_exists():
         make_win32_prefix()
 
-    import __main__ as protonmain
     data_path = os.environ['STEAM_COMPAT_DATA_PATH'] + '_win32'
     prefix32 = os.environ['STEAM_COMPAT_DATA_PATH'] + '_win32/pfx/'
 
@@ -235,4 +238,4 @@ def set_environment(envvar, value):
     """
 
     os.environ[envvar] = value
-    protonenv[envvar] = value
+    protonmain.env[envvar] = value
