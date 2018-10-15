@@ -27,6 +27,7 @@ Current fixes include:
 - STAR WARS Jedi Knight II - Jedi Outcast
 - EVE Online
 - Civilization 4 (Beyond the Sword)
+- BioShock 2 Remastered
 
 _(Games with a ✓ have been validated)_
 
