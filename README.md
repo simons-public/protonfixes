@@ -1,5 +1,7 @@
 # protonfixes	
 
+[![Build Status](https://travis-ci.com/simons-public/protonfixes.svg?branch=master)](https://travis-ci.com/simons-public/protonfixes)
+
 ![Screenshot](https://github.com/simons-public/protonfixes/raw/master/media/splash.png)
 
 A module for applying fixes at runtime to unsupported games with Steam Proton without changing game installation files. The idea is to include seperate fixes that are only loaded when a game matching that ID is run. This should keep the individual game fixes from affecting any other games. Applying the fixes at runtime should also them to persist after game updates.
