@@ -26,7 +26,7 @@ def setup_testenv(gameid):
     """
 
     sys.argv[0] = glob.glob(os.path.expanduser('~/.local/share/Steam/steamapps/common/Proton*/proton'))[0]
-    
+
     test_env = {
         'STEAM_COMPAT_DATA_PATH': '/tmp/protonfixes_test/' + str(gameid),
         'SteamUser': 'steamuser',
@@ -185,7 +185,7 @@ class TestCheckInstalled(unittest.TestCase):
     def test_return_installed(self):
         """ Check True is returned if verb is in winetricks.log
         """
-        
+
         with Quiet():
             checkinstalled = util.checkinstalled('good')
         self.assertTrue(checkinstalled)
@@ -193,7 +193,7 @@ class TestCheckInstalled(unittest.TestCase):
     def test_return_uninstalled(self):
         """ Check False is returned if verb is not in winetricks.log
         """
-        
+
         with Quiet():
             checkinstalled = util.checkinstalled('bad')
         self.assertFalse(checkinstalled)

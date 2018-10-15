@@ -280,7 +280,7 @@ def disable_dxvk():
 
 def disable_esync():
     set_environment('PROTON_NO_ESYNC', '1')
-    
+
 def disable_d3d11():
     set_environment('PROTON_NO_D3D11', '1')
 
