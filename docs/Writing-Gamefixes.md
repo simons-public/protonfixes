@@ -27,8 +27,8 @@ Although the environment variables are dumped, the sensitive variables like Stea
 
 
 ### Gamefix utilities 
-These functions can be used in a game fix by importing the util submodule:
-```
+These helper functions can be used in a game fix by importing the util submodule:
+```python
 from protonfixes import util
 ```
 
