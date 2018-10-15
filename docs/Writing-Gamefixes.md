@@ -11,7 +11,7 @@ When testing, local fixes can be added to `~/.config/protonfixes/localfixes/`. T
 
 ### Debugging
 Proton output can be seen in either `/tmp/dumps/${USER}_stdout.txt` or the terminal you started Steam from. To add additional `protonfixes` debugging information, add the following line above `import protonfixes`:
-```
+```python
 from protonfixes import debug
 ```
 This will add information like this:
