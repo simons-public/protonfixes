@@ -32,18 +32,28 @@ Current fixes include:
 _(Games with a ✓ have been validated)_
 
 Current utilities available:
-- util.protontricks('verb')
+- `util.protontricks('verb')`
 	-  installs a winetricks verb
-- util.use_win32_prefix() 
+- `util.use_win32_prefix()`
 	- creates and uses a win32 (32bit) wineprefix
-- util.replace_command('original', 'replacement') 
+- `util.replace_command('original', 'replacement')`
 	- replaces text in the game's launch command
-- util.append_argument('argument')
+- `util.append_argument('argument')`
 	- adds an argument to the game's launch command
-- util.protonprefix()
+- `util.protonprefix()`
 	- returns the path of the current wineprefix used by Proton
-- util.set_environment('VARIABLE', 'value')
+- `util.set_environment('VARIABLE', 'value')`
 	- sets an environment variable
+- `util.winedll_override('dllname', 'x')`
+	- override dllname where x is n for native, b for builtin, or '' for disable
+- winedll_override shortcuts:
+	- `util.disable_dxvk()`
+	- `util.disable_esync()`
+	- `util.disable_d3d10()`
+	- `util.disable_d3d11()`
+	- `util.disable_nvapi()`
+- `util.get_game_install_path()`
+	- returns the path to the current game
 
 ---
 ## Installation
