@@ -17,7 +17,7 @@ print(data_files)
 
 setup(
     name='protonfixes',
-    version='1.0.11',
+    version='1.0.12',
     description='Python module for applying fixes at runtime for games not supported by Steam Proton',
     long_description=long_description,
     long_description_content_type='text/markdown',
