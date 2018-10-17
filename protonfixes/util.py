@@ -309,7 +309,7 @@ def read_dxvk_conf(cfp):
 
 def set_dxvk_option(opt, val, cfile='/tmp/protonfixes_dxvk.conf'):
     """ Create custom DXVK config file
-    
+
     See https://github.com/doitsujin/dxvk/wiki/Configuration for details
     """
     conf = configparser.ConfigParser()
