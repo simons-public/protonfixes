@@ -298,3 +298,42 @@ def create_dosbox_conf(conf_file, conf_dict):
     conf.read_dict(conf_dict)
     with open(conf_file, 'w') as file:
         conf.write(file)
+
+
+def read_dxvk_conf(cfp):
+    """ Add fake [DEFAULT] section to dxvk.conf
+    """
+    yield '['+ configparser.ConfigParser().default_section +']'
+    yield from cfp
+
+
+def set_dxvk_option(opt, val, cfile='/tmp/protonfixes_dxvk.conf'):
+    """ Create custom DXVK config file
+
+    See https://github.com/doitsujin/dxvk/wiki/Configuration for details
+    """
+    conf = configparser.ConfigParser()
+    conf.optionxform = str
+    section = conf.default_section
+    dxvk_conf = os.path.join(get_game_install_path(), 'dxvk.conf')
+
+    conf.read(cfile)
+
+    if not conf.has_option(section, 'session') or conf.getint(section, 'session') != os.getpid():
+        log.info('Creating new DXVK config')
+        set_environment('DXVK_CONFIG_FILE', cfile)
+
+        conf = configparser.ConfigParser()
+        conf.optionxform = str
+        conf.set(section, 'session', str(os.getpid()))
+
+        if os.access(dxvk_conf, os.F_OK):
+            conf.read_file(read_dxvk_conf(open(dxvk_conf)))
+        log.debug(conf.items(section))
+
+    # set option
+    log.info('Addinging DXVK option: '+ str(opt) + ' = ' + str(val))
+    conf.set(section, opt, str(val))
+
+    with open(cfile, 'w') as configfile:
+        conf.write(configfile)
