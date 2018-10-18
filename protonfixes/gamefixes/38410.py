@@ -15,7 +15,6 @@ def main():
     Launcher provides no functionality (only a link to Bethesda site
     without any specific Fallout 2 content).
     """
-
     if '-classic' in sys.argv:
         log('Bypassing launcher to run Fallout 2 (Classic Version)')
         util.replace_command('Fallout2Launcher.exe', 'fallout2.exe')
