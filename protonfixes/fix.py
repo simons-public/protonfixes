@@ -32,9 +32,9 @@ def game_name():
     game_manifest = os.path.join(game_library, 'appmanifest_' + game_id() + '.acf')
     try:
         with open(game_manifest, 'r') as appmanifest:
-            for x in appmanifest.readlines():
-                if 'name' in x.strip():
-                    name = re.findall(r'"[^"]+"', x)[-1]
+            for xline in appmanifest.readlines():
+                if 'name' in xline.strip():
+                    name = re.findall(r'"[^"]+"', xline)[-1]
                     return name
     except OSError:
         return 'UNKNOWN'
