@@ -7,6 +7,8 @@ import re
 import sys
 from importlib import import_module
 from protonfixes.splash import splash
+from .corefonts import check_corefonts, get_corefonts, link_fonts
+from .util import protonprefix
 from .logger import log
 
 def game_id():
@@ -47,6 +49,16 @@ def run_fix(gameid):
             except ImportError:
                 log.info('No protonfix found for gameid ' + gameid)
 
+        # install corefonts
+        fontsdir = os.path.join(protonprefix(), 'drive_c/windows/Fonts')
+        try:
+            os.makedirs(fontsdir)
+        except FileExistsError:
+            log.debug('Fonts directory exists')
+        if len(os.listdir(fontsdir)) < 30:
+            link_fonts(fontsdir)
+
+
 
 def main():
     """ Runs the gamefix, with splash if zenity or cefpython3 is available
@@ -64,6 +76,9 @@ def main():
         log.debug('Not running protonfixes for getnativepath')
         return
 
-    log.info('Running protonfixes')
     with splash():
+        log.info('Running protonfixes')
+        if not check_corefonts():
+            log.info('Getting ms-corefonts')
+            get_corefonts()
         run_fix(game_id())
