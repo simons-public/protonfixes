@@ -10,42 +10,57 @@ from .logger import log
 
 os.environ['DEBUG'] = '1'
 
-LINE = '---------------------------------------'
-log.debug('---- begin protontricks debug info ----')
-log.debug('Proton Python Version:')
-log.debug(sys.executable)
-log.debug(sys.version)
-log.debug(LINE)
-log.debug('System Python Version:')
-try:
-    log.debug(shutil.which(os.readlink(shutil.which('python'))))
-except: #pylint: disable=W0702
-    log.debug(shutil.which('python'))
-log.debug(LINE)
+def show_debug_info():
+    """ Show various debug info """
 
-log.debug('Proton Version:')
-log.debug(CURRENT_PREFIX_VERSION)
-log.debug(LINE)
+    check_args = [
+        'iscriptevaluator.exe' in sys.argv[2],
+        'getcompatpath' in sys.argv[1],
+        'getnativepath' in sys.argv[1],
+    ]
 
-log.debug('Proton Directory:')
-log.debug(basedir)
-log.debug(LINE)
+    if any(check_args):
+        log.debug(str(sys.argv))
+        return
 
-IGNOREVARS = [
-    'SteamUser',
-    'OLDPWD',
-    'SDL_GAMECONTROLLERCONFIG',
-    'SteamAppUser',
-    'SDL_GAMECONTROLLER_IGNORE_DEVICES',
-    'LS_COLORS',
-]
+    line = '---------------------------------------'
+    log.debug('---- begin protontricks debug info ----')
+    log.debug('Proton Python Version:')
+    log.debug(sys.executable)
+    log.debug(sys.version)
+    log.debug(line)
+    log.debug('System Python Version:')
+    try:
+        log.debug(shutil.which(os.readlink(shutil.which('python'))))
+    except: #pylint: disable=W0702
+        log.debug(shutil.which('python'))
+    log.debug(line)
 
-log.debug('Environment Variables:')
-for key, value in os.environ.items():
-    if key not in IGNOREVARS:
-        log.debug(key + '=' + value)
-log.debug(LINE)
+    log.debug('Proton Version:')
+    log.debug(CURRENT_PREFIX_VERSION)
+    log.debug(line)
 
-log.debug('Command Line:')
-log.debug(sys.argv)
-log.debug('----- end protontricks debug info -----')
+    log.debug('Proton Directory:')
+    log.debug(basedir)
+    log.debug(line)
+
+    ignorevars = [
+        'SteamUser',
+        'OLDPWD',
+        'SDL_GAMECONTROLLERCONFIG',
+        'SteamAppUser',
+        'SDL_GAMECONTROLLER_IGNORE_DEVICES',
+        'LS_COLORS',
+    ]
+
+    log.debug('Environment Variables:')
+    for key, value in os.environ.items():
+        if key not in ignorevars:
+            log.debug(key + '=' + value)
+    log.debug(line)
+
+    log.debug('Command Line:')
+    log.debug(sys.argv)
+    log.debug('----- end protontricks debug info -----')
+
+show_debug_info()

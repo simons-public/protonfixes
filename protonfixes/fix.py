@@ -48,34 +48,36 @@ def run_fix(gameid):
     """ Loads a gamefix module by it's gameid
     """
 
-    if gameid is not None:
-        game = game_name() + ' ('+ gameid + ')'
-        localpath = os.path.expanduser('~/.config/protonfixes/localfixes')
-        if os.path.isfile(os.path.join(localpath, gameid + '.py')):
-            open(os.path.join(localpath, '__init__.py'), 'a').close()
-            sys.path.append(os.path.expanduser('~/.config/protonfixes'))
-            try:
-                game_module = import_module('localfixes.' + gameid)
-                log.info('Using local protonfix for ' + game)
-                game_module.main()
-            except ImportError:
-                log.info('No local protonfix found for ' + game)
-        else:
-            try:
-                game_module = import_module('protonfixes.gamefixes.' + gameid)
-                log.info('Using protonfix for ' + game)
-                game_module.main()
-            except ImportError:
-                log.info('No protonfix found for ' + game)
+    if gameid is None:
+        return
 
-        # install corefonts
-        fontsdir = os.path.join(protonprefix(), 'drive_c/windows/Fonts')
+    game = game_name() + ' ('+ gameid + ')'
+    localpath = os.path.expanduser('~/.config/protonfixes/localfixes')
+    if os.path.isfile(os.path.join(localpath, gameid + '.py')):
+        open(os.path.join(localpath, '__init__.py'), 'a').close()
+        sys.path.append(os.path.expanduser('~/.config/protonfixes'))
         try:
-            os.makedirs(fontsdir)
-        except FileExistsError:
-            log.debug('Fonts directory exists')
-        if len(os.listdir(fontsdir)) < 30:
-            link_fonts(fontsdir)
+            game_module = import_module('localfixes.' + gameid)
+            log.info('Using local protonfix for ' + game)
+            game_module.main()
+        except ImportError:
+            log.info('No local protonfix found for ' + game)
+    else:
+        try:
+            game_module = import_module('protonfixes.gamefixes.' + gameid)
+            log.info('Using protonfix for ' + game)
+            game_module.main()
+        except ImportError:
+            log.info('No protonfix found for ' + game)
+
+    # install corefonts
+    fontsdir = os.path.join(protonprefix(), 'drive_c/windows/Fonts')
+    try:
+        os.makedirs(fontsdir)
+    except FileExistsError:
+        log.debug('Fonts directory exists')
+    if len(os.listdir(fontsdir)) < 30:
+        link_fonts(fontsdir)
 
 
 
@@ -83,16 +85,15 @@ def main():
     """ Runs the gamefix, with splash if zenity or cefpython3 is available
     """
 
-    if 'iscriptevaluator.exe' in sys.argv[2]:
-        log.debug('Not running protonfixes for iscriptevaluator.exe')
-        return
+    check_args = [
+        'iscriptevaluator.exe' in sys.argv[2],
+        'getcompatpath' in sys.argv[1],
+        'getnativepath' in sys.argv[1],
+    ]
 
-    if 'getcompatpath' in sys.argv[1]:
-        log.debug('Not running protonfixes for getcompatpath')
-        return
-
-    if 'getnativepath' in sys.argv[1]:
-        log.debug('Not running protonfixes for getnativepath')
+    if any(check_args):
+        log.debug(str(sys.argv))
+        log.debug('Not running protonfixes for setup runs')
         return
 
     with splash():
