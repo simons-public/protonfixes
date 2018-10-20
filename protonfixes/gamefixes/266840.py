@@ -4,7 +4,6 @@ Source: https://github.com/JamesHealdUK/protonfixes/blob/master/fixes/266840.sh
 #pylint: disable=C0103
 
 from protonfixes import util
-from protonfixes.logger import log
 
 def main():
     """ Changes the proton argument from the launcher to the game

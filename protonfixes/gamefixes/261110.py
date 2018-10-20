@@ -3,7 +3,6 @@
 #pylint: disable=C0103
 
 from protonfixes import util
-from protonfixes.logger import log
 
 def main():
     """ Installs dotnet45 directx9 vcruntime2010 and xact_june2018 and sets to winxp
