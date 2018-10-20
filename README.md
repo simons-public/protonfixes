@@ -7,34 +7,35 @@
 A module for applying fixes at runtime to unsupported games with Steam Proton without changing game installation files. The idea is to include seperate fixes that are only loaded when a game matching that ID is run. This should keep the individual game fixes from affecting any other games. Applying the fixes at runtime should also them to persist after game updates.
 
 Current fixes include: 
-- Final Fantasy IX ✓
-- Oddworld: Abe's Oddysee ✓
-- Oddworld: Munch's Oddysee ✓
+- Age Of Empire 3: Complete Collection
 - Age of Empires 2 HD Edition
-- You Need a Budget 4
-- Styx: Master of Shadows ✓
-- Battlefield: Bad Company 2
-- Killer is Dead at Launch
-- Tesla Effect
-- Call of Duty (2003)
 - Age of Mythology: Extended Edition
-- Grand Theft Auto V
-- Order of Battle: World War II
-- FINAL FANTASY IX
-- Doom 2016
-- Chronophantasma Extend
-- SUGURI 2
-- Forts ✓
-- STAR WARS Jedi Knight - Jedi Academy
-- STAR WARS Jedi Knight II - Jedi Outcast
-- EVE Online
-- Civilization 4 (Beyond the Sword)
+- Battlefield: Bad Company 2
 - BioShock 2 Remastered
+- Call of Duty (2003)
+- Chronophantasma Extend
+- Civilization 4 (Beyond the Sword)
+- Doom 2016
+- EVE Online
+- FINAL FANTASY IX
+- Forts
+- Game fix for Fallout 2
+- Game fix for Fallout: A Post Nuclear Role Playing Game
+- Grand Theft Auto V
+- Killer is Dead at Launch
+- Little Nightmares
+- Oddworld: Abe's Oddysee
+- Oddworld: Munch's Oddysee
+- Order of Battle: World War II
+- STAR WARS Jedi Knight II - Jedi Outcast
+- STAR WARS Jedi Knight - Jedi Academy
+- Styx: Master of Shadows
+- SUGURI 2
+- Tesla Effect
+- The Evil Within
+- Titan Quest Anniversary Edition
 - Tomb Raider I
-- Titan Quest
-- Evil Within
-
-_(Games with a ✓ have been validated)_
+- You Need a Budget 4
 
 Current utilities available:
 - `util.protontricks('verb')`
