@@ -12,8 +12,6 @@ def main():
     application. (OK)
     """
 
-    log('Applying fixes for Styx: Master of Shadows')
-
     # https://github.com/ValveSoftware/Proton/issues/810
     # https://steamcommunity.com/app/242640/discussions/0/620700960990638817/
     util.protontricks('xact')

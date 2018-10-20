@@ -10,7 +10,5 @@ def main():
     """ Changes the proton argument from the launcher to the game
     """
 
-    log('Applying fixes for Age of Empires 2 HD Edition')
-
     # Replace launcher with game exe in proton arguments
     util.replace_command('Launcher.exe', 'AoK HD.exe')

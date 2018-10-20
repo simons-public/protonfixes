@@ -9,6 +9,4 @@ def main():
     """ Set OS to Windows XP to pass the black menu screen
     """
 
-    log('Applying Titan Quest Anniversary Edition Game Fixes')
-
     util.protontricks('winxp')

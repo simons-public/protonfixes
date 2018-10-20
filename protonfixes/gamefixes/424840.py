@@ -5,12 +5,9 @@
 import sys
 from protonfixes import util
 
-
 def main():
     """ Install xact, override libraries and add launch parameter
     """
-
-    print('Applying fixes for Little Nightmares')
 
     # If not already installed, install xact
     util.protontricks('xact')

@@ -9,8 +9,6 @@ def main():
     """ Uses win32 prefix, installs quartz devenum wmp9 xact
     """
 
-    log('Applying fixes for Chronophantasma Extend')
-
     # Winetrick wmp9 requires 32bit prefix
     util.use_win32_prefix()
 

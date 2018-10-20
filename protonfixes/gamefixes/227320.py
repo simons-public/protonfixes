@@ -9,7 +9,5 @@ def main():
     """ Installs corefonts
     """
 
-    log('Applying fixes for You Need a Budget 4')
-
     # https://github.com/ValveSoftware/Proton/issues/7
     util.protontricks('corefonts')

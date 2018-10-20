@@ -9,7 +9,5 @@ def main():
     """ Install corefonts
     """
 
-    log('Applying fixes for Tesla Effect')
-
     # https://github.com/ValveSoftware/Proton/issues/1317
     util.protontricks('corefonts')

@@ -9,7 +9,5 @@ def main():
     """ Set to winxp
     """
 
-    log('Applying fixes for EVE Online')
-
     # https://github.com/ValveSoftware/Proton/issues/1223#issue-356628050
     util.protontricks('winxp')

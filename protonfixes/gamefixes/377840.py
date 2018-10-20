@@ -9,8 +9,6 @@ def main():
     """ Changes the proton argument from the launcher to the game
     """
 
-    log('Applying fixes for FINAL FANTASY IX')
-
     # Fix crackling audio
     util.set_environment('PULSE_LATENCY_MSEC', '60')
 

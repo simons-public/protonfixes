@@ -9,6 +9,4 @@ def main():
     """ Uses winetricks to install the ole32 verb
     """
 
-    log('Applying fixes for Forts')
-
     util.protontricks('ole32')

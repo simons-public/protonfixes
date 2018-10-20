@@ -10,7 +10,5 @@ def main():
     """ Adds the -interline argument to the game
     """
 
-    log('Applying fixes for Oddworld: Abe\'s Oddysee')
-
     # Adding -interline fixes slow videos but adds scanlines
     util.append_argument('-interline')

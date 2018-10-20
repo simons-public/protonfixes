@@ -9,8 +9,6 @@ def main():
     """ Changes the proton argument from the launcher to the game
     """
 
-    log('Applying The Evil Within Fixes')
-
     util.protontricks('xact')
     util.protontricks('win7')
 

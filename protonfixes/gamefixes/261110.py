@@ -9,8 +9,6 @@ def main():
     """ Installs dotnet45 directx9 vcruntime2010 and xact_june2018 and sets to winxp
     """
 
-    log('Applying fixes for Killer is Dead at Launch')
-
     # https://github.com/ValveSoftware/Proton/issues/1387#issuecomment-428059647
     util.protontricks('winxp')
     util.protontricks('dotnet45')

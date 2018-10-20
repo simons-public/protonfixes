@@ -9,8 +9,6 @@ def main():
     """ Uses win32 prefix, installs devenum, quartz, wmp9
     """
 
-    log('Applying fixes for Oddworld: Munch\'s Oddysee')
-
     # Winetrick wmp9 requires 32bit prefix
     util.use_win32_prefix()
 

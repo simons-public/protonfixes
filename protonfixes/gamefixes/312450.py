@@ -10,7 +10,5 @@ def main():
     """ Install corefonts
     """
 
-    log('Applying fixes for Order of Battle: World War II')
-
     # https://github.com/ValveSoftware/Proton/issues/639
     util.protontricks('corefonts')

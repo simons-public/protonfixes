@@ -9,7 +9,5 @@ def main():
     """ Install corefonts
     """
 
-    log('Applying fixes for Grand Theft Auto V')
-
     # https://github.com/ValveSoftware/Proton/issues/37
     util.protontricks('corefonts')

@@ -9,8 +9,6 @@ def main():
     """ Install corefonts, dx9. Set to win7 and override msdmo
     """
 
-    log('Applying fixes for Battlefield: Bad Company 2')
-
     # https://github.com/ValveSoftware/Proton/issues/200#issuecomment-415905979
     util.protontricks('win7')
     util.protontricks('corefonts')
