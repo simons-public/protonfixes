@@ -105,14 +105,15 @@ def protontricks(verb):
 
     if not checkinstalled(verb):
         log.info('Installing winetricks ' + verb)
-        env = dict(os.environ)
+        env = dict(protonmain.env)
         env['WINEPREFIX'] = protonprefix()
-        env['WINESERVER'] = os.path.join(protondir(), 'dist/bin/wineserver')
+        env['WINE'] = protonmain.wine_path
+        env['WINELOADER'] = protonmain.wine_path
+        env['WINESERVER'] = os.path.join(protonmain.bindir, 'wineserver')
         env['WINETRICKS_LATEST_VERSION_CHECK'] = 'disabled'
 
         winetricks_bin = which('winetricks')
         winetricks_cmd = [winetricks_bin, '--unattended', '--force'] + verb.split(' ')
-        wineserver_bin = env['WINESERVER']
 
         if winetricks_bin is None:
             log.warn('No winetricks was found in $PATH')
@@ -136,7 +137,6 @@ def protontricks(verb):
             process = subprocess.Popen(winetricks_cmd, env=env)
             process.wait()
             _killhanging()
-            subprocess.Popen([wineserver_bin, '-k'], env=env)
             log.info('Winetricks complete')
             return True
 
