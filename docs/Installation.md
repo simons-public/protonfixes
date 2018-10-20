@@ -41,3 +41,5 @@ In the steamapps/common/Proton* directory, add the following line to the bottom 
 import protonfixes
 ```
 If there is no `user_settings.py` file, make a copy of the `user_settings.sample.py` file included with Proton.
+
+[Example user_settings.py files](https://github.com/simons-public/protonfixes/wiki/Proton-user_settings.py-examples)
