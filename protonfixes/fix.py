@@ -9,6 +9,7 @@ from importlib import import_module
 from protonfixes.splash import splash
 from .corefonts import check_corefonts, get_corefonts, link_fonts
 from .util import protonprefix
+from .checks import run_checks
 from .logger import log
 
 def game_id():
@@ -96,6 +97,7 @@ def main():
 
     with splash():
         log.info('Running protonfixes')
+        run_checks()
         if not check_corefonts():
             log.info('Getting ms-corefonts')
             get_corefonts()
