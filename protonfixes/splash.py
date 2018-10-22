@@ -1,6 +1,7 @@
 """ Splash screen for protonfixes using cefpython
 """
 import os
+import sys
 import time
 import subprocess
 from multiprocessing import Process
@@ -29,6 +30,7 @@ def browser(cef, url):
         'disable-gpu-compositing': '',
     }
 
+    sys.excepthook = cef.ExceptHook
     cef.Initialize(settings, switches)
 
     win_info = cef.WindowInfo()

@@ -47,9 +47,7 @@ def show_debug_info():
     ignorevars = [
         'SteamUser',
         'OLDPWD',
-        'SDL_GAMECONTROLLERCONFIG',
         'SteamAppUser',
-        'SDL_GAMECONTROLLER_IGNORE_DEVICES',
         'LS_COLORS',
     ]
 
