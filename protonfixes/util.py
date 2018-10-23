@@ -4,6 +4,7 @@
 import configparser
 import os
 import sys
+import re
 import shutil
 import signal
 import subprocess
@@ -42,6 +43,17 @@ def protonprefix():
     return os.path.join(
         os.environ['STEAM_COMPAT_DATA_PATH'],
         'pfx/')
+
+
+def protonversion():
+    """ Returns the version of proton from sys.argv[0]
+    """
+
+    version = re.search('Proton ([0-9]*\\.[0-9]*)', sys.argv[0])
+    if version:
+        return version.group(1)
+    log.warn('Proton version not parsed from command line')
+    return None
 
 
 def _killhanging():
