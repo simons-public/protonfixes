@@ -14,9 +14,9 @@ def browser(cef, url):
     """
 
     # Keeps the splash from displaying on short tasks
-    log.info('Delaying splash for 2 seconds')
+    log.debug('Delaying splash for 2 seconds')
     time.sleep(2)
-    log.debug('Starting splash screen')
+    log.info('Starting splash screen for long-running task')
 
     settings = {
         'background_color': 0xff000000,
