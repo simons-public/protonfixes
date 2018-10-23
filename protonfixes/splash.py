@@ -112,7 +112,11 @@ def cef_splash(cef, page='index.html'):
     url = 'file://' + os.path.join(data_dir, page)
     cef_proc = Process(target=browser, args=(cef, url))
     cef_proc.start()
-    yield
+    try:
+        yield
+    finally:
+        cef_proc.terminate()
+        sys.excepthook = sys.__excepthook__
     log.debug('Terminating CEF splash screen')
     cef_proc.terminate()
 
