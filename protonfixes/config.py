@@ -1,7 +1,6 @@
 """ Load configuration settings for protonfixes
 """
-
-from os import path
+import os
 from configparser import ConfigParser
 from .logger import log
 
@@ -11,13 +10,16 @@ DEFAULT_CONF = '''
 enable_checks = true
 enable_splash = true
 enable_font_links = true
+
+[path]
+cache_dir = ~/.cache/protonfixes
 '''
 
 CONF = ConfigParser()
 CONF.read_string(DEFAULT_CONF)
 
 try:
-    CONF.read(path.expanduser(CONF_FILE))
+    CONF.read(os.path.expanduser(CONF_FILE))
 # pylint: disable=W0703
 except Exception:
     log.debug('Unable to read config file ' + CONF_FILE)
@@ -33,3 +35,10 @@ locals().update(
     {x:opt_bool(y) for x, y
      in CONF['main'].items()
      if 'enable' in x})
+
+locals().update({x:os.path.expanduser(y) for x, y in CONF['path'].items()})
+
+try:
+    [os.makedirs(os.path.expanduser(d)) for n, d in CONF['path'].items()]
+except OSError:
+    pass
