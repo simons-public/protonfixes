@@ -135,6 +135,6 @@ def link_fonts(directory):
     log.info('Creating MS Core font links in ' + directory)
     src = COREFONTS_DIR
     dst = directory
-    [os.link(os.path.join(d, f), os.path.join(dst, f))
+    [os.symlink(os.path.join(d, f), os.path.join(dst, f))
      for d, _, files in os.walk(src)
      for f in files]
