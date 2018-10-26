@@ -11,6 +11,7 @@ from .corefonts import check_corefonts, get_corefonts, link_fonts
 from .util import protonprefix
 from .checks import run_checks
 from .logger import log
+from . import config
 
 def game_id():
     """ Trys to return the game id from environment variables
@@ -51,6 +52,9 @@ def run_fix(gameid):
     if gameid is None:
         return
 
+    if config.enable_checks:
+        run_checks()
+
     game = game_name() + ' ('+ gameid + ')'
     localpath = os.path.expanduser('~/.config/protonfixes/localfixes')
     if os.path.isfile(os.path.join(localpath, gameid + '.py')):
@@ -70,15 +74,20 @@ def run_fix(gameid):
         except ImportError:
             log.info('No protonfix found for ' + game)
 
-    # install corefonts
-    fontsdir = os.path.join(protonprefix(), 'drive_c/windows/Fonts')
-    try:
-        os.makedirs(fontsdir)
-    except FileExistsError:
-        log.debug('Fonts directory exists')
-    if len(os.listdir(fontsdir)) < 30:
-        link_fonts(fontsdir)
+    if config.enable_font_links:
+        # get corefonts
+        if not check_corefonts():
+            log.info('Getting ms corefonts')
+            get_corefonts()
 
+        # install corefonts
+        fontsdir = os.path.join(protonprefix(), 'drive_c/windows/Fonts')
+        try:
+            os.makedirs(fontsdir)
+        except FileExistsError:
+            log.debug('Fonts directory exists')
+        if len(os.listdir(fontsdir)) < 30:
+            link_fonts(fontsdir)
 
 
 def main():
@@ -96,10 +105,10 @@ def main():
         log.debug('Not running protonfixes for setup runs')
         return
 
-    with splash():
-        log.info('Running protonfixes')
-        run_checks()
-        if not check_corefonts():
-            log.info('Getting ms-corefonts')
-            get_corefonts()
+    log.info('Running protonfixes')
+
+    if config.enable_splash:
+        with splash():
+            run_fix(game_id())
+    else:
         run_fix(game_id())
