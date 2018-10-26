@@ -1,8 +1,6 @@
 """ Game fix for Banished
 """
 # pylint: disable=C0103
-import os
-import sys
 from protonfixes import util
 
 
