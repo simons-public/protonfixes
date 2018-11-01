@@ -27,7 +27,7 @@ FONTS_LIST = [
 
 
 def check_corefonts():
-    """ Returns True if all corefonts installed, else returns False
+    """ Returns True if all corefonts are in cache, else returns False
     """
 
     if not os.path.isdir(COREFONTS_DIR):
@@ -135,6 +135,10 @@ def link_fonts(directory):
     log.info('Creating MS Core font links in ' + directory)
     src = COREFONTS_DIR
     dst = directory
-    [os.symlink(os.path.join(d, f), os.path.join(dst, f))
-     for d, _, files in os.walk(src)
-     for f in files]
+    link_list = [(os.path.join(d, f), os.path.join(dst, f))
+                 for d, _, files in os.walk(src) for f in files]
+    for source_file, dest_file in link_list:
+        try:
+            os.symlink(source_file, dest_file)
+        except FileExistsError:
+            log.debug('Not overwriting ' + dest_file)
