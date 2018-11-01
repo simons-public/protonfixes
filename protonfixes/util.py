@@ -108,7 +108,7 @@ def checkinstalled(verb):
     winetricks_log = os.path.join(protonprefix(), 'winetricks.log')
     try:
         with open(winetricks_log, 'r') as tricklog:
-            if verb in [x.strip() for x in tricklog.readlines()]:
+            if verb in reversed([x.strip() for x in tricklog.readlines()]):
                 return True
     except OSError:
         return False
