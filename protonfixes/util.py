@@ -127,6 +127,7 @@ def protontricks(verb):
         env['WINELOADER'] = protonmain.wine_path
         env['WINESERVER'] = os.path.join(protonmain.bindir, 'wineserver')
         env['WINETRICKS_LATEST_VERSION_CHECK'] = 'disabled'
+        env['LD_PRELOAD'] = ''
 
         winetricks_bin = which('winetricks')
         winetricks_cmd = [winetricks_bin, '--unattended', '--force'] + verb.split(' ')
