@@ -130,7 +130,7 @@ def protontricks(verb):
         env['LD_PRELOAD'] = ''
 
         winetricks_bin = which('winetricks')
-        winetricks_cmd = [winetricks_bin, '--unattended', '--force'] + verb.split(' ')
+        winetricks_cmd = [winetricks_bin, '--unattended'] + verb.split(' ')
 
         if winetricks_bin is None:
             log.warn('No winetricks was found in $PATH')
