@@ -5,12 +5,8 @@
 ![Screenshot](https://github.com/simons-public/protonfixes/raw/master/media/splash.png)
 
 ```diff
-- There is a regression in wine's MSI installer affecting Proton 3.16. 
-- If you are using protonfixes to play games that require dotnet tricks,
-- you can temporarily switch to Proton 3.7 to get protonfixes to install 
-- dotnet tricks for that game. Alternatively you can install a compiled
-- Proton 3.16 with a the patched version of wine available on my Proton
-- repo at https://github.com/simons-public/Proton/releases/tag/msi-fix
+- There is an issue installing MSI files in Proton 3.16-3. If you are using 
+- Proton 3.16, please upgrade to 3.16-4
 ```
 ```diff
 - On Proton 3.16 some games may treat the XBox and Steam Controller trigger 
