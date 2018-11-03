@@ -1,4 +1,3 @@
-## Current fixes include:
 - Age Of Empire 3: Complete Collection
 - Age of Empires 2 HD Edition
 - Age of Mythology: Extended Edition
