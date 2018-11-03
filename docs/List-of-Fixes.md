@@ -2,6 +2,8 @@
 - Age Of Empire 3: Complete Collection
 - Age of Empires 2 HD Edition
 - Age of Mythology: Extended Edition
+- A Hat in Time
+- Banished
 - Battlefield: Bad Company 2
 - BioShock 2 Remastered
 - Call of Duty (2003)
@@ -19,6 +21,11 @@
 - Oddworld: Abe's Oddysee
 - Oddworld: Munch's Oddysee
 - Order of Battle: World War II
+- Puyo Puyo Tetris
+- RiME
+- Rise of Nations: Extended Edition
+- Rising Storm/Red Orchestra 2 Multiplayer
+- Spacewar
 - STAR WARS Jedi Knight II - Jedi Outcast
 - STAR WARS Jedi Knight - Jedi Academy
 - Styx: Master of Shadows
