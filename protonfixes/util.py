@@ -115,6 +115,28 @@ def checkinstalled(verb):
     return False
 
 
+def is_custom_verb(verb):
+    """ Returns path to custom winetricks verb, if found
+    """
+
+    verb_name = verb + '.verb'
+    verb_dir = 'verbs'
+
+    # check local custom verbs
+    verbpath = os.path.expanduser('~/.config/protonfixes/localfixes/' + verb_dir)
+    if os.path.isfile(os.path.join(verbpath, verb_name)):
+        log.debug('Using local custom winetricks verb from: ' + verbpath)
+        return os.path.join(verbpath, verb_name)
+
+    # check custom verbs
+    verbpath = os.path.join(os.path.dirname(__file__), 'gamefixes', verb_dir)
+    if os.path.isfile(os.path.join(verbpath, verb_name)):
+        log.debug('Using custom winetricks verb from: ' + verbpath)
+        return os.path.join(verbpath, verb_name)
+
+    return False
+
+
 def protontricks(verb):
     """ Runs winetricks if available
     """
@@ -131,6 +153,11 @@ def protontricks(verb):
 
         winetricks_bin = which('winetricks')
         winetricks_cmd = [winetricks_bin, '--unattended'] + verb.split(' ')
+
+        # check is verb a custom winetricks verb
+        custom_verb = is_custom_verb(verb)
+        if custom_verb:
+            winetricks_cmd = [winetricks_bin, '--unattended', custom_verb]
 
         if winetricks_bin is None:
             log.warn('No winetricks was found in $PATH')
