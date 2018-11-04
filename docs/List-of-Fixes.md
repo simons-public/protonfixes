@@ -8,6 +8,7 @@
 - Call of Duty (2003)
 - Chronophantasma Extend
 - Civilization 4 (Beyond the Sword)
+- Crysis
 - Doom 2016
 - EVE Online
 - FINAL FANTASY IX
