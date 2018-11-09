@@ -46,10 +46,19 @@ Make sure to use the version of pip that matches the version of Python that Prot
 ```
 # sudo pip3 install protonfixes
 ```
+To install the latest version from Github:
+```
+# sudo pip3 install git+https://github.com/simons-public/protonfixes@master
+```
 
 ### Upgrade from PIP
+To upgrade to the latest version on Pypi:
 ```
 # sudo pip3 install protonfixes --upgrade
+```
+To upgrade to the latest version on Github:
+```
+# sudo pip3 install --upgrade git+https://github.com/simons-public/protonfixes@master
 ```
 
 ### Install using setuptools
