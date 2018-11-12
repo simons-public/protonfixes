@@ -9,7 +9,12 @@ from . import fix
 if 'DEBUG' in os.environ:
     from . import debug
 
-if 'STEAM_COMPAT_DATA_PATH' in os.environ:
+RUN_CONDITIONS = [
+    'STEAM_COMPAT_DATA_PATH' in os.environ,
+    'PROTONFIXES_DISABLE' not in os.environ,
+]
+
+if all(RUN_CONDITIONS):
     try:
         fix.main()
 
