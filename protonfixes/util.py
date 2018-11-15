@@ -283,6 +283,16 @@ def set_environment(envvar, value):
     os.environ[envvar] = value
     protonmain.env[envvar] = value
 
+def del_environment(envvar):
+    """ Remove an environment variable
+    """
+
+    log.info('Removing env: ' + envvar)
+    if envvar in os.environ:
+        del os.environ[envvar]
+    if envvar in protonmain.env:
+        del protonmain.env[envvar]
+
 def get_game_install_path():
     """ Game installation path
     """
