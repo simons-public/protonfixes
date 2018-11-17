@@ -178,7 +178,7 @@ def protontricks(verb):
                     log.debug(str(sys.argv))
 
             log.info('Using winetricks verb ' + verb)
-            subprocess.call(['wineserver', '-w'], env=env)
+            subprocess.call([env['WINESERVER'], '-w'], env=env)
             process = subprocess.Popen(winetricks_cmd, env=env)
             process.wait()
             _killhanging()
