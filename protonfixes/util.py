@@ -94,7 +94,7 @@ def _mk_syswow64():
     try:
         os.makedirs(os.path.join(protonprefix(), 'drive_c/windows/syswow64'))
     except FileExistsError:
-        log.warn('The syswor64 folder already exists')
+        log.warn('The syswow64 folder already exists')
 
 
 def checkinstalled(verb):
@@ -167,8 +167,8 @@ def protontricks(verb):
             log.debug('Using winetricks command: ' + str(winetricks_cmd))
             # winetricks relies entirely on the existence of syswow64 to determine
             # if the prefix is 64 bit, while proton fails to run without it
-            log.debug('Deleting syswow64')
             if 'win32' in protonprefix():
+                log.info('Deleting syswow64')
                 _del_syswow64()
 
             # make sure proton waits for winetricks to finish
@@ -185,8 +185,8 @@ def protontricks(verb):
             return True
 
             # restore syswow64 so proton doesn't crash
-            log.info('Restoring syswow64 folder')
             if 'win32' in protonprefix():
+                log.info('Restoring syswow64 folder')
                 _mk_syswow64()
     return False
 
