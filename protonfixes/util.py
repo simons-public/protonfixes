@@ -97,15 +97,22 @@ def _mk_syswow64():
         log.warn('The syswow64 folder already exists')
 
 
-def checkinstalled(verb):
+def _forceinstalled(verb):
+    """ Records verb into the winetricks.log.forced file
+    """
+    forced_log = os.path.join(protonprefix(), 'winetricks.log.forced')
+    with open(forced_log, 'a') as forcedlog:
+        forcedlog.write(verb + '\n')
+
+
+def _checkinstalled(verb, logfile='winetricks.log'):
     """ Returns True if the winetricks verb is found in the winetricks log
     """
 
     if not isinstance(verb, str):
         return False
 
-    log.info('Checking if winetricks ' + verb + ' is installed')
-    winetricks_log = os.path.join(protonprefix(), 'winetricks.log')
+    winetricks_log = os.path.join(protonprefix(), logfile)
 
     # Check for 'verb=param' verb types
     if len(verb.split('=')) > 1:
@@ -128,6 +135,17 @@ def checkinstalled(verb):
     except OSError:
         return False
     return False
+
+
+def checkinstalled(verb):
+    """ Returns True if the winetricks verb is found in the winetricks log
+        or in the 'winetricks.log.forced' file
+    """
+
+    log.info('Checking if winetricks ' + verb + ' is installed')
+    if _checkinstalled(verb, 'winetricks.log.forced'):
+        return True
+    return _checkinstalled(verb)
 
 
 def is_custom_verb(verb):
@@ -197,6 +215,12 @@ def protontricks(verb):
             process = subprocess.Popen(winetricks_cmd, env=env)
             process.wait()
             _killhanging()
+
+            # Check if verb recorded to winetricks log
+            if not checkinstalled(verb):
+                log.warn('Not recorded as installed: winetricks ' + verb + ', forcing!')
+                _forceinstalled(verb)
+
             log.info('Winetricks complete')
             return True
 
