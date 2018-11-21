@@ -116,10 +116,7 @@ def checkinstalled(verb):
             with open(winetricks_log, 'r') as tricklog:
                 for xline in tricklog.readlines():
                     if re.findall(r'^' + wt_verb, xline.strip()):
-                        if xline.strip() == wt_verb + wt_verb_param:
-                            wt_is_set = True
-                        else:
-                            wt_is_set = False
+                        wt_is_set = bool(xline.strip() == wt_verb + wt_verb_param)
             return wt_is_set
         except OSError:
             return False
