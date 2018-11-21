@@ -106,6 +106,21 @@ def checkinstalled(verb):
 
     log.info('Checking if winetricks ' + verb + ' is installed')
     winetricks_log = os.path.join(protonprefix(), 'winetricks.log')
+
+    # Check for 'verb=param' verb types
+    if len(verb.split('=')) > 1:
+        wt_verb = verb.split('=')[0] + '='
+        wt_verb_param = verb.split('=')[1]
+        wt_is_set = False
+        try:
+            with open(winetricks_log, 'r') as tricklog:
+                for xline in tricklog.readlines():
+                    if re.findall(r'^' + wt_verb, xline.strip()):
+                        wt_is_set = bool(xline.strip() == wt_verb + wt_verb_param)
+            return wt_is_set
+        except OSError:
+            return False
+    # Check for regular verbs
     try:
         with open(winetricks_log, 'r') as tricklog:
             if verb in reversed([x.strip() for x in tricklog.readlines()]):
