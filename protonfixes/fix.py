@@ -45,6 +45,8 @@ def game_name():
         return 'UNKNOWN'
     except IndexError:
         return 'UNKNOWN'
+    except UnicodeDecodeError:
+        return 'UNKNOWN'
     return 'UNKNOWN'
 
 
