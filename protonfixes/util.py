@@ -406,11 +406,11 @@ def _get_ini_full_path(cfile, base_path):
             cfg_path = os.path.join(get_game_install_path(), cfile)
         else:
             cfg_path = cfile
-        
+
     if os.path.exists(cfg_path) and os.access(cfg_path, os.F_OK):
         log.debug('Found INI file: ' + cfg_path)
         return cfg_path
-        
+
     log.warn('INI file not found: ' + cfg_path)
     return False
 
@@ -438,6 +438,7 @@ def set_ini_options(ini_opts, cfile, base_path='user'):
 
     with open(cfg_path, 'w') as configfile:
         conf.write(configfile)
+    return True
 
 
 def read_dxvk_conf(cfp):
