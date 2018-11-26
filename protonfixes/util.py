@@ -427,7 +427,7 @@ def set_ini_options(ini_opts, cfile, base_path='user'):
         log.info('Creating backup for INI file')
         shutil.copyfile(cfg_path, cfg_path + '.protonfixes.bak')
 
-    conf = configparser.ConfigParser()
+    conf = configparser.ConfigParser(empty_lines_in_values=True, allow_no_value=True, strict=False)
     conf.optionxform = str
 
     conf.read(cfg_path)
