@@ -4,6 +4,8 @@
 from protonfixes import util
 
 def main():
+    """ Disable AA and Water Reflections/Refractions
+    """
     # DX9 game
     util.disable_dxvk()
 
