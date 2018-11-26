@@ -394,6 +394,53 @@ def create_dosbox_conf(conf_file, conf_dict):
         conf.write(file)
 
 
+def _get_ini_full_path(cfile, base_path):
+    """ Find game's INI config file
+    """
+
+    # Start from 'user'/'game' directories or absolute path
+    if base_path == 'user':
+        cfg_path = os.path.join(protonprefix(), 'drive_c/users/steamuser/My Documents', cfile)
+    else:
+        if base_path == 'game':
+            cfg_path = os.path.join(get_game_install_path(), cfile)
+        else:
+            cfg_path = cfile
+
+    if os.path.exists(cfg_path) and os.access(cfg_path, os.F_OK):
+        log.debug('Found INI file: ' + cfg_path)
+        return cfg_path
+
+    log.warn('INI file not found: ' + cfg_path)
+    return False
+
+
+def set_ini_options(ini_opts, cfile, base_path='user'):
+    """ Edit game's INI config file
+    """
+    cfg_path = _get_ini_full_path(cfile, base_path)
+    if not cfg_path:
+        return False
+
+    # Backup
+    if not os.path.exists(cfg_path + '.protonfixes.bak'):
+        log.info('Creating backup for INI file')
+        shutil.copyfile(cfg_path, cfg_path + '.protonfixes.bak')
+
+    conf = configparser.ConfigParser()
+    conf.optionxform = str
+
+    conf.read(cfg_path)
+
+    # set options
+    log.info('Addinging INI options into '+cfile+':\n'+ str(ini_opts))
+    conf.read_string(ini_opts)
+
+    with open(cfg_path, 'w') as configfile:
+        conf.write(configfile)
+    return True
+
+
 def read_dxvk_conf(cfp):
     """ Add fake [DEFAULT] section to dxvk.conf
     """
