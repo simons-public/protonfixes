@@ -77,6 +77,9 @@ def protontimeversion():
 
 
 def protonversion(timestamp=False):
+    """ Returns the version of proton
+    """
+
     if timestamp:
         return protontimeversion()
     return protonnameversion()
