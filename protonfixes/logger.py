@@ -1,6 +1,7 @@
 """ Simple logging to stdout the same way Proton does
 """
 
+import io
 import os
 import sys
 
@@ -31,11 +32,12 @@ class Log():
         pfx = self.pfx + level + ': '
         color = self.colors[level]
         reset = self.colors['RESET']
+        logtext = pfx + str(msg) + os.linesep
         fulltext = color + pfx + str(msg) + reset + os.linesep
         sys.stderr.write(fulltext)
         sys.stderr.flush()
-        with open('/tmp/test', 'a', 1) as testfile:
-            testfile.write(fulltext)
+        with io.open('/tmp/test', 'a', 1, encoding='utf-8') as testfile:
+            testfile.write(logtext)
 
 
     def info(self, msg):
