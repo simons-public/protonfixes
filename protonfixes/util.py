@@ -68,7 +68,7 @@ def protontimeversion():
     try:
         with open(fullpath, 'r') as version:
             for timestamp in version.readlines():
-                return timestamp.strip()
+                return int(timestamp.strip())
     except OSError:
         log.warn('Proton version file not found in: ' + fullpath)
         return 0
