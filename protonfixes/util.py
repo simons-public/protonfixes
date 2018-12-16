@@ -49,7 +49,7 @@ def protonprefix():
         'pfx/')
 
 
-def protonversion():
+def protonnameversion():
     """ Returns the version of proton from sys.argv[0]
     """
 
@@ -58,6 +58,31 @@ def protonversion():
         return version.group(1)
     log.warn('Proton version not parsed from command line')
     return None
+
+
+def protontimeversion():
+    """ Returns the version timestamp of proton from the `version` file
+    """
+
+    fullpath = os.path.join(protondir(), 'version')
+    try:
+        with open(fullpath, 'r') as version:
+            for timestamp in version.readlines():
+                return timestamp.strip()
+    except OSError:
+        log.warn('Proton version file not found in: ' + fullpath)
+        return 0
+    log.warn('Proton version not parsed from file: ' + fullpath)
+    return 0
+
+
+def protonversion(timestamp=False):
+    """ Returns the version of proton
+    """
+
+    if timestamp:
+        return protontimeversion()
+    return protonnameversion()
 
 
 def _killhanging():
