@@ -12,17 +12,19 @@ def main():
 
     print('Applying fixes for RiME')
 
-    # If not already installed, install xact
-    if not util.checkinstalled('xact'):
+    # if Proton version older than 3.16-5
+    if util.protonversion(True) < 1544476838:
+        # If not already installed, install xact
         util.protontricks('xact')
 
-    # Gamepad doesn't work properly without dinput8 installed
-    if not util.checkinstalled('dinput8'):
-        util.protontricks('dinput8')
+        # To fix audio crackling, set xaudio2_7.dll to native
+        util.winedll_override('xaudio2_7', 'n')
 
-    # To fix audio crackling, set xaudio2_7.dll to native
+    # Gamepad doesn't work properly without dinput8 installed
+    util.protontricks('dinput8')
+
     # To fix gamepad set dinput8 to native
-    util.winedll_override('xaudio2_7,dinput8', 'n')
+    util.winedll_override('dinput8', 'n')
 
     # disable esync to prevent game crash after a few minutes
     util.disable_esync()
