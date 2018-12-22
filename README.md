@@ -6,7 +6,7 @@
 
 ```diff
 - There is an issue installing MSI files in Proton 3.16-3. If you are using 
-- Proton 3.16, please upgrade to 3.16-4
+- Proton 3.16, please upgrade to a newer version.
 ```
 ```diff
 - On Proton 3.16 some games may treat the XBox and Steam Controller trigger 
