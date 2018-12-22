@@ -6,6 +6,8 @@
 from protonfixes import util
 
 def main():
+    """ Needs windxp, dotnet35, phyzx, d3dx9 """
+
     #Probably not needed when proton will be merged with newer wine
     util.use_win32_prefix()
     util.protontricks('winxp')
@@ -15,5 +17,6 @@ def main():
     util.protontricks('mdx')
     util.protontricks('d3dx9')
     util.protontricks('d3dcompiler_43')
-    util._mk_syswow64()
-#TODO Controllers fixes 
+    util._mk_syswow64() #pylint: disable=protected-access
+
+#TODO Controllers fixes
