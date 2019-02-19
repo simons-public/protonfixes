@@ -6,3 +6,4 @@ Welcome to the protonfixes wiki!
 
 ### [Writing Game Fixes](https://github.com/simons-public/protonfixes/wiki/Writing-Gamefixes)
 
+### [Known Issues](https://github.com/simons-public/protonfixes/wiki/Known-Issues)
