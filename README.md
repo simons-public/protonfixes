@@ -4,17 +4,6 @@
 
 ![Screenshot](https://github.com/simons-public/protonfixes/raw/master/media/splash.png)
 
-```diff
-- There is an issue installing MSI files in Proton 3.16-3. If you are using 
-- Proton 3.16, please upgrade to a newer version.
-```
-```diff
-- On Proton 3.16 some games may treat the XBox and Steam Controller trigger 
-- axis as a joystick input causing controls to drift upwards and to the 
-- left (this can be observed by running '/tmp/proton_$USER/run control' and 
-- looking at the Test Joystick tab under Game Controllers.
-```
-
 A module for applying fixes at runtime to unsupported games with Steam Proton without changing game installation files. The idea is to include seperate fixes that are only loaded when a game matching that ID is run. This should keep the individual game fixes from affecting any other games. Applying the fixes at runtime should also them to persist after game updates.
 
 A [list of current fixes](https://github.com/simons-public/protonfixes/wiki/List-of-Fixes), [guide for writing game fixes](https://github.com/simons-public/protonfixes/wiki/Writing-Gamefixes), and details on [game fix utilities](https://github.com/simons-public/protonfixes/wiki/Gamefix-Utilities) can be found on the Wiki. Sources for gamefixes can be found in the [protonfixes/gamefixes](https://github.com/simons-public/protonfixes/tree/master/protonfixes/gamefixes) directory.
