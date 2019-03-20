@@ -4,7 +4,7 @@
 
 ![Screenshot](https://github.com/simons-public/protonfixes/raw/master/media/splash.png)
 
-A module for applying fixes at runtime to unsupported games with Steam Proton without changing game installation files. The idea is to include seperate fixes that are only loaded when a game matching that ID is run. This should keep the individual game fixes from affecting any other games. Applying the fixes at runtime should also them to persist after game updates.
+A module for applying fixes at runtime to unsupported games with Steam Proton without changing game installation files. The idea is to include seperate fixes that are only loaded when a game matching that ID is run. This should keep the individual game fixes from affecting any other games. Applying the fixes at runtime should also get them to persist after game updates.
 
 A [list of current fixes](https://github.com/simons-public/protonfixes/wiki/List-of-Fixes), [guide for writing game fixes](https://github.com/simons-public/protonfixes/wiki/Writing-Gamefixes), and details on [game fix utilities](https://github.com/simons-public/protonfixes/wiki/Gamefix-Utilities) can be found on the Wiki. Sources for gamefixes can be found in the [protonfixes/gamefixes](https://github.com/simons-public/protonfixes/tree/master/protonfixes/gamefixes) directory.
 
