@@ -366,6 +366,20 @@ def get_game_install_path():
     # only for `waitforexitandrun` command
     return os.environ['PWD']
 
+def get_game_exe_name():
+    """ Game executable name
+    """
+
+    # only for `waitforexitandrun` command
+    game_path = get_game_install_path()
+    game_name = 'UNKNOWN'
+    for idx, arg in enumerate(sys.argv):
+        if game_path in arg:
+            game_name = os.path.basename(arg)
+            break
+    log.debug('Detected executable: ' + game_name)
+    return game_name
+
 def winedll_override(dll, dtype):
     """ Add WINE dll override
     """
