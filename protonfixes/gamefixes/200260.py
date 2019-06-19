@@ -7,7 +7,6 @@ from protonfixes import util
 def main():
     """ Probably not needed when proton will be merged with newer wine
     """
-    util.use_win32_prefix()
     util.protontricks('dotnet20')
     util.protontricks('dotnet35')
     util.protontricks('physx')
