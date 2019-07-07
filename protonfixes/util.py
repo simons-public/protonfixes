@@ -387,6 +387,24 @@ def winedll_override(dll, dtype):
     log.info('Overriding ' + dll + '.dll = ' + dtype)
     protonmain.g_session.dlloverrides[dll] = dtype
 
+def winecfg():
+    """ Run winecfg.exe
+    """
+    game_path = os.path.join(get_game_install_path(), get_game_exe_name())
+    replace_command(game_path, 'winecfg.exe')
+
+def regedit():
+    """ Run regedit.exe
+    """
+    game_path = os.path.join(get_game_install_path(), get_game_exe_name())
+    replace_command(game_path, 'regedit.exe')
+
+def control():
+    """ Run control.exe
+    """
+    game_path = os.path.join(get_game_install_path(), get_game_exe_name())
+    replace_command(game_path, 'control.exe')
+
 def disable_nvapi():
     """ Disable WINE nv* dlls
     """
