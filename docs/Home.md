@@ -8,4 +8,4 @@ Welcome to the protonfixes wiki!
 
 ### [Known Issues](https://github.com/simons-public/protonfixes/wiki/Known-Issues)
 
-### [Blacklisting](https://github.com/simons-public/protonfixes/wiki/Blacklisting)
+### [Blacklisting](https://github.com/simons-public/protonfixes/wiki/Blacklist)
