@@ -405,7 +405,7 @@ def disable_esync():  # pylint: disable=missing-docstring
 
 def disable_fsync(): # pylint: disable=missing-docstring
     set_environment('PROTON_NO_FSYNC', '1')
-    
+
 def disable_d3d11():  # pylint: disable=missing-docstring
     set_environment('PROTON_NO_D3D11', '1')
 
