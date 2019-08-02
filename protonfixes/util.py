@@ -394,7 +394,7 @@ def disable_d3d10():
     winedll_override('d3d10_1', '')
     winedll_override('d3d10core', '')
 
-def disable_d3d9():  # pylint: disable=missing-docstring
+def disable_d9vk():  # pylint: disable=missing-docstring
     set_environment('PROTON_USE_D9VK', '1')
 
 def disable_dxvk():  # pylint: disable=missing-docstring
