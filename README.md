@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.com/simons-public/protonfixes.svg?branch=master)](https://travis-ci.com/simons-public/protonfixes)
 
-**NOTE: Newer versions of Proton since 4.11-2 have changed how things are accessed. Please use the master branch if you are using an up to date version of Proton. Porting compatibility with older versions is on the todo list.
+**NOTE: Newer versions of Proton since 4.11-2 have changed how things are accessed. Please use the master branch if you are using an up to date version of Proton. Porting compatibility with older versions is on the todo list.**
 
 ![Screenshot](https://github.com/simons-public/protonfixes/raw/master/media/splash.png)
 
