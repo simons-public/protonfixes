@@ -201,11 +201,11 @@ def protontricks(verb):
 
     if not checkinstalled(verb):
         log.info('Installing winetricks ' + verb)
-        env = dict(protonmain.env)
+        env = dict(protonmain.g_session.env)
         env['WINEPREFIX'] = protonprefix()
-        env['WINE'] = protonmain.wine_path
-        env['WINELOADER'] = protonmain.wine_path
-        env['WINESERVER'] = os.path.join(protonmain.bindir, 'wineserver')
+        env['WINE'] = protonmain.g_proton.wine_bin
+        env['WINELOADER'] = protonmain.g_proton.wine_bin
+        env['WINESERVER'] = protonmain.g_proton.wineserver_bin
         env['WINETRICKS_LATEST_VERSION_CHECK'] = 'disabled'
         env['LD_PRELOAD'] = ''
 
@@ -277,11 +277,11 @@ def use_win32_prefix():
     data_path = os.environ['STEAM_COMPAT_DATA_PATH'] + '_win32'
     prefix32 = os.environ['STEAM_COMPAT_DATA_PATH'] + '_win32/pfx/'
 
-    protonmain.env['STEAM_COMPAT_DATA_PATH'] = data_path
-    protonmain.env['WINEPREFIX'] = prefix32
-    protonmain.env['WINEDLLPATH'] = os.path.join(protondir(), 'dist/lib/wine')
-    protonmain.env['WINEARCH'] = 'win32'
-    protonmain.prefix = prefix32
+    protonmain.g_session.env['STEAM_COMPAT_DATA_PATH'] = data_path
+    protonmain.g_session.env['WINEPREFIX'] = prefix32
+    protonmain.g_session.env['WINEDLLPATH'] = os.path.join(protondir(), 'dist/lib/wine')
+    protonmain.g_session.env['WINEARCH'] = 'win32'
+    protonmain.g_compatdata.prefix_dir = prefix32
 
     os.environ['STEAM_COMPAT_DATA_PATH'] = data_path
     os.environ['WINEPREFIX'] = prefix32
@@ -346,7 +346,7 @@ def set_environment(envvar, value):
 
     log.info('Adding env: ' + envvar + '=' + value)
     os.environ[envvar] = value
-    protonmain.env[envvar] = value
+    protonmain.g_session.env[envvar] = value
 
 def del_environment(envvar):
     """ Remove an environment variable
@@ -355,8 +355,8 @@ def del_environment(envvar):
     log.info('Removing env: ' + envvar)
     if envvar in os.environ:
         del os.environ[envvar]
-    if envvar in protonmain.env:
-        del protonmain.env[envvar]
+    if envvar in protonmain.g_session.env:
+        del protonmain.g_session.env[envvar]
 
 def get_game_install_path():
     """ Game installation path
@@ -371,7 +371,7 @@ def winedll_override(dll, dtype):
     """
 
     log.info('Overriding ' + dll + '.dll = ' + dtype)
-    protonmain.dlloverrides[dll] = dtype
+    protonmain.g_session.dlloverrides[dll] = dtype
 
 def disable_nvapi():
     """ Disable WINE nv* dlls
