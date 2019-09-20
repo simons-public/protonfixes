@@ -110,8 +110,7 @@ class Engine():
 
         if self.engine_name is None:
             log.warn(ctx + ': Engine not defined')
-
-        if warn is not False:
+        elif warn is not False:
             log.warn(self.engine_name + ': ' + ctx + ': ' + msg)
         else:
             log.info(self.engine_name + ': ' + ctx + ': ' + msg)
