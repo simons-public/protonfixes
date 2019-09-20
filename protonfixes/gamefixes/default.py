@@ -23,5 +23,9 @@ def main():
             elif pf_alias.split('=')[0] == '-pf_tricks':
                 param = str(pf_alias.replace('-pf_tricks=', ''))
                 util.protontricks(param)
+            elif pf_alias.split('=')[0] == '-pf_dxvk_set':
+                param = str(pf_alias.replace('-pf_dxvk_set=', ''))
+                dxvk_opt = param.split('=')
+                util.set_dxvk_option(str(dxvk_opt[0]), str(dxvk_opt[1]))
 
     use_steam_commands()
