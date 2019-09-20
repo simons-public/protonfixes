@@ -1,5 +1,4 @@
 """ Game fix for A Hat in Time
-Source: https://github.com/ValveSoftware/Proton/issues/173
 """
 
 #pylint: disable=C0103
@@ -7,8 +6,7 @@ Source: https://github.com/ValveSoftware/Proton/issues/173
 from protonfixes import util
 
 def main():
-    """ Installs xact
+    """ Enables D9VK
     """
 
-    util.protontricks('xact')
-    util.winedll_override('xaudio2_7', 'n')
+    util.enable_d9vk()
