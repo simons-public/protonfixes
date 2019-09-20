@@ -1,7 +1,6 @@
 """ Game engine API
 """
 
-import io
 import os
 import sys
 from .logger import log
@@ -111,7 +110,6 @@ class Engine():
 
         if self.engine_name is None:
             log.warn(ctx + ': Engine not defined')
-            return False
 
         if warn is not False:
             log.warn(self.engine_name + ': ' + ctx + ': ' + msg)
@@ -125,12 +123,12 @@ class Engine():
         return self.engine_name
 
 
-    def set(self, engine=None):
+    def set(self, _engine=None):
         """ Force engine
         """
 
-        if engine in self.supported:
-            self.engine_name = engine
+        if _engine in self.supported:
+            self.engine_name = _engine
             self._log('set', 'forced')
         else:
             log.warn('Engine not supported (' + engine + ')')
@@ -142,7 +140,7 @@ class Engine():
 
         if self.engine_name is 'UE3':
             self._add_argument('-nosplash')
-            self._log('nosplash', 'splash screen disabled' + res)
+            self._log('nosplash', 'splash screen disabled', True)
         else:
             self._log('nosplash', 'not supported', True)
 
@@ -172,7 +170,7 @@ class Engine():
             self._log('nointro', 'not supported', True)
 
 
-    def launcher(self, show=True):
+    def launcher(self):
         """ Force launcher
         """
 
@@ -202,8 +200,6 @@ class Engine():
 
         if res is not None:
             res_wh = res.split('x')
-        else:
-            return False
 
         if self.engine_name is 'Unity':
             self._add_argument('-screen-width ' + res_wh[0] + ' -screen-height ' + res_wh[1])
