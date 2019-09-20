@@ -373,7 +373,7 @@ def get_game_exe_name():
     # only for `waitforexitandrun` command
     game_path = get_game_install_path()
     game_name = 'UNKNOWN'
-    for idx, arg in enumerate(sys.argv):
+    for _, arg in enumerate(sys.argv):
         if game_path in arg:
             game_name = os.path.basename(arg)
             break

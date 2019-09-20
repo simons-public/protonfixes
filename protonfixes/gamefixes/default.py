@@ -1,3 +1,6 @@
+""" Default gamefix for running from Steam launch options
+"""
+
 import sys
 from protonfixes import util
 
