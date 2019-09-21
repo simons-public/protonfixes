@@ -521,7 +521,11 @@ def set_dxvk_option(opt, val, cfile='/tmp/protonfixes_dxvk.conf'):
     section = conf.default_section
     dxvk_conf = os.path.join(get_game_install_path(), 'dxvk.conf')
 
-    conf.read(cfile)
+    # HACK: add [DEFAULT] section to the file
+    try:
+        conf.read(cfile)
+    except configparser.MissingSectionHeaderError:
+        conf.read_file(read_dxvk_conf(open(cfile)))
 
     if not conf.has_option(section, 'session') or conf.getint(section, 'session') != os.getpid():
         log.info('Creating new DXVK config')
@@ -541,6 +545,12 @@ def set_dxvk_option(opt, val, cfile='/tmp/protonfixes_dxvk.conf'):
 
     with open(cfile, 'w') as configfile:
         conf.write(configfile)
+
+    # HACK: remove [DEFAULT] section from the file
+    with open(cfile, 'r') as fini:
+        dxvkopts = fini.read().splitlines(True)
+    with open(cfile, 'w') as fdxvk:
+        fdxvk.writelines(dxvkopts[1:])
 
 def install_from_zip(url, filename, path=os.getcwd()):
     """ Install a file from a downloaded zip
