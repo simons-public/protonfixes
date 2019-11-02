@@ -441,6 +441,35 @@ def disable_fsync(): # pylint: disable=missing-docstring
 def disable_d3d11():  # pylint: disable=missing-docstring
     set_environment('PROTON_NO_D3D11', '1')
 
+def disable_uplay_overlay():
+    """Disables the UPlay in-game overlay.
+
+    Creates or overwrites the UPlay settings.yml file
+    with the correct setting to disable the overlay.
+    UPlay will overwrite settings.yml, but keep
+    this setting.
+    """
+    config_dir = os.path.join(
+        protonprefix(),
+        'drive_c/users/steamuser/Local Settings/Application Data/Ubisoft Game Launcher/'
+    )
+    config_file = os.path.join(config_dir, 'settings.yml')
+
+    if not os.path.isdir(config_dir):
+        log.warn(
+            'Could not disable UPlay overlay: "'
+            + config_dir
+            + '" does not exist or is not a directory.'
+        )
+        return
+
+    try:
+        with open(config_file, 'w') as file:
+            file.write("overlay: \n  enabled: false\n")
+        log.info('Disabled UPlay overlay')
+        return
+    except OSError as err:
+        log.warn('Could not disable UPlay overlay: ' + err.strerror)
 
 def create_dosbox_conf(conf_file, conf_dict):
     """Create DOSBox configuration file.
