@@ -120,8 +120,7 @@ def once(func=None, retry=None):
         except Exception as exc: #pylint: disable=broad-except
             if retry:
                 raise exc
-            else:
-                exception = exc
+            exception = exc
 
         open(file, 'a').close()
 
