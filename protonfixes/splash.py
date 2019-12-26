@@ -8,7 +8,12 @@ from multiprocessing import Process
 from contextlib import contextmanager
 from .logger import log
 
+try:
+    from cefpython3 import cefpython as cef
+except ImportError:
+    log.warn('Optional dependency cefpython3 not found')
 
+#pylint: disable=W0621
 def browser(cef, url):
     """ Starts a cef browser in the middle of the screen with url
     """
@@ -103,6 +108,7 @@ def zenity_splash():
 
 
 @contextmanager
+#pylint: disable=W0621
 def cef_splash(cef, page='index.html'):
     """ Runs the browser process until the context is returned
     """
@@ -130,14 +136,11 @@ def splash():
 
     if 'SteamTenfoot' in os.environ:
         log.debug('Running in Big Picture mode')
-        try:
-            from cefpython3 import cefpython as cef
+        if cef in globals():
             log.debug('Using cefpython splash screen')
             with cef_splash(cef):
                 yield
                 return
-        except ImportError:
-            log.warn('Optional dependency cefpython3 not found')
 
     if sys_zenity_path():
         log.debug('Using zenity splash screen')
