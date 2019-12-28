@@ -1,19 +1,10 @@
 """ Install the protonfixes package
 """
-import os
 import glob
 from setuptools import setup, find_packages
 
 with open('README.md', 'r') as f:
     long_description = f.read()
-
-data_files = []
-bin_dir = os.path.join(os.path.dirname(__file__), 'static')
-for root, dirs, files in os.walk(bin_dir):
-    root_files = [os.path.join(root, i) for i in files]
-    data_files.append((root, root_files))
-
-print(data_files)
 
 setup(
     name='protonfixes',
@@ -31,7 +22,7 @@ setup(
         'License :: OSI Approved :: BSD License',
         ],
     keywords='proton steam winetricks protonfixes',
-    packages=find_packages(),
+    packages=find_packages(exclude=['tests']),
     zip_safe=False,
-    data_files = data_files,
+    package_data={'protonfixes':['static/*','gamefixes/verbs/*']},
     )

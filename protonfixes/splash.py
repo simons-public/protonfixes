@@ -114,7 +114,7 @@ def cef_splash(cef, page='index.html'):
     """
 
     log.debug('Starting CEF splash screen')
-    data_dir = os.path.join(os.path.dirname(__file__), '..', 'static')
+    data_dir = os.path.join(os.path.dirname(__file__), 'static')
     url = 'file://' + os.path.join(data_dir, page)
     cef_proc = Process(target=browser, args=(cef, url))
     cef_proc.start()
