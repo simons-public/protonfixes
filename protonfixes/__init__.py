@@ -3,8 +3,6 @@
 
 import os
 import sys
-import traceback
-from . import fix
 
 if 'DEBUG' in os.environ:
     from . import debug
@@ -12,9 +10,12 @@ if 'DEBUG' in os.environ:
 RUN_CONDITIONS = [
     'STEAM_COMPAT_DATA_PATH' in os.environ,
     'PROTONFIXES_DISABLE' not in os.environ,
+    'waitforexitandrun' in sys.argv[1],
 ]
 
 if all(RUN_CONDITIONS):
+    import traceback
+    from . import fix
     try:
         fix.main()
 
