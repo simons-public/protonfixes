@@ -5,7 +5,7 @@ import os
 import sys
 import shutil
 # pylint: disable=E0611
-from __main__ import CURRENT_PREFIX_VERSION, basedir
+from __main__ import CURRENT_PREFIX_VERSION, g_proton
 from .logger import log
 
 os.environ['DEBUG'] = '1'
@@ -41,7 +41,7 @@ def show_debug_info():
     log.debug(line)
 
     log.debug('Proton Directory:')
-    log.debug(basedir)
+    log.debug(g_proton.base_dir)
     log.debug(line)
 
     ignorevars = [
