@@ -13,11 +13,7 @@ import urllib.request
 import functools
 from .logger import log
 from . import config
-
-try:
-    import __main__ as protonmain
-except ImportError:
-    log.warn('Unable to hook into Proton main script environment')
+from .protonmain_compat import protonmain
 
 # pylint: disable=unreachable
 
