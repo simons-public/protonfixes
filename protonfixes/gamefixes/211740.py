@@ -29,6 +29,6 @@ def main():
     if not (os.path.isfile(tfix_path)
             and download.sha1sum(tfix_path) == TFIX_SHA1SUM):
         download.gdrive_download(TFIX_GDRIVE_ID, game_path)
-    thief_exe = os.path.join(game_path, 'thief2.exe')
+    thief_exe = os.path.join(game_path, 'Thief2.exe')
     if download.sha1sum(thief_exe) != THIEF_EXE_TFIX_SHA1SUM:
         util.wine_run([TFIX_FILENAME, ])
