@@ -25,4 +25,5 @@ setup(
     packages=find_packages(exclude=['tests']),
     zip_safe=False,
     package_data={'protonfixes':['static/*','gamefixes/verbs/*']},
+    scripts=['scripts/install_protonfixes'],
     )
