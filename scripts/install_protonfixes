@@ -9,9 +9,16 @@ import shutil
 
 
 STEAM_DIRS = ["~/.local/share/Steam", "~/.steam/steam"]
-LIBRARY_RE = re.compile(r'"\d*"\s*"(?P<path>(\/\w*)*)"')
+CT_DIRS = ["~/.local/share/Steam/compatibilitytools.d",
+           "~/.steam/root/compatibilitytools.d",
+           "~/.steam/compatibilitytools.d"]
+SYS_CT_DIRS = ["/usr/share/steam/compatibilitytools.d",
+               "/usr/local/share/steam/compatibilitytools.d"]
 LF_PATH = 'steamapps/libraryfolders.vdf'
 PROTON_PATH = 'steamapps/common/Proton'
+
+LIBRARY_RE = re.compile(r'"\d*"\s*"(?P<path>(\/\w*)*)"')
+CTOOLS_RE = re.compile(r'"install_path"\s*"(?P<path>(\/\w*)*)"')
 
 
 def find_steam_installation():
@@ -28,13 +35,7 @@ def find_libraries(steam_dir):
     """ Finds additional library folders with the LIBRARY_RE regex
     """
     lf_path = os.path.join(steam_dir, LF_PATH)
-    library_dirs = []
-    with open(lf_path) as libraryfile:
-        for line in libraryfile:
-            res = LIBRARY_RE.search(line)
-            if res:
-                library_dirs.append(res.group('path'))
-    return library_dirs
+    return find_regex_groups(lf_path, LIBRARY_RE, 'path')
 
 
 def find_protons(library_dirs):
@@ -45,7 +46,57 @@ def find_protons(library_dirs):
         preglob_proton = os.path.join(directory, PROTON_PATH)
         for proton_dir in glob.glob(preglob_proton + '*'):
             dirs.append(proton_dir)
-    return sorted(set(dirs))
+    return dirs
+
+
+def scan_compatibilitytools(dirlist):
+    """ Scans a list of directories and finds proton instances within the
+        compatibilitytools.d standard
+    """
+    temp_dirs = []
+    dirlist_f = [x for x in dirlist
+                 if os.path.isdir(os.path.expanduser(x))]
+    for directory in dirlist_f:
+        ex_dir = os.path.expanduser(directory)
+        for entry in os.listdir(ex_dir):
+            path = os.path.join(ex_dir, entry)
+            if os.path.isdir(path):
+                temp_dirs.append(path)
+            elif os.path.isfile(path) and path.endswith('vdf'):
+                temp_dirs += find_regex_groups(path, CTOOLS_RE, 'path')
+    return [x for x in temp_dirs if check_proton(x)]
+
+
+def check_proton(path):
+    """ Checks for the presence of common proton files
+    """
+    return (os.path.isdir(path)
+            and checkfile(path, 'proton')
+            and (checkfile(path, 'user_settings.sample.py')
+                 or checkfile(path, 'user_settings.py'))
+            and checkfile(path, 'toolmanifest.vdf')
+            and not (checkfile(path, 'protonfixes')  # Weed out protons with bundled protonfixes
+                     or os.path.isdir(os.path.join(path, 'protonfixes')))
+            )
+
+
+def checkfile(path, filename):
+    """ Checks if file filename exists in path
+    """
+    return os.path.isfile(os.path.join(path, filename))
+
+
+def find_regex_groups(path, regex, groupname):
+    """ Given a file and a regex with a named group groupname, return an
+        array of all the matches
+    """
+    matches = []
+    with open(path) as re_file:
+        for line in re_file:
+            search = regex.search(line)
+            if search:
+                matches.append(search.group(groupname))
+    return matches
 
 
 def install_protonfixes(proton_dir):
@@ -72,10 +123,17 @@ def main():
     """ Main function
     """
     try:
-        steam_dir = find_steam_installation()
-        library_dirs = [steam_dir, ] + find_libraries(steam_dir)
-        proton_dirs = find_protons(library_dirs)
-        for pdir in proton_dirs:
+        proton_dirs = []
+        if os.getuid() != 0:
+            steam_dir = find_steam_installation()
+            library_dirs = [steam_dir, ] + find_libraries(steam_dir)
+            proton_dirs += find_protons(library_dirs)
+            proton_dirs += scan_compatibilitytools(CT_DIRS + SYS_CT_DIRS)
+        else:
+            print("install_protonfixes run as root, only scanning system compatibilitytools.d")
+            proton_dirs += scan_compatibilitytools(SYS_CT_DIRS)
+        proton_dirs_final = sorted({os.path.realpath(x) for x in proton_dirs})
+        for pdir in proton_dirs_final:
             try:
                 install_protonfixes(pdir)
             except IOError:
