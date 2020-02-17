@@ -1,5 +1,4 @@
-"""
-Game fix for Metal Slug 2
+""" Game fix for Metal Slug 2
 """
 # pylint: disable=C0103
 import hashlib
