@@ -309,9 +309,10 @@ def _run_cmd(command, env, cwd=None):
     chdir = cwd or get_game_install_path()
     # make sure proton waits for the command to finish
     for idx, arg in enumerate(sys.argv):
-        if 'waitforexitandrun' not in arg:
-            sys.argv[idx] = arg.replace('run', 'waitforexitandrun')
+        if arg.endswith('proton'):
+            sys.argv[idx + 1] = 'waitforexitandrun'
             log.debug(str(sys.argv))
+            break
     log.info("Running: " + ' '.join(command))
     subprocess.call([env['WINESERVER'], '-w'], env=env)
     process = subprocess.Popen(command, env=env, cwd=chdir)
