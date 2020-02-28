@@ -3,12 +3,9 @@
 #pylint: disable=R0903,R1705
 
 import os
-from .protonversion import (semver_cmp,
-                            version_dicttotuple,
-                            PROTON_VERSION)
+from .protonversion import semver_cmp, PROTON_VERSION
 
-RELEASE = version_dicttotuple(PROTON_VERSION)
-OLD_PROTON = [4, 11, 1]
+OLD_PROTON = "4.11-1"
 
 
 PROTON_MAP = {'base_dir': 'basedir',
@@ -60,7 +57,7 @@ class ProtonCompat():
         self.g_compatdata = self.g_proton
 
 
-if not semver_cmp(OLD_PROTON, RELEASE):
+if not semver_cmp(OLD_PROTON, PROTON_VERSION):
     import __main__ as protonmain #pylint: disable=W0611
 else:
     import __main__ as old_protonmain

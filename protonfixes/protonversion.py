@@ -20,6 +20,14 @@ VERSION_RE = re.compile(r'(|proton-)(?P<major>\d+)\.(?P<minor>\d+)'+
 def semver_cmp(ver_1, ver_2):
     """ Compares 2 semver tuples, return True if ver_1 > ver_2, False otherwise
     """
+    if isinstance(ver_1, str):
+        ver_1 = parse_protonversion(ver_1)
+    if isinstance(ver_1, dict):
+        ver_1 = version_dicttotuple(ver_1)
+    if isinstance(ver_2, str):
+        ver_2 = parse_protonversion(ver_2)
+    if isinstance(ver_2, dict):
+        ver_2 = version_dicttotuple(ver_2)
     for i in range(0, min(len(ver_1), len(ver_2))):
         if ver_1[i] > ver_2[i]: #pylint: disable=no-else-return
             return True
@@ -56,9 +64,7 @@ def DeprecatedSince(version): #pylint: disable=invalid-name
                 if version > PROTON_TIMESTAMP:
                     return function(*args, **kwargs)
             elif isinstance(version, str):
-                target_version_tuple = version_dicttotuple(parse_protonversion(version))
-                proton_version_tuple = version_dicttotuple(PROTON_VERSION)
-                if semver_cmp(target_version_tuple, proton_version_tuple):
+                if semver_cmp(version, PROTON_VERSION):
                     return function(*args, **kwargs)
             return None
         return wrapper
