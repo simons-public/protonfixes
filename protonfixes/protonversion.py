@@ -46,6 +46,25 @@ def version_dicttotuple(dict_version):
             dict_version['release'])
 
 
+def DeprecatedSince(version): #pylint: disable=invalid-name
+    """ Decorator to indicate that a fix should only be applied to
+        versions older than version
+    """
+    def decorator(function):
+        def wrapper(*args, **kwargs):
+            if isinstance(version, int):
+                if version > PROTON_TIMESTAMP:
+                    return function(*args, **kwargs)
+            elif isinstance(version, str):
+                target_version_tuple = version_dicttotuple(parse_protonversion(version))
+                proton_version_tuple = version_dicttotuple(PROTON_VERSION)
+                if semver_cmp(target_version_tuple, proton_version_tuple):
+                    return function(*args, **kwargs)
+            return None
+        return wrapper
+    return decorator
+
+
 def init():
     """ Initialization function that will create PROTON_VERSION and
         PROTON_TIMESTAMP from the version file
