@@ -41,9 +41,9 @@ def parse_protonversion(version_string):
 def version_dicttotuple(dict_version):
     """ Converts a version dictionary into a tuple
     """
-    return (dict_version['major'],
-            dict_version['minor'],
-            dict_version['release'])
+    return (int(dict_version['major']),
+            int(dict_version['minor']),
+            int(dict_version['release']))
 
 
 def DeprecatedSince(version): #pylint: disable=invalid-name
