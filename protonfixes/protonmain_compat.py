@@ -3,27 +3,9 @@
 #pylint: disable=R0903,R1705
 
 import os
-from .logger import log
-try:
-    from __main__ import CURRENT_PREFIX_VERSION
-except ImportError:
-    log.warn('Unable to hook into Proton main script environment')
+from .protonversion import semver_cmp, PROTON_VERSION
 
-RELEASE = [int(CURRENT_PREFIX_VERSION.split('.')[0]),
-           int(CURRENT_PREFIX_VERSION.split('.')[1].split('-')[0]),
-           int(CURRENT_PREFIX_VERSION.split('.')[1].split('-')[1])]
-OLD_PROTON = [4, 11, 1]
-
-
-def semver_cmp(ver_1, ver_2):
-    """ Compares 2 semver tuples, return True if ver_1 > ver_2, False otherwise
-    """
-    for i in range(0, 3):
-        if ver_1[i] > ver_2[i]:
-            return True
-        elif ver_1[i] < ver_2[i]:
-            return False
-    return False
+OLD_PROTON = "4.11-1"
 
 
 PROTON_MAP = {'base_dir': 'basedir',
@@ -75,7 +57,7 @@ class ProtonCompat():
         self.g_compatdata = self.g_proton
 
 
-if not semver_cmp(OLD_PROTON, RELEASE):
+if not semver_cmp(OLD_PROTON, PROTON_VERSION):
     import __main__ as protonmain #pylint: disable=W0611
 else:
     import __main__ as old_protonmain

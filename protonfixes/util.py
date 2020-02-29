@@ -14,6 +14,7 @@ import functools
 from .logger import log
 from . import config
 from .protonmain_compat import protonmain
+from .protonversion import PROTON_VERSION, PROTON_TIMESTAMP
 
 # pylint: disable=unreachable
 
@@ -47,30 +48,15 @@ def protonprefix():
 
 
 def protonnameversion():
-    """ Returns the version of proton from sys.argv[0]
+    """ Returns the version of proton
     """
-
-    version = re.search('Proton ([0-9]*\\.[0-9]*)', sys.argv[0])
-    if version:
-        return version.group(1)
-    log.warn('Proton version not parsed from command line')
-    return None
+    return '{major}.{minor}'.format(**PROTON_VERSION)
 
 
 def protontimeversion():
     """ Returns the version timestamp of proton from the `version` file
     """
-
-    fullpath = os.path.join(protondir(), 'version')
-    try:
-        with open(fullpath, 'r') as version:
-            for timestamp in version.readlines():
-                return int(timestamp.strip())
-    except OSError:
-        log.warn('Proton version file not found in: ' + fullpath)
-        return 0
-    log.warn('Proton version not parsed from file: ' + fullpath)
-    return 0
+    return PROTON_TIMESTAMP
 
 
 def protonversion(timestamp=False):
