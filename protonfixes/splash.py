@@ -7,10 +7,13 @@ import subprocess
 from multiprocessing import Process
 from contextlib import contextmanager
 from .logger import log
+from . import config
 
 try:
     from cefpython3 import cefpython as cef
+    HAS_CEF = True
 except ImportError:
+    HAS_CEF = False
     log.warn('Optional dependency cefpython3 not found')
 
 #pylint: disable=W0621
@@ -134,21 +137,21 @@ def splash():
 
     log.debug('Starting splash screen')
 
-    if 'SteamTenfoot' in os.environ:
-        log.debug('Running in Big Picture mode')
-        if cef in globals():
+    is_bigpicture = 'SteamTenfoot' in os.environ
+
+    for splash in config.splash_preference.split(','):
+        if splash.strip() == 'cef' and HAS_CEF:
             log.debug('Using cefpython splash screen')
             with cef_splash(cef):
                 yield
                 return
 
-    if sys_zenity_path():
-        log.debug('Using zenity splash screen')
-        with zenity_splash():
-            yield
-            return
-    else:
-        log.warn('Optional dependency zenity not found')
+        if (splash.strip() == 'zenity' and sys_zenity_path()
+                and (not is_bigpicture or config.zenity_bigpicture)):
+            log.debug('Using zenity splash screen')
+            with zenity_splash():
+                yield
+                return
 
     log.warn('No splash dependencies found, running without splash screen')
     yield
