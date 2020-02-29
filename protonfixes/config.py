@@ -12,6 +12,7 @@ enable_splash = true
 enable_font_links = true
 splash_preference = zenity,cef
 zenity_bigpicture = false
+enable_global_fixes = true
 
 [path]
 cache_dir = ~/.cache/protonfixes
