@@ -242,11 +242,7 @@ def protontricks(verb):
 
     if not checkinstalled(verb):
         log.info('Installing winetricks ' + verb)
-        env = dict(protonmain.g_session.env)
-        env['WINEPREFIX'] = protonprefix()
-        env['WINE'] = protonmain.g_proton.wine_bin
-        env['WINELOADER'] = protonmain.g_proton.wine_bin
-        env['WINESERVER'] = protonmain.g_proton.wineserver_bin
+        env = mk_wine_env()
         env['WINETRICKS_LATEST_VERSION_CHECK'] = 'disabled'
         env['LD_PRELOAD'] = ''
 
@@ -270,16 +266,8 @@ def protontricks(verb):
                 log.info('Deleting syswow64')
                 _del_syswow64()
 
-            # make sure proton waits for winetricks to finish
-            for idx, arg in enumerate(sys.argv):
-                if 'waitforexitandrun' not in arg:
-                    sys.argv[idx] = arg.replace('run', 'waitforexitandrun')
-                    log.debug(str(sys.argv))
-
             log.info('Using winetricks verb ' + verb)
-            subprocess.call([env['WINESERVER'], '-w'], env=env)
-            process = subprocess.Popen(winetricks_cmd, env=env)
-            process.wait()
+            _run_cmd(winetricks_cmd, env, None)
             _killhanging()
 
             # Check if verb recorded to winetricks log
@@ -295,6 +283,40 @@ def protontricks(verb):
                 log.info('Restoring syswow64 folder')
                 _mk_syswow64()
     return False
+
+
+def wine_run(command, cwd=None):
+    """ Run a wine command
+    """
+    env = mk_wine_env()
+    wine_cmd = protonmain.g_proton.wine_bin
+    final_cmd = [wine_cmd, ] + command
+    _run_cmd(final_cmd, env, cwd)
+
+
+def mk_wine_env():
+    """ Makes a sane environment dictionary to run wine-related commands
+    """
+    env = dict(protonmain.g_session.env)
+    env['WINEPREFIX'] = protonprefix()
+    env['WINE'] = protonmain.g_proton.wine_bin
+    env['WINELOADER'] = protonmain.g_proton.wine_bin
+    env['WINESERVER'] = protonmain.g_proton.wineserver_bin
+    return env
+
+
+def _run_cmd(command, env, cwd=None):
+    chdir = cwd or get_game_install_path()
+    # make sure proton waits for the command to finish
+    for idx, arg in enumerate(sys.argv):
+        if arg.endswith('proton'):
+            sys.argv[idx + 1] = 'waitforexitandrun'
+            log.debug(str(sys.argv))
+            break
+    log.info("Running: " + ' '.join(command))
+    subprocess.call([env['WINESERVER'], '-w'], env=env)
+    process = subprocess.Popen(command, env=env, cwd=chdir)
+    process.wait()
 
 
 def win32_prefix_exists():
