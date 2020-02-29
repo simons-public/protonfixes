@@ -14,6 +14,11 @@ from .checks import run_checks
 from .logger import log
 from . import config
 
+# These modules need to be imported for TrackProgress
+from . import util as _util #pylint: disable=unused-import
+from . import download as _download #pylint: disable=unused-import
+
+
 def game_id():
     """ Trys to return the game id from environment variables
     """

@@ -15,6 +15,7 @@ from .logger import log
 from . import config
 from .protonmain_compat import protonmain
 from .protonversion import PROTON_VERSION, PROTON_TIMESTAMP
+from .progress import TrackProgress
 
 # pylint: disable=unreachable
 
@@ -222,6 +223,7 @@ def is_custom_verb(verb):
     return False
 
 
+@TrackProgress("Installing winetrick: {}")
 def protontricks(verb):
     """ Runs winetricks if available
     """
@@ -631,6 +633,7 @@ def set_dxvk_option(opt, val, cfile='/tmp/protonfixes_dxvk.conf'):
     with open(cfile, 'w') as fdxvk:
         fdxvk.writelines(dxvkopts[1:])
 
+@TrackProgress("Downloading zip from: {}")
 def install_from_zip(url, filename, path=os.getcwd()):
     """ Install a file from a downloaded zip
     """

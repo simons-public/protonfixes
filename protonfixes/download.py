@@ -5,6 +5,7 @@ import os
 import hashlib
 import urllib.request
 import http.cookiejar
+from .progress import TrackProgress
 
 
 GDRIVE_URL = 'https://drive.google.com/uc?id={}&export=download'
@@ -19,6 +20,7 @@ def get_filename(headers):
     return raw_filename.replace('filename=', '').replace('"', '')
 
 
+@TrackProgress("Downloading file from gdrive")
 def gdrive_download(gdrive_id, path):
     """ Download a file from gdrive given the fileid and a path to save
     """
