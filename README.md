@@ -55,11 +55,14 @@ To upgrade to the latest version on Github:
 # sudo python3 setup.py install
 ```
 
-### Add to user_settings.py
-In the steamapps/common/Proton* directory, add the following line to the bottom of the `user_settings.py` file:
+### Enabling protonfixes in Proton
+Protonfixes includes a script `install_protonfixes` that, when run, will automatically install protonfixes in all Proton installations.  
+A manual installation is possible by browsing `<Steam installation>/steamapps/common/Proton*` and adding this line to `user_settings.py`
+
 ```
 import protonfixes
 ```
+
 If there is no `user_settings.py` file, make a copy of the `user_settings.sample.py` file included with Proton.
 
 ---
