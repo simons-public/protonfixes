@@ -57,6 +57,24 @@ def game_name():
     return 'UNKNOWN'
 
 
+def install_corefonts():
+    """ Downloads and installs corefonts in the prefix
+    """
+    # get corefonts
+    if not check_corefonts():
+        log.info('Getting ms corefonts')
+        get_corefonts()
+
+    # install corefonts
+    fontsdir = os.path.join(protonprefix(), 'drive_c/windows/Fonts')
+    try:
+        os.makedirs(fontsdir)
+    except FileExistsError:
+        log.debug('Fonts directory exists')
+    if len(os.listdir(fontsdir)) < 30:
+        link_fonts(fontsdir)
+
+
 def run_fix(gameid):
     """ Loads a gamefix module by it's gameid
     """
@@ -112,19 +130,7 @@ def run_fix(gameid):
             log.info('No protonfix found for ' + game)
 
     if config.enable_font_links:
-        # get corefonts
-        if not check_corefonts():
-            log.info('Getting ms corefonts')
-            get_corefonts()
-
-        # install corefonts
-        fontsdir = os.path.join(protonprefix(), 'drive_c/windows/Fonts')
-        try:
-            os.makedirs(fontsdir)
-        except FileExistsError:
-            log.debug('Fonts directory exists')
-        if len(os.listdir(fontsdir)) < 30:
-            link_fonts(fontsdir)
+        install_corefonts()
 
 
 def main():

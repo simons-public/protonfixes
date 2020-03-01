@@ -7,12 +7,9 @@ import sys
 import re
 import shutil
 import signal
-import zipfile
 import subprocess
-import urllib.request
 import functools
 from .logger import log
-from . import config
 from .protonmain_compat import protonmain
 from .protonversion import PROTON_VERSION, PROTON_TIMESTAMP
 from .progress import TrackProgress
@@ -632,24 +629,3 @@ def set_dxvk_option(opt, val, cfile='/tmp/protonfixes_dxvk.conf'):
         dxvkopts = fini.read().splitlines(True)
     with open(cfile, 'w') as fdxvk:
         fdxvk.writelines(dxvkopts[1:])
-
-@TrackProgress("Downloading zip from: {}")
-def install_from_zip(url, filename, path=os.getcwd()):
-    """ Install a file from a downloaded zip
-    """
-
-    if filename in os.listdir(path):
-        log.info('File ' + filename + ' found in ' + path)
-        return
-
-    cache_dir = config.cache_dir
-    zip_file_name = os.path.basename(url)
-    zip_file_path = os.path.join(cache_dir, zip_file_name)
-
-    if zip_file_name not in os.listdir(cache_dir):
-        log.info('Downloading ' + filename + ' to ' + zip_file_path)
-        urllib.request.urlretrieve(url, zip_file_path)
-
-    with zipfile.ZipFile(zip_file_path, 'r') as zip_obj:
-        log.info('Extracting ' + filename + ' to ' + path)
-        zip_obj.extract(filename, path=path)
