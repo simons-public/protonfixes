@@ -13,6 +13,7 @@ from .util import protonprefix
 from .checks import run_checks
 from .logger import log
 from . import config
+from . import progress
 
 # These modules need to be imported for TrackProgress
 from . import util as _util #pylint: disable=unused-import
@@ -88,18 +89,23 @@ def run_fix(gameid):
             log.info('No global defaults found')
 
     # execute <gameid>.py
-    if os.path.isfile(os.path.join(localpath, gameid + '.py')):
+    localfix_py = os.path.join(localpath, gameid + '.py')
+    if os.path.isfile(localfix_py):
         open(os.path.join(localpath, '__init__.py'), 'a').close()
         sys.path.append(os.path.expanduser('~/.config/protonfixes'))
         try:
             game_module = import_module('localfixes.' + gameid)
+            progress.parse_fix(localfix_py)
             log.info('Using local protonfix for ' + game)
             game_module.main()
         except ImportError:
             log.info('No local protonfix found for ' + game)
     elif config.enable_global_fixes:
+        globalfix_py = os.path.join(os.path.dirname(__file__),
+                                    'gamefixes', gameid + '.py')
         try:
             game_module = import_module('protonfixes.gamefixes.' + gameid)
+            progress.parse_fix(globalfix_py)
             log.info('Using protonfix for ' + game)
             game_module.main()
         except ImportError:
