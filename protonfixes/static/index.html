@@ -13,8 +13,7 @@
       font-family: "Arial", "Helvetica", sans-serif;
     }
 
-    h1,
-    h3 {
+    h1, h3 {
       padding: 20px;
     }
 
@@ -39,53 +38,24 @@
       background: radial-gradient(circle at top right, #153445 0%, #081322 78%);
     }
 
-    .loader,
-    .loader:before,
-    .loader:after {
-      background: #79bcec;
-      animation: load1 1s infinite ease-in-out;
-      width: 3em;
-      height: 4em;
-    }
-
-    .loader {
-      color: #79bcec;
-      text-indent: -9999em;
-      margin: 50px auto;
+    #progress {
       position: relative;
-      font-size: 12px;
-      transform: translateZ(0);
-      animation-delay: -0.16s;
+      margin: 0 auto;
+      width: 80%;
+      border: 8px solid #79bcec;
+      height: 50px;
+      border-radius: 20px;
     }
 
-    .loader:before,
-    .loader:after {
-      position: absolute;
-      top: 0;
-      content: '';
+    #progress-bar {
+      position: relative;
+      top: 8%;
+      left: 1%;
+      height: 84%;
+      background-color: #79bcec;
+      border-radius: 5px;
     }
-
-    .loader:before {
-      left: -4em;
-      animation-delay: -0.32s;
-    }
-
-    .loader:after {
-      left: 4em;
-    }
-
-    @keyframes load1 {
-      0%,
-      80%,
-      100% {
-        box-shadow: 0 0;
-        height: 4em;
-      }
-      40% {
-        box-shadow: 0 -2em;
-        height: 5em;
-      }
-    }
+    </style>
   </style>
 </script>
 </head>
@@ -95,7 +65,23 @@
     <h1>ProtonFixes</h1>
     <hr>
     <h3 id="status">ProtonFixes is running a task, please wait...</h3>
-    <div class="loader">Loading...</div>
+    <div id="progress-container">
+      <h4 id="progress-text">Loading...</h4>
+      <div id="progress"><div id="progress-bar"></div></div>
+    </div>
+    <script>
+        function setWidth(width){
+            var elem = document.getElementById("progress-bar");
+            if(width > 100) width = 100;
+            elem.style.width = width*0.98 + '%';
+        }
+
+        function setText(text){
+            var elem = document.getElementById("progress-text");
+            elem.innerHTML = text;
+        }
+        setWidth(0);
+    </script>
   </div>
 </body>
 

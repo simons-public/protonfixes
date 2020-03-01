@@ -3,6 +3,7 @@
 
 import ast
 from .logger import log
+from . import splash
 
 
 CURRENT_STEP = 0
@@ -25,8 +26,10 @@ class TrackProgressFactory: #pylint: disable=invalid-name
                                             function.__name__)
             self.registry.append(registry_entry)
             def wrapper(*args, **kwargs):
-                log.info(fmt_string.format(*args, **kwargs))
-                return function(*args, **kwargs)
+                set_progress_text(fmt_string.format(*args, **kwargs))
+                res = function(*args, **kwargs)
+                increase_progress()
+                return res
             return wrapper
         return decorator
 
@@ -90,5 +93,20 @@ def parse_fix(path):
         visitor.visit(fix_ast)
     relevant_calls = [x for x in visitor.functioncalls
                       if x in TrackProgress.registry]
-    log.info(relevant_calls)
     TOTAL_STEPS = len(relevant_calls)
+
+
+def increase_progress():
+    """ Increases CURRENT_STEP and updates the progress bar
+    """
+    global CURRENT_STEP #pylint: disable=global-statement
+    CURRENT_STEP += 1
+    splash.set_splash_progress(int(CURRENT_STEP/(TOTAL_STEPS)*100))
+    log.debug("Step {}/{}".format(CURRENT_STEP, TOTAL_STEPS))
+
+
+
+def set_progress_text(text):
+    """ Sets the progress description text
+    """
+    splash.set_splash_text(text)
