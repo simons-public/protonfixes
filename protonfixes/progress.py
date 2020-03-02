@@ -109,4 +109,7 @@ def increase_progress():
 def set_progress_text(text):
     """ Sets the progress description text
     """
+    if len(text) > 50:
+        text = text[:50]
+        text += '...'
     splash.set_splash_text(text)
