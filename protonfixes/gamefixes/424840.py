@@ -3,8 +3,6 @@
 # pylint: disable=C0103
 
 import sys
-from protonfixes import util
-
 
 def main():
     """ Add launch parameter
