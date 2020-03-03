@@ -4,17 +4,37 @@ import os
 import sys
 import time
 import subprocess
-from multiprocessing import Process
+import threading
+from multiprocessing import Process, Queue
 from contextlib import contextmanager
 from .logger import log
+from . import config
 
 try:
     from cefpython3 import cefpython as cef
+    HAS_CEF = True
 except ImportError:
+    HAS_CEF = False
     log.warn('Optional dependency cefpython3 not found')
 
+
+STATUS = {}
+STATUS['cef_queue'] = Queue()
+
+
+def control_browser(cef_handle, queue):
+    """ Loop thread to send javascript calls to cef
+    """
+    while not cef_handle.HasDocument():
+        time.sleep(2)
+    cef_handle.ExecuteFunction('window.setWidth', 0)
+    while True:
+        operation = queue.get()
+        cef_handle.ExecuteFunction(operation[0], operation[1])
+
+
 #pylint: disable=W0621
-def browser(cef, url):
+def browser(cef, url, cef_queue):
     """ Starts a cef browser in the middle of the screen with url
     """
 
@@ -40,10 +60,13 @@ def browser(cef, url):
 
     win_info = cef.WindowInfo()
     win_info.SetAsChild(0, coordinates(600, 360))
+    brow = cef.CreateBrowserSync(url=url, window_info=win_info, window_title='splash')
 
-    cef.CreateBrowser(url=url, window_info=win_info, window_title='splash')
+    control_t = threading.Thread(target=control_browser, args=(brow, cef_queue))
+    control_t.start()
     cef.MessageLoop()
     cef.Shutdown()
+
 
 def coordinates(width, height):
     """ Returns coordinates [x1, y1, x2, y2] for a centered box of width, height
@@ -86,7 +109,7 @@ def zenity_splash():
         'sleep 2;',
         zenity_bin,
         '--progress',
-        '--pulsate',
+        '--percentage=0',
         '--no-cancel',
         '--auto-close',
         '--text',
@@ -97,14 +120,17 @@ def zenity_splash():
     # but zenity forks and won't quit when the subprocess is killed,
     # hence, using shell=True and 'sleep 2;'
     zenity = subprocess.Popen(zenity_cmd,
+                              encoding='utf-8',
                               stdin=subprocess.PIPE,
-                              stdout=subprocess.PIPE,
+                              stdout=None,
+                              stderr=None,
                               shell=True,
                              )
-
+    STATUS['zenity_handle'] = zenity
     yield
     log.debug('Terminating zenity splash screen')
-    zenity.kill()
+    zenity.stdin.write('100\n')
+    zenity.stdin.flush()
 
 
 @contextmanager
@@ -116,7 +142,7 @@ def cef_splash(cef, page='index.html'):
     log.debug('Starting CEF splash screen')
     data_dir = os.path.join(os.path.dirname(__file__), 'static')
     url = 'file://' + os.path.join(data_dir, page)
-    cef_proc = Process(target=browser, args=(cef, url))
+    cef_proc = Process(target=browser, args=(cef, url, STATUS['cef_queue']))
     cef_proc.start()
     try:
         yield
@@ -134,22 +160,51 @@ def splash():
 
     log.debug('Starting splash screen')
 
-    if 'SteamTenfoot' in os.environ:
-        log.debug('Running in Big Picture mode')
-        if cef in globals():
+    is_bigpicture = 'SteamTenfoot' in os.environ
+
+    for splash in config.splash_preference.split(','):
+        if splash.strip() == 'cef' and HAS_CEF:
             log.debug('Using cefpython splash screen')
             with cef_splash(cef):
+                STATUS['handler'] = 'cef'
                 yield
                 return
 
-    if sys_zenity_path():
-        log.debug('Using zenity splash screen')
-        with zenity_splash():
-            yield
-            return
-    else:
-        log.warn('Optional dependency zenity not found')
+        if (splash.strip() == 'zenity' and sys_zenity_path()
+                and (not is_bigpicture or config.zenity_bigpicture)):
+            log.debug('Using zenity splash screen')
+            with zenity_splash():
+                STATUS['handler'] = 'zenity'
+                yield
+                return
 
     log.warn('No splash dependencies found, running without splash screen')
     yield
     return
+
+def set_splash_text(text):
+    """ Set splash screen text
+    """
+    if STATUS['handler'] == 'zenity':
+        zenity = STATUS['zenity_handle']
+        zenity.stdin.write('#' + text + '\n')
+        zenity.stdin.flush()
+    elif STATUS['handler'] == 'cef':
+        cef_q = STATUS['cef_queue']
+        cef_q.put(('setText', text))
+    else:
+        log.info(text)
+
+
+def set_splash_progress(progress):
+    """ Set splash screen progress in a 0-100 scale
+    """
+    if STATUS['handler'] == 'zenity':
+        zenity = STATUS['zenity_handle']
+        zenity.stdin.write(str(progress) + '\n')
+        zenity.stdin.flush()
+    elif STATUS['handler'] == 'cef':
+        cef_q = STATUS['cef_queue']
+        cef_q.put(('setWidth', progress))
+    else:
+        log.info("Progress {}%".format(progress))
