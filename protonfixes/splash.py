@@ -162,6 +162,10 @@ def splash():
 
     is_bigpicture = 'SteamTenfoot' in os.environ
 
+    if not config.enable_splash:
+        yield
+        return
+
     for splash in config.splash_preference.split(','):
         if splash.strip() == 'cef' and HAS_CEF:
             log.debug('Using cefpython splash screen')
