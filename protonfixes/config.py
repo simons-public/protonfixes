@@ -10,8 +10,9 @@ DEFAULT_CONF = '''
 enable_checks = true
 enable_splash = true
 enable_font_links = true
-splash_preference = zenity,cef
+splash_preference = kdialog,zenity,cef
 zenity_bigpicture = false
+kdialog_bigpicture = false
 enable_global_fixes = true
 
 [path]
