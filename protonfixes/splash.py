@@ -17,6 +17,21 @@ except ImportError:
     HAS_CEF = False
     log.warn('Optional dependency cefpython3 not found')
 
+try:
+    from kivy.app import App
+    from kivy.config import Config
+    from kivy.resources import resource_add_path
+    Config.set('kivy', 'log_level', 'error')
+    Config.set('graphics', 'borderless', 1)
+    Config.set('graphics', 'resizable', 0)
+    Config.set('graphics', 'width', 600)
+    Config.set('graphics', 'height', 360)
+    resource_add_path(os.path.join(os.path.dirname(__file__), 'static'))
+    HAS_KIVY = True
+except ImportError:
+    HAS_KIVY = False
+    log.warn('Optional dependency kivy not found')
+
 
 STATUS = {}
 STATUS['cef_queue'] = Queue()
@@ -107,6 +122,34 @@ def sys_kdialog_path():
     return False
 
 
+class SplashApp(App):
+    """ Kivy application that manages the splash screen
+    """
+    LABEL_TEXT = '[color=#79bcec][b]{}[/b][/color]'
+
+    def __init__(self):
+        super().__init__()
+        self.started = threading.Event()
+
+    def change_text(self, text=""):
+        """ Changes the splash screen text to text
+        """
+        self.started.wait()
+        self.root.ids['textlabel'].text = self.LABEL_TEXT.format(text)
+
+    def set_progress(self, progress=0):
+        """ Set the progress on progressbar, in a scale 0.0 - 1.0
+        """
+        self.started.wait()
+        pbar = self.root.ids['progressbar'].canvas.children[-1]
+        oldsize = pbar.size[:]
+        maxsize = self.root.width * .8 - self.root.bordert * 2 - 4
+        pbar.size = (maxsize * progress, oldsize[1])
+
+    def on_start(self):
+        self.started.set()
+
+
 @contextmanager
 def zenity_splash():
     """ Runs the zenity process until context is returned
@@ -193,6 +236,19 @@ def cef_splash(cef, page='index.html'):
     log.debug('Terminating CEF splash screen')
     cef_proc.terminate()
 
+@contextmanager
+def kivy_splash():
+    """ Starts the kivy splash screen
+    """
+    app = SplashApp()
+    thread = threading.Thread(target=app.run)
+    thread.start()
+    STATUS['kivy_handle'] = app
+    try:
+        yield
+    finally:
+        app.stop()
+
 
 @contextmanager
 def splash():
@@ -208,8 +264,16 @@ def splash():
         return
 
     for splash in config.splash_preference.split(','):
+        if splash.strip() == 'kivy' and HAS_KIVY:
+            log.debug('Using kivy splash screen')
+            with kivy_splash():
+                STATUS['handler'] = 'kivy'
+                yield
+                return
+
         if splash.strip() == 'cef' and HAS_CEF:
             log.debug('Using cefpython splash screen')
+            log.warn('cefpython is deprecated, consider switching to kivy')
             with cef_splash(cef):
                 STATUS['handler'] = 'cef'
                 yield
@@ -231,6 +295,7 @@ def splash():
                 yield
                 return
 
+    STATUS['handler'] = 'log'
     log.warn('No splash dependencies found, running without splash screen')
     yield
     return
@@ -249,6 +314,8 @@ def set_splash_text(text):
     elif STATUS['handler'] == 'cef':
         cef_q = STATUS['cef_queue']
         cef_q.put(('setText', text))
+    elif STATUS['handler'] == 'kivy':
+        STATUS['kivy_handle'].change_text(text)
     else:
         log.info(text)
 
@@ -266,5 +333,7 @@ def set_splash_progress(progress):
     elif STATUS['handler'] == 'cef':
         cef_q = STATUS['cef_queue']
         cef_q.put(('setWidth', progress))
+    elif STATUS['handler'] == 'kivy':
+        STATUS['kivy_handle'].set_progress(progress/100)
     else:
         log.info("Progress {}%".format(progress))
