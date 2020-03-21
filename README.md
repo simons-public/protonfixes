@@ -4,9 +4,14 @@
 
 ![Screenshot](https://github.com/simons-public/protonfixes/raw/master/media/splash.png)
 
-A module for applying fixes at runtime to unsupported games with Steam Proton without changing game installation files. The idea is to include seperate fixes that are only loaded when a game matching that ID is run. This should keep the individual game fixes from affecting any other games. Applying the fixes at runtime should also get them to persist after game updates.
+A module for applying fixes at runtime to unsupported games with Steam Proton without changing game installation files.
+The idea is to include seperate fixes that are only loaded when a game matching that ID is run.
+This should keep the individual game fixes from affecting any other games. Applying the fixes at runtime should also get them to persist after game updates.
 
-A [list of current fixes](https://github.com/simons-public/protonfixes/wiki/List-of-Fixes), [guide for writing game fixes](https://github.com/simons-public/protonfixes/wiki/Writing-Gamefixes), and details on [game fix utilities](https://github.com/simons-public/protonfixes/wiki/Gamefix-Utilities) can be found on the Wiki. Sources for gamefixes can be found in the [protonfixes/gamefixes](https://github.com/simons-public/protonfixes/tree/master/protonfixes/gamefixes) directory.
+A [list of current fixes](https://github.com/simons-public/protonfixes/wiki/List-of-Fixes),
+[guide for writing game fixes](https://github.com/simons-public/protonfixes/wiki/Writing-Gamefixes),
+and details on [game fix utilities](https://github.com/simons-public/protonfixes/wiki/Gamefix-Utilities) can be found on the Wiki.
+Sources for gamefixes can be found in the [protonfixes/gamefixes](https://github.com/simons-public/protonfixes/tree/master/protonfixes/gamefixes) directory.
 
 ---
 ## Installation
@@ -20,15 +25,21 @@ If you want to be able to use fixes with winetricks it must be installed and be 
 
 **Wine**
 
-If you want to use a win32 (32bit) prefix, you need to have wine installed and be in your $PATH. Currently creating a 32bit prefix with Proton wine doesn't work because the wineserver is already running by the time `user_settings.py` is loaded.
+If you want to use a win32 (32bit) prefix, you need to have wine installed and be in your $PATH.
+Currently creating a 32bit prefix with Proton wine doesn't work because the wineserver is already running by the time `user_settings.py` is loaded.
 
 **Progress Dialog / Splashscreen**
 
-If Steam is in big picture mode, protonfixes will try to launch a similarly themed splash dialog using `cefpython` (pictured above). Otherwise it will try to use `zenity` to display a progress bar. If Steam is not in big picture mode, it will default to `zenity`. The progress bar or splashscreen can help let you know that protonfixes is running a long task, for example installing `dotnet35`.
+If Steam is in big picture mode, protonfixes will try to launch a similarly themed splash dialog using `kivy` (pictured above).
+`zenity` or `kdialog` can also be used but need to be enabled manually via config.
+If Steam is not in big picture mode, it will try `kdialog`, then `zenity`.  
+The progress bar or splashscreen can help let you know that protonfixes is running a long task, for example installing `dotnet35`.
 
-For the progress dialog to work, you need to have `zenity` installed on your system, the steam-runtime version is broken. It can probably be installed using your distro's package manager.
+For the progress dialog to work, you need to have `zenity` or `kdialog` installed on your system, the steam-runtime version of zenity is broken.  
+It can probably be installed using your distro's package manager.
 
-For the big screen splashscreen to work, you need to have `cefpython3` installed. It can be installed with pip using `sudo pip install cefpython3`.
+For the big screen splashscreen to work, you need to have `kivy` installed.
+It can be installed via your distro's package manager (`python3-kivy` on debian-based distros and `python-kivy` on Arch-based ones)
 
 ### Install from PIP
 Make sure to use the version of pip that matches the version of Python that Proton is running. Proton should be running on [python3](https://github.com/ValveSoftware/Proton/blob/8a5b8ece45fa7baa01ce2e4555f6496ea409adcf/build_proton.sh#L682). If you are unsure, try installing with both pip3 and pip2 in the below commands.

@@ -1,0 +1,43 @@
+FloatLayout:
+    bordert: 4
+    canvas:
+        Color:
+            rgb: 0.475, 0.737, 0.925
+        Rectangle:
+            source: 'bg.png'
+            size: self.size
+        Line:
+            points: [self.width*0.05, self.height*.65, self.width*0.95,self.height*.65]
+            width: 1
+
+        Line:
+            rounded_rectangle: (self.width * .1, self.height * .15,self.width * .8, self.height/12 , self.height/72)
+            width: self.bordert
+
+    Label:
+        text: '[color=#79bcec][b]ProtonFixes[/b][/color]'
+        markup: True
+        font_size: 50
+        pos_hint: {'top': 1.3}
+
+    Label:
+        text: '[color=#79bcec][b]ProtonFixes is running a task, please wait...[/b][/color]'
+        markup: True
+        font_size: 20
+        pos_hint: {'top': 1}
+
+    Label:
+        id: textlabel
+        text: '[color=#79bcec][b]Loading...[/b][/color]'
+        markup: True
+        font_size: 15
+        pos_hint: {'top': .85}
+
+    Widget
+        id: progressbar
+        canvas:
+            Color:
+                rgb: 0.475, 0.737, 0.925
+            Rectangle:
+                size: (0, 18)
+                pos: (self.width * .1 + 6, self.height * .15 + 6)
