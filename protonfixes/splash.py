@@ -30,6 +30,7 @@ try:
     HAS_KIVY = True
 except ImportError:
     HAS_KIVY = False
+    App = object
     log.warn('Optional dependency kivy not found')
 
 
@@ -147,6 +148,9 @@ class SplashApp(App):
         pbar.size = (maxsize * progress, oldsize[1])
 
     def on_start(self):
+        """ This function is run when the splash has finished loading
+            release the started Event to allow progress manipulation
+        """
         self.started.set()
 
 
