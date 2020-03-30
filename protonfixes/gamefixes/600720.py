@@ -1,4 +1,4 @@
-""" Game fix for TrackMania² Stadium
+""" Game fix for Trackmania² Lagoon
 """
 #pylint: disable=C0103
 

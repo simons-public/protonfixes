@@ -1,4 +1,4 @@
-""" Game fix for TrackMania² Stadium
+""" Game fix for ShootMania Storm Demo
 """
 #pylint: disable=C0103
 
