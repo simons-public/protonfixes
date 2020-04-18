@@ -115,3 +115,6 @@ deploy.sh
 
 # vscode
 .vscode
+
+# PyCharm and IntelliJ
+.idea/
