@@ -11,5 +11,5 @@ def main():
 
     log('Applying fixes for Mafia II: Definitive Edition')
 
-    util.protontricks('dotnet542')
+    util.protontricks('dotnet452')
     util.replace_command('Launcher.exe', '../Mafia II Definitive Edition.exe')
