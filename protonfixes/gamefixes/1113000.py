@@ -5,9 +5,13 @@
 from protonfixes import util
 
 def main():
-    """ installs devenum, quartz, wmp9
+    """ installs devenum, quartz, wmp9 and adjust pulse latency
     """
 
+    # Fix pre-rendered cutscene playback
     util.protontricks('devenum')
     util.protontricks('quartz')
     util.protontricks('wmp9')
+
+    # Fix crackling audio
+    util.set_environment('PULSE_LATENCY_MSEC', '60')
