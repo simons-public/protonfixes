@@ -479,6 +479,7 @@ def enable_d9vk():  # pylint: disable=missing-docstring
 
 def disable_dxvk():  # pylint: disable=missing-docstring
     set_environment('PROTON_USE_WINED3D11', '1')
+    set_environment('PROTON_USE_WINED3D', '1')
 
 def disable_esync():  # pylint: disable=missing-docstring
     set_environment('PROTON_NO_ESYNC', '1')
