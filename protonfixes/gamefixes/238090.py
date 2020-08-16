@@ -1,4 +1,4 @@
-""" Game fix for Sniper Elite 3 ""
+""" Game fix for Sniper Elite 3
 """
 #pylint: disable=C0103
 
