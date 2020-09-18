@@ -10,5 +10,5 @@ def main():
     """
 
     log('Applying fixes for Sniper Elite 3')
-    
+
     util.replace_command('Launcher/Sniper3Launcher.exe', 'bin/SniperElite3.exe')

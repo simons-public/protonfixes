@@ -38,7 +38,7 @@ def main():
             continue
 
         log("Copying contents of {} to ManiaPlanet folder.".format(game_id))
-        for src_dir, dirs, files in os.walk(game_pfx):
+        for src_dir, _, files in os.walk(game_pfx):
             dst_dir = src_dir.replace(game_pfx, mania_planet_pfx, 1)
             for file_ in files:
                 src_file = os.path.join(src_dir, file_)
