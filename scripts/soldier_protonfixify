@@ -27,7 +27,7 @@ install_python_packages(){
     #   * Copy the site-packages back into the chroot
     # This is done since chrooting directly into soldier seems to bork it
     echo '[PROTONFIXIFY] Installing Python Dependencies'
-    if [ -f "${1}/.protonfixify-python" ]; then
+    if [ -f "${1}/soldier/.protonfixify-python" ]; then
         return 0
     fi
     local PYTHON_PACKAGES=("https://github.com/simons-public/protonfixes/archive/master.zip"
@@ -53,7 +53,7 @@ EOF
                                           -- /pip-install.sh > /dev/null 2>&1
     cp -r "${NEWROOT}/lib/python3.7/site-packages/"* "${1}/soldier/files/lib/python3.7"
     rm -r "${NEWROOT}"
-    touch "${1}/.protonfixify-python"
+    touch "${1}/soldier/.protonfixify-python"
 }
 
 
