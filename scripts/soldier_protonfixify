@@ -14,7 +14,7 @@ install_debian_package(){
     # $1 - Path to .deb package
     # $2 - Root path to install
     local TEMP_DEB="$(mktemp --suffix '.deb')"
-    curl -sL "${DEBIAN_REPO_BASE}${1}" -o "$TEMP_DEB"
+    curl -sL --retry 5 "${DEBIAN_REPO_BASE}${1}" -o "$TEMP_DEB"
     ar p "${TEMP_DEB}" data.tar.xz | tar xJ --strip-components=2 -C"${2}"
     rm "${TEMP_DEB}"
 }
@@ -41,7 +41,7 @@ install_python_packages(){
 ln -s /bin /usr/bin
 ln -s /lib /usr/lib
 ln -s /sbin /usr/sbin
-curl -sLk https://bootstrap.pypa.io/get-pip.py -o /tmp/get-pip.py
+curl -sLk --retry 5 https://bootstrap.pypa.io/get-pip.py -o /tmp/get-pip.py
 python3 /tmp/get-pip.py
 python3 -m pip install --prefix / ${PYTHON_PACKAGES[@]}
 EOF
@@ -67,7 +67,7 @@ install_winetricks(){
         install_debian_package "$package" "${1}"
     done
     ln -sf "${1}/lib/x86_64-linux-gnu/libmspack.so.0" "${1}/lib/libmspack.so.0"
-    curl -sL https://raw.githubusercontent.com/Winetricks/winetricks/master/src/winetricks -o "${1}/bin/winetricks"
+    curl -sL --retry 5 https://raw.githubusercontent.com/Winetricks/winetricks/master/src/winetricks -o "${1}/bin/winetricks"
     chmod +x "${1}/bin/winetricks"
 }
 
