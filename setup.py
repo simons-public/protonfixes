@@ -25,5 +25,5 @@ setup(
     packages=find_packages(exclude=['tests']),
     zip_safe=False,
     package_data={'protonfixes':['*.kv','static/*','gamefixes/verbs/*']},
-    scripts=['scripts/install_protonfixes'],
+    scripts=['scripts/install_protonfixes', 'scripts/soldier_protonfixify'],
     )

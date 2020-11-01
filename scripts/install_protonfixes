@@ -6,6 +6,7 @@ import glob
 import os
 import re
 import shutil
+import sys
 
 
 STEAM_DIRS = ["~/.local/share/Steam", "~/.steam/steam"]
@@ -67,6 +68,17 @@ def scan_compatibilitytools(dirlist):
     return [x for x in temp_dirs if check_proton(x)]
 
 
+def find_soldier(library_dirs):
+    """ Find soldier runtime installation given a list of library directiries
+    """
+    for directory in library_dirs:
+        test_path = os.path.join(directory, 'steamapps/common/SteamLinuxRuntime_soldier')
+        if os.path.isdir(test_path):
+            return test_path
+    return None
+
+
+
 def check_proton(path):
     """ Checks for the presence of common proton files
     """
@@ -119,16 +131,36 @@ def install_protonfixes(proton_dir):
             user_settings.write("\nimport protonfixes")
 
 
+def find_protonfixes():
+    """ Find the protonfixes directory from PYTHONPATH
+    """
+    for path_dir in sys.path:
+        candidate = os.path.join(path_dir, 'protonfixes')
+        if os.path.isdir(candidate):
+            return candidate
+    return None
+
+
+def patch_soldier(soldier_dir):
+    """ Given the soldier directory launch soldier_protonfixify with the
+        right arguments
+    """
+    protonfixes_dir = find_protonfixes()
+    os.system("soldier_protonfixify '{}' '{}'".format(soldier_dir, protonfixes_dir))
+
+
 def main():
     """ Main function
     """
     try:
         proton_dirs = []
+        soldier_dir = None
         if os.getuid() != 0:
             steam_dir = find_steam_installation()
             library_dirs = [steam_dir, ] + find_libraries(steam_dir)
             proton_dirs += find_protons(library_dirs)
             proton_dirs += scan_compatibilitytools(CT_DIRS + SYS_CT_DIRS)
+            soldier_dir = find_soldier(library_dirs)
         else:
             print("install_protonfixes run as root, only scanning system compatibilitytools.d")
             proton_dirs += scan_compatibilitytools(SYS_CT_DIRS)
@@ -138,6 +170,9 @@ def main():
                 install_protonfixes(pdir)
             except IOError:
                 print("Protonfixes installation failed in {}, skipping".format(pdir))
+        if soldier_dir:
+            print("Soldier runtime detected, patching it")
+            patch_soldier(soldier_dir)
     except NotADirectoryError:
         print("Could not find steam installation directory")
 

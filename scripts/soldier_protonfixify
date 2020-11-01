@@ -1,0 +1,83 @@
+#!/bin/bash
+
+DEBIAN_REPO_BASE="http://ftp.de.debian.org/debian/pool/"
+BASE_DIR="${1}"
+PROTONFIXES_DIR="${2}"
+
+
+install_debian_package(){
+    # Installs a debian package provided a path from DEBIAN_REPO_BASE
+    # $1 - Path to .deb package
+    # $2 - Root path to install
+    local TEMP_DEB="$(mktemp --suffix '.deb')"
+    curl -sL "${DEBIAN_REPO_BASE}${1}" -o "$TEMP_DEB"
+    ar p "${TEMP_DEB}" data.tar.xz | tar xJ --strip-components=2 -C"${2}"
+    rm "${TEMP_DEB}"
+}
+
+
+install_python_packages(){
+    # This script:
+    #   * Copies the chroot from the base dir $1
+    #   * Enter the chroot and run pip install with PYTHON_PACKAGES
+    #   * Copy the site-packages back into the chroot
+    # This is done since chrooting directly into soldier seems to bork it
+    echo '[PROTONFIXIFY] Installing Python Dependencies'
+    if [ -f "${1}/.protonfixify-python" ]; then
+        return 0
+    fi
+    local PYTHON_PACKAGES=("https://github.com/simons-public/protonfixes/archive/master.zip"
+                           "Kivy")
+    local DISTUITLS_PACKAGE="main/p/python3-stdlib-extensions/python3-distutils_3.7.3-1_all.deb"
+
+    local NEWROOT="$(mktemp -d)"
+    cp -rT "${1}/soldier/files" "${NEWROOT}"
+    install_debian_package "${DISTUITLS_PACKAGE}" "${NEWROOT}"
+    cat <<EOF > "${NEWROOT}/pip-install.sh"
+ln -s /bin /usr/bin
+ln -s /lib /usr/lib
+ln -s /sbin /usr/sbin
+curl -sLk https://bootstrap.pypa.io/get-pip.py -o /tmp/get-pip.py
+python3 /tmp/get-pip.py
+python3 -m pip install --prefix / ${PYTHON_PACKAGES[@]}
+EOF
+    chmod +x "${NEWROOT}/pip-install.sh"
+    ${1}/pressure-vessel/bin/bwrap --bind "$NEWROOT" / \
+                                          --tmpfs /usr --tmpfs /tmp \
+                                          --setenv PATH '/bin:/sbin' \
+                                          --proc /proc --dev /dev \
+                                          -- /pip-install.sh > /dev/null 2>&1
+    cp -r "${NEWROOT}/lib/python3.7/site-packages/"* "${1}/soldier/files/lib/python3.7"
+    rm -r "${NEWROOT}"
+    touch "${1}/.protonfixify-python"
+}
+
+
+install_winetricks(){
+    # Install winetricks and needed packages in $1
+    echo '[PROTONFIXIFY] Installing Winetricks'
+    local WINETRICKS_PACKAGES=("main/u/unzip/unzip_6.0-23+deb10u1_amd64.deb"
+                               "main/c/cabextract/cabextract_1.9-1_amd64.deb"
+                               "main/libm/libmspack/libmspack0_0.10.1-1_amd64.deb")
+    for package in "${WINETRICKS_PACKAGES[@]}"; do
+        install_debian_package "$package" "${1}"
+    done
+    ln -sf "${1}/lib/x86_64-linux-gnu/libmspack.so.0" "${1}/lib/libmspack.so.0"
+    curl -sL https://raw.githubusercontent.com/Winetricks/winetricks/master/src/winetricks -o "${1}/bin/winetricks"
+    chmod +x "${1}/bin/winetricks"
+}
+
+install_zenity(){
+    # Install zenity and the webkit2gtk shim to root $1
+    echo '[PROTONFIXIFY] Installing Zenity'
+    install_debian_package "main/z/zenity/zenity_3.30.0-2_amd64.deb" "${1}"
+    install_debian_package "main/z/zenity/zenity-common_3.30.0-2_all.deb" "${1}"
+    cp "${PROTONFIXES_DIR}/static/libwebkit2gtk-4.0.so.37" "${1}/lib"
+}
+
+
+# We use run-in-soldier to make sure that the chroot is extracted
+"${BASE_DIR}/run-in-soldier" -- /bin/true > /dev/null 2>&1
+install_python_packages "${BASE_DIR}"
+install_winetricks "${BASE_DIR}/soldier/files"
+install_zenity "${BASE_DIR}/soldier/files"
