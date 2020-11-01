@@ -1,4 +1,8 @@
 #!/bin/bash
+# Script to add all the needed dependencies into a soldier runtime installation
+# $1 - the soldier runtime directory, usually steamapps/common/SteamLinuxRuntime_soldier
+# $2 - the protonfixes install directory, needed for now to get the
+#      libwebkit2gtk shim library
 
 DEBIAN_REPO_BASE="http://ftp.de.debian.org/debian/pool/"
 BASE_DIR="${1}"
