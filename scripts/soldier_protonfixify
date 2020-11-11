@@ -37,6 +37,7 @@ install_python_packages(){
     local NEWROOT="$(mktemp -d)"
     cp -rT "${1}/soldier/files" "${NEWROOT}"
     install_debian_package "${DISTUITLS_PACKAGE}" "${NEWROOT}"
+    cp /etc/resolv.conf "${NEWROOT}/etc/resolv.conf"
     cat <<EOF > "${NEWROOT}/pip-install.sh"
 ln -s /bin /usr/bin
 ln -s /lib /usr/lib
@@ -63,6 +64,7 @@ install_winetricks(){
     local WINETRICKS_PACKAGES=("main/u/unzip/unzip_6.0-23+deb10u1_amd64.deb"
                                "main/c/cabextract/cabextract_1.9-1_amd64.deb"
                                "main/libm/libmspack/libmspack0_0.10.1-1_amd64.deb")
+
     for package in "${WINETRICKS_PACKAGES[@]}"; do
         install_debian_package "$package" "${1}"
     done
@@ -74,8 +76,12 @@ install_winetricks(){
 install_zenity(){
     # Install zenity and the webkit2gtk shim to root $1
     echo '[PROTONFIXIFY] Installing Zenity'
-    install_debian_package "main/z/zenity/zenity_3.30.0-2_amd64.deb" "${1}"
-    install_debian_package "main/z/zenity/zenity-common_3.30.0-2_all.deb" "${1}"
+    local ZENITY_PACKAGES=("main/z/zenity/zenity_3.30.0-2_amd64.deb"
+                           "main/z/zenity/zenity-common_3.30.0-2_all.deb")
+
+    for package in "${ZENITY_PACKAGES[@]}"; do
+    install_debian_package "$package" "${1}"
+    done
     cp "${PROTONFIXES_DIR}/static/libwebkit2gtk-4.0.so.37" "${1}/lib"
 }
 
