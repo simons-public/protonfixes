@@ -4,7 +4,7 @@
 # $2 - the protonfixes install directory, needed for now to get the
 #      libwebkit2gtk shim library
 
-DEBIAN_REPO_BASE="http://ftp.de.debian.org/debian/pool/"
+DEBIAN_REPO_BASE="https://deb.debian.org/debian/pool/"
 BASE_DIR="${1}"
 PROTONFIXES_DIR="${2}"
 
