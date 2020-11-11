@@ -79,7 +79,6 @@ def find_soldier(library_dirs):
     return None
 
 
-
 def check_proton(path):
     """ Checks for the presence of common proton files
     """
@@ -137,7 +136,8 @@ def find_protonfixes():
     """
     for path_dir in sys.path:
         candidate = os.path.join(path_dir, 'protonfixes')
-        if os.path.isdir(candidate):
+        if (os.path.isdir(candidate)
+            and os.path.isfile(os.path.join(candidate, '__init__.py'))):
             return candidate
     return None
 

@@ -27,11 +27,7 @@ install_python_packages(){
     #   * Copy the site-packages back into the chroot
     # This is done since chrooting directly into soldier seems to bork it
     echo '[PROTONFIXIFY] Installing Python Dependencies'
-    if [ -f "${1}/soldier/.protonfixify-python" ]; then
-        return 0
-    fi
-    local PYTHON_PACKAGES=("https://github.com/simons-public/protonfixes/archive/master.zip"
-                           "Kivy")
+    local PYTHON_PACKAGES=("Kivy")
     local DISTUITLS_PACKAGE="main/p/python3-stdlib-extensions/python3-distutils_3.7.3-1_all.deb"
 
     local NEWROOT="$(mktemp -d)"
@@ -44,7 +40,7 @@ ln -s /lib /usr/lib
 ln -s /sbin /usr/sbin
 curl -sLk --retry 5 https://bootstrap.pypa.io/get-pip.py -o /tmp/get-pip.py
 python3 /tmp/get-pip.py
-python3 -m pip install --prefix / ${PYTHON_PACKAGES[@]}
+python3 -m pip install --ignore-installed --prefix / ${PYTHON_PACKAGES[@]}
 EOF
     chmod +x "${NEWROOT}/pip-install.sh"
     ${1}/pressure-vessel/bin/bwrap --bind "$NEWROOT" / \
@@ -53,8 +49,8 @@ EOF
                                           --proc /proc --dev /dev \
                                           -- /pip-install.sh > /dev/null 2>&1
     cp -r "${NEWROOT}/lib/python3.7/site-packages/"* "${1}/soldier/files/lib/python3.7"
+    cp -r "${PROTONFIXES_DIR}" "${1}/soldier/files/lib/python3.7"
     rm -r "${NEWROOT}"
-    touch "${1}/soldier/.protonfixify-python"
 }
 
 
