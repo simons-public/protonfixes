@@ -6,6 +6,7 @@ import glob
 import os
 import re
 import shutil
+import subprocess
 import sys
 
 
@@ -146,7 +147,7 @@ def patch_soldier(soldier_dir):
         right arguments
     """
     protonfixes_dir = find_protonfixes()
-    os.system("soldier_protonfixify '{}' '{}'".format(soldier_dir, protonfixes_dir))
+    subprocess.run(("soldier_protonfixify", soldier_dir, protonfixes_dir), check=False)
 
 
 def main():
