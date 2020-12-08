@@ -43,6 +43,9 @@ It can be installed via your distro's package manager (`python3-kivy` on debian-
 
 ### Install from PIP
 Make sure to use the version of pip that matches the version of Python that Proton is running. Proton should be running on [python3](https://github.com/ValveSoftware/Proton/blob/8a5b8ece45fa7baa01ce2e4555f6496ea409adcf/build_proton.sh#L682). If you are unsure, try installing with both pip3 and pip2 in the below commands.
+
+If `pip3` is not installed, it can be installed with your distribution's package manager: the package is `python3-pip` on Ubuntu/Debian-based distributions, `python-pip` in many others.
+
 ```
 # sudo pip3 install protonfixes
 ```
