@@ -45,7 +45,7 @@ def download_file(url, files):
     """
 
     log.debug('Downloading ' + url)
-    with urllib.request.urlopen(url, files) as font:
+    with urllib.request.urlopen(url) as font:
         with Temp(delete=False, prefix='font' + str(os.getpid())) as temp:
             shutil.copyfileobj(font, temp)
             files.append(temp)
