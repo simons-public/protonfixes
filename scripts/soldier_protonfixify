@@ -58,7 +58,7 @@ EOF
 install_winetricks(){
     # Install winetricks and needed packages in $1
     echo '[PROTONFIXIFY] Installing Winetricks'
-    local WINETRICKS_PACKAGES=("main/u/unzip/unzip_6.0-23+deb10u1_amd64.deb"
+    local WINETRICKS_PACKAGES=("main/u/unzip/unzip_6.0-23+deb10u2_amd64.deb"
                                "main/c/cabextract/cabextract_1.9-1_amd64.deb"
                                "main/libm/libmspack/libmspack0_0.10.1-1_amd64.deb")
 
@@ -77,7 +77,7 @@ install_zenity(){
                            "main/z/zenity/zenity-common_3.30.0-2_all.deb")
 
     for package in "${ZENITY_PACKAGES[@]}"; do
-    install_debian_package "$package" "${1}"
+        install_debian_package "$package" "${1}"
     done
     cp "${PROTONFIXES_DIR}/static/libwebkit2gtk-4.0.so.37" "${1}/lib"
 }
