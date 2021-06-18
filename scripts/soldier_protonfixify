@@ -3,10 +3,13 @@
 # $1 - the soldier runtime directory, usually steamapps/common/SteamLinuxRuntime_soldier
 # $2 - the protonfixes install directory, needed for now to get the
 #      libwebkit2gtk shim library
+set -euo pipefail
 
 DEBIAN_REPO_BASE="https://deb.debian.org/debian/pool/"
 BASE_DIR="${1}"
 PROTONFIXES_DIR="${2}"
+BUILD_ID="$(cat ${1}/com.valvesoftware.SteamRuntime.Platform-amd64,i386-soldier-buildid.txt)"
+LOGFILE="/tmp/protonfixify.log"
 
 
 install_debian_package(){
@@ -31,7 +34,7 @@ install_python_packages(){
     local DISTUITLS_PACKAGE="main/p/python3-stdlib-extensions/python3-distutils_3.7.3-1_all.deb"
 
     local NEWROOT="$(mktemp -d)"
-    cp -rT "${1}/soldier/files" "${NEWROOT}"
+    cp -rT "${2}" "${NEWROOT}"
     install_debian_package "${DISTUITLS_PACKAGE}" "${NEWROOT}"
     cp /etc/resolv.conf "${NEWROOT}/etc/resolv.conf"
     cat <<EOF > "${NEWROOT}/pip-install.sh"
@@ -47,9 +50,9 @@ EOF
                                           --tmpfs /usr --tmpfs /tmp \
                                           --setenv PATH '/bin:/sbin' \
                                           --proc /proc --dev /dev \
-                                          -- /pip-install.sh > /dev/null 2>&1
-    cp -r "${NEWROOT}/lib/python3.7/site-packages/"* "${1}/soldier/files/lib/python3.7"
-    cp -r "${PROTONFIXES_DIR}" "${1}/soldier/files/lib/python3.7"
+                                          -- /pip-install.sh >> ${LOGFILE}
+    cp -r "${NEWROOT}/lib/python3.7/site-packages/"* "${2}/lib/python3.7"
+    cp -r "${PROTONFIXES_DIR}" "${2}/lib/python3.7"
     rm -r "${NEWROOT}"
 }
 
@@ -57,7 +60,7 @@ EOF
 install_winetricks(){
     # Install winetricks and needed packages in $1
     echo '[PROTONFIXIFY] Installing Winetricks'
-    local WINETRICKS_PACKAGES=("main/u/unzip/unzip_6.0-23+deb10u1_amd64.deb"
+    local WINETRICKS_PACKAGES=("main/u/unzip/unzip_6.0-23+deb10u2_amd64.deb"
                                "main/c/cabextract/cabextract_1.9-1_amd64.deb"
                                "main/libm/libmspack/libmspack0_0.10.1-1_amd64.deb")
 
@@ -76,14 +79,25 @@ install_zenity(){
                            "main/z/zenity/zenity-common_3.30.0-2_all.deb")
 
     for package in "${ZENITY_PACKAGES[@]}"; do
-    install_debian_package "$package" "${1}"
+        install_debian_package "$package" "${1}"
     done
     cp "${PROTONFIXES_DIR}/static/libwebkit2gtk-4.0.so.37" "${1}/lib"
 }
 
 
+# Truncate log file (for debugging purposes), send stderr to log
+echo -n '' > ${LOGFILE}
+exec 2>>${LOGFILE}
 # We use run-in-soldier to make sure that the chroot is extracted
-"${BASE_DIR}/run-in-soldier" -- /bin/true > /dev/null 2>&1
-install_python_packages "${BASE_DIR}"
-install_winetricks "${BASE_DIR}/soldier/files"
-install_zenity "${BASE_DIR}/soldier/files"
+"${BASE_DIR}/run-in-soldier" -- /bin/true >> ${LOGFILE}
+# Check for legacy root location in soldier/files
+# Should now be var/deploy-${build_id}/files
+if [ -z "$(ls -A ${BASE_DIR}/soldier)" ]; then
+    ROOT_DIR="${1}/var/deploy-${BUILD_ID}/files"
+else
+    ROOT_DIR="${1}/soldier/files"
+fi
+
+install_python_packages "${BASE_DIR}" "${ROOT_DIR}"
+install_winetricks "${ROOT_DIR}"
+install_zenity "${ROOT_DIR}"
