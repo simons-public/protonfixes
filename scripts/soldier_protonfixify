@@ -7,6 +7,7 @@
 DEBIAN_REPO_BASE="https://deb.debian.org/debian/pool/"
 BASE_DIR="${1}"
 PROTONFIXES_DIR="${2}"
+LOGFILE="/tmp/protonfixify.log"
 
 
 install_debian_package(){
@@ -47,7 +48,7 @@ EOF
                                           --tmpfs /usr --tmpfs /tmp \
                                           --setenv PATH '/bin:/sbin' \
                                           --proc /proc --dev /dev \
-                                          -- /pip-install.sh > /dev/null 2>&1
+                                          -- /pip-install.sh >> ${LOGFILE}
     cp -r "${NEWROOT}/lib/python3.7/site-packages/"* "${1}/soldier/files/lib/python3.7"
     cp -r "${PROTONFIXES_DIR}" "${1}/soldier/files/lib/python3.7"
     rm -r "${NEWROOT}"
@@ -82,6 +83,9 @@ install_zenity(){
 }
 
 
+# Truncate log file (for debugging purposes), send stderr to log
+echo -n '' > ${LOGFILE}
+exec 2>>${LOGFILE}
 # We use run-in-soldier to make sure that the chroot is extracted
 "${BASE_DIR}/run-in-soldier" -- /bin/true > /dev/null 2>&1
 install_python_packages "${BASE_DIR}"
