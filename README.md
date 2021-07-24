@@ -41,32 +41,25 @@ It can probably be installed using your distro's package manager.
 For the big screen splashscreen to work, you need to have `kivy` installed.
 It can be installed via your distro's package manager (`python3-kivy` on debian-based distros and `python-kivy` on Arch-based ones)
 
-### Install from PIP
-Make sure to use the version of pip that matches the version of Python that Proton is running. Proton should be running on [python3](https://github.com/ValveSoftware/Proton/blob/8a5b8ece45fa7baa01ce2e4555f6496ea409adcf/build_proton.sh#L682).
+### Install With PIP
+Make sure to use the version of pip that matches the version of Python that Proton is running. Proton should be running on [python3](https://github.com/ValveSoftware/Proton/blob/8a5b8ece45fa7baa01ce2e4555f6496ea409adcf/build_proton.sh#L682). Use `pip` to install from the GitHub repository, the PyPI package is not being maintained at the moment.
 
 If `pip3` is not installed, it can be installed with your distribution's package manager: the package is `python3-pip` on Ubuntu/Debian-based distributions, `python-pip` in many others.
 
-```
-# sudo pip3 install protonfixes
-```
 To install the latest version from Github:
 ```
-# sudo pip3 install git+https://github.com/simons-public/protonfixes@master
+#  pip3 install git+https://github.com/simons-public/protonfixes
 ```
 
 ### Upgrade from PIP
-To upgrade to the latest version on Pypi:
-```
-# sudo pip3 install protonfixes --upgrade
-```
 To upgrade to the latest version on Github:
 ```
-# sudo pip3 install --upgrade git+https://github.com/simons-public/protonfixes@master
+# pip3 install --upgrade git+https://github.com/simons-public/protonfixes
 ```
 
 ### Install using setuptools
 ```
-# sudo python3 setup.py install
+# python3 setup.py install
 ```
 
 ### Enabling protonfixes in Proton
