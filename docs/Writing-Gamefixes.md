@@ -5,6 +5,7 @@ Game fixes are written in python and are named by the Steam game ID with the ext
 - Use docstrings and comment thoroughly. There will likely be people without python experience making game fixes and good commented examples will help
 - Do not use any hard-coded paths, Steam may not always be installed in the same location.
 - Check your gamefix with pylint. You can safely disable warning C0103, modules named by Steam ID will never conform to snake_case naming style.
+- Check over at https://github.com/GloriousEggroll/protonfixes. Although the gamefixes there may rely on features in proton-ge, some may work with little or no modification.
 
 ### Testing
 When testing, local fixes can be added to `~/.config/protonfixes/localfixes/`. They should be imported the same way as an included fix would be. For example, `~/.config/protonfixes/localfixes/377840.py` would be loaded for FFIX. Please feel free to submit working gamefixes to improve the project. 
