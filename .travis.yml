@@ -2,5 +2,10 @@ language: python
 python:
   - "3.6" # Ubuntu 18.04, Fedora 28
 install:
-  - pip install pylint
-script: pylint protonfixes/*
+  - pip install pylint pylint-exit
+script: |
+        pylint protonfixes/* || pylint-exit $?
+        if [ $? -ne 0 ]; then
+          echo "An error occurred while running pylint." >&2
+          exit 1
+        fi
