@@ -1,0 +1,25 @@
+- `util.protontricks('verb')`
+	-  installs a winetricks verb
+- `util.use_win32_prefix()`
+	- creates and uses a win32 (32bit) wineprefix
+- `util.replace_command('original', 'replacement')`
+	- replaces text in the game's launch command
+- `util.append_argument('argument')`
+	- adds an argument to the game's launch command
+- `util.protonprefix()`
+	- returns the path of the current wineprefix used by Proton
+- `util.set_environment('VARIABLE', 'value')`
+	- sets an environment variable
+- `util.winedll_override('dllname', 'x')`
+	- override dllname where x is n for native, b for builtin, or '' for disable
+- winedll_override shortcuts:
+	- `util.disable_dxvk()`
+	- `util.disable_esync()`
+	- `util.disable_d3d10()`
+	- `util.disable_d3d11()`
+	- `util.disable_nvapi()`
+- `util.get_game_install_path()`
+	- returns the path to the current game
+- `util.create_dosbox_conf('filename', conf_dict)`
+	- creates a config file filename with the dict conf_dict
+	  _(needs to have '-conf' and 'filename' added with util.append_argument for dosbox use config)_

@@ -1,0 +1,64 @@
+-  A Hat in Time
+-  Age Of Empire 3: Complete Collection
+-  Age of Mythology: Extended Edition
+-  BIT.TRIP RUNNER
+-  Banished
+-  Batman Arkham Asylum
+-  Batman Arkham City
+-  Battlefield: Bad Company 2
+-  BioShock 2 Remastered
+-  Borderlands 2
+-  Call of Duty (2003)
+-  Chantelise - A Tale of Two Sisters
+-  Chronophantasma Extend
+-  Civilization 4 (Beyond the Sword)
+-  Crashday Redline Edition
+-  Crysis
+-  Cuphead
+-  DMC Devil May Cry
+-  Dark Sould Prepare To Die Edition
+-  Dark Souls Remastered
+-  Default gamefix for running from Steam launch options
+-  Divinity Original Sin 2
+-  Doom 2016
+-  EVE Online
+-  FINAL FANTASY IX
+-  Fallout: New Vegas
+-  Forts
+-  Killer is Dead at Launch
+-  Little Nightmares
+-  Metal Slug
+-  Metal Slug 2
+-  Metal Slug 3
+-  Oddworld: Abe's Oddysee
+-  Oddworld: Munch's Oddysee
+-  Order of Battle: World War II
+-  PixARK
+-  Plants vs. Zombies: Game of the Year
+-  Portal Knights
+-  Potatoman Seeks the Troof
+-  Puyo Puyo Tetris
+-  Recettear: An Item Shop's Tale
+-  Retro/Grade
+-  RiME
+-  Rise of Nations: Extended Edition
+-  Rising Storm/Red Orchestra 2 Multiplayer
+-  STAR WARS Jedi Knight - Jedi Academy
+-  STAR WARS Jedi Knight II - Jedi Outcast
+-  SUGURI 2
+-  Sacred 2 Gold
+-  Serious Sam Double D XXL
+-  Serious Sam: The Random Encounter
+-  Sleeping Dogs: Definitive Edition
+-  Spacewar
+-  Stealth Inc 2: A Game of Clones
+-  Strange Brigade
+-  Styx: Master of Shadows
+-  Tesla Effect
+-  The Elder Scrolls V: Skyrim Special Edition
+-  The Evil Within(268050)
+-  Thief 2
+-  Thief Gold
+-  Titan Quest Anniversary Edition(475150)
+-  Tomb Raider I
+-  You Need a Budget 4
