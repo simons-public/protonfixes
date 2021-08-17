@@ -13,7 +13,7 @@ When testing, local fixes can be added to `~/.config/protonfixes/localfixes/`. T
 If you mess up your Proton prefix and you want to start fresh, just delete the directory in `~/.local/share/Steam/compatdata/GAMEID`, Proton will recreate it automatically
 
 ### Debugging
-Proton output can be seen in either `/tmp/dumps/${USER}_stdout.txt` or the terminal you started Steam from. To add additional `protonfixes` debugging information, add the following line above `import protonfixes`:
+Proton output can be seen in either `/tmp/dumps/${USER}_stdout.txt` or the terminal you started Steam from. To add additional `protonfixes` debugging information, add the following line to user_settings.py above `import protonfixes`:
 ```python
 from protonfixes import debug
 ```
