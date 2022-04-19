@@ -9,18 +9,18 @@ def main():
     """
     if os.path.exists('FallGuys_client_game_Data/Plugins/x86_64/easyanticheat_x64.so'):
         subprocess.call([
-            'rm', 
-            '-rf', 
+            'rm',
+            '-rf',
             'FallGuys_client_game_Data/Plugins/x86_64/easyanticheat_x64.so'])
     subprocess.call([
-        'ln', 
-        '-s', 
-        '../../../EasyAntiCheat/easyanticheat_x64.so', 
+        'ln',
+        '-s',
+        '../../../EasyAntiCheat/easyanticheat_x64.so',
         'FallGuys_client_game_Data/Plugins/x86_64/easyanticheat_x64.so'])
 
     # Fixes the ini file.
     subprocess.call([
         'sed',
-        '-i', 
-        's/TargetApplicationPath=FallGuysEACLauncher.exe/TargetApplicationPath=FallGuys_client_game.exe/', 
+        '-i',
+        's/TargetApplicationPath=FallGuysEACLauncher.exe/TargetApplicationPath=FallGuys_client_game.exe/',
         'FallGuys_client.ini'])
