@@ -4,6 +4,9 @@
 import os
 import subprocess
 
+OLDEXE = 'FallGuysEACLauncher.exe'
+NEWEXE = 'FallGuys_client_game.exe'
+
 def main():
     """ Create symlink of eac so at the right location
     """
@@ -22,5 +25,5 @@ def main():
     subprocess.call([
         'sed',
         '-i',
-        's/TargetApplicationPath=FallGuysEACLauncher.exe/TargetApplicationPath=FallGuys_client_game.exe/',
+        's/TargetApplicationPath=%s/TargetApplicationPath=%s/' % (OLDEXE, NEWEXE),
         'FallGuys_client.ini'])
