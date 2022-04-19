@@ -25,5 +25,5 @@ def main():
     subprocess.call([
         'sed',
         '-i',
-        's/TargetApplicationPath=%s/TargetApplicationPath=%s/' % (OLDEXE, NEWEXE),
+        f's/TargetApplicationPath={OLDEXE}/TargetApplicationPath={NEWEXE}/',
         'FallGuys_client.ini'])
