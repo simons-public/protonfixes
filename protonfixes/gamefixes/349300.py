@@ -8,4 +8,4 @@ def main():
 	(The game deletes dots from filepath reading, which usually It's a issue in a SteamLinux standard directory)
 	https://github.com/ValveSoftware/Proton/issues/5975#issuecomment-1178969055
 	"""
-	set_environment('PROTON_SET_GAME_DRIVE','1')
+	util.set_environment('PROTON_SET_GAME_DRIVE','1')
