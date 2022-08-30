@@ -10,4 +10,4 @@ def main():
     which usually It's an issue in a SteamLinux standard directory
     https://github.com/ValveSoftware/Proton/issues/5975#issuecomment-1178969055
     """
-	util.set_environment('PROTON_SET_GAME_DRIVE','1')
+    util.set_environment('PROTON_SET_GAME_DRIVE','1')
