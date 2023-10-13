@@ -1,4 +1,4 @@
-""" Game fix for Geometry Dash
+""" Game fixs for Geometry Dash
 """
 #pylint: disable=C0103
 
@@ -18,5 +18,5 @@ def main():
     # Me when single-core games:
     util.append_argument('-USEALLAVAILABLECORES')
 
-    # Geode
+    # Geode compatibility go brrrr
     util.winedll_override('xinput9_1_0', 'n', 'b')
