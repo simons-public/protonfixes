@@ -1,4 +1,4 @@
-""" Game fixs for Geometry Dash
+""" Game fixes for Geometry Dash
 """
 #pylint: disable=C0103
 
