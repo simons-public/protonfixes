@@ -1,6 +1,6 @@
 # protonfixes	
 
-[![Build Status](https://travis-ci.com/simons-public/protonfixes.svg?branch=master)](https://travis-ci.com/simons-public/protonfixes)
+## This repository is no longer being maintained. Please direct any future game fixes to the repository maintained by [@GloriousEggroll](https://github.com/GloriousEggroll) at https://github.com/Open-Wine-Components/umu-protonfixes. This allows fixes to be distributed along with ProtonGE which is well-maintained and significantly more useful than protonfixes alone. 
 
 ![Screenshot](https://github.com/simons-public/protonfixes/raw/master/media/splash.png)
 
